@@ -1,0 +1,855 @@
+{
+  "serverLog": "▲ Next.js 16.3.3\n- Local:         http://localhost:3311\n- Network:       http://172.16.0.2:3311\n✓ Ready in 260ms\n✓ Running next.config.ts took 56ms\n",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:3311/en",
+      "vp": "mobile",
+      "locale": "en",
+      "dir": "ltr",
+      "lang": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily QODILY-DZ / FROM IDEA TO IMPACT. We build the software, websites and automations that help businesses launch, automate and grow — designe",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr",
+      "vp": "mobile",
+      "locale": "fr",
+      "dir": "ltr",
+      "lang": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily QODILY-DZ / DE L'IDÉE À L'IMPACT. Nous construisons les logiciels, les sites web et les automatisations qui aident les entrepr",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar",
+      "vp": "mobile",
+      "locale": "ar",
+      "dir": "rtl",
+      "lang": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily QODILY-DZ / من الفكرة إلى التأثير. نبني البرمجيات والمواقع والأتمتة التي تساعد الشركات على الإطلاق والأتمتة والنمو — مصمَّمة ومطوَّرة من",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en",
+      "vp": "tiny-mobile",
+      "locale": "en",
+      "dir": "ltr",
+      "lang": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily QODILY-DZ / FROM IDEA TO IMPACT. We build the software, websites and automations that help businesses launch, automate and grow — designe",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr",
+      "vp": "tiny-mobile",
+      "locale": "fr",
+      "dir": "ltr",
+      "lang": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily QODILY-DZ / DE L'IDÉE À L'IMPACT. Nous construisons les logiciels, les sites web et les automatisations qui aident les entrepr",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar",
+      "vp": "tiny-mobile",
+      "locale": "ar",
+      "dir": "rtl",
+      "lang": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily QODILY-DZ / من الفكرة إلى التأثير. نبني البرمجيات والمواقع والأتمتة التي تساعد الشركات على الإطلاق والأتمتة والنمو — مصمَّمة ومطوَّرة من",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en",
+      "vp": "tablet",
+      "locale": "en",
+      "dir": "ltr",
+      "lang": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → QODILY-DZ / DIGITAL SOLUTIONS FROM IDEA TO IMPACT. We bui",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr",
+      "vp": "tablet",
+      "locale": "fr",
+      "dir": "ltr",
+      "lang": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Travaux Services Process À propos Perspectives ENGLISH FRANÇAIS العربية DÉMARRER UN PROJET → QODILY-DZ / SOLUTIONS NUMÉRIQUES ",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar",
+      "vp": "tablet",
+      "locale": "ar",
+      "dir": "rtl",
+      "lang": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily أعمال خدمات منهجية من نحن رؤى ENGLISH FRANÇAIS العربية ابدأ مشروعك → QODILY-DZ / حلول رقمية من الفكرة إلى التأثير. نبني البرمجيات والموا",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en",
+      "vp": "desktop",
+      "locale": "en",
+      "dir": "ltr",
+      "lang": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → QODILY-DZ / DIGITAL SOLUTIONS FROM IDEA TO IMPACT. We bui",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr",
+      "vp": "desktop",
+      "locale": "fr",
+      "dir": "ltr",
+      "lang": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Travaux Services Process À propos Perspectives ENGLISH FRANÇAIS العربية DÉMARRER UN PROJET → QODILY-DZ / SOLUTIONS NUMÉRIQUES ",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar",
+      "vp": "desktop",
+      "locale": "ar",
+      "dir": "rtl",
+      "lang": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily أعمال خدمات منهجية من نحن رؤى ENGLISH FRANÇAIS العربية ابدأ مشروعك → QODILY-DZ / حلول رقمية من الفكرة إلى التأثير. نبني البرمجيات والموا",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "hashesMissing": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en (anchors)",
+      "locale": "en",
+      "missingAnchors": [],
+      "anchorIssues": [
+        {
+          "a": "contact",
+          "found": true,
+          "top": 445,
+          "height": 1212,
+          "inViewport": true,
+          "visibleText": true
+        }
+      ],
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr (anchors)",
+      "locale": "fr",
+      "missingAnchors": [],
+      "anchorIssues": [
+        {
+          "a": "contact",
+          "found": true,
+          "top": 242,
+          "height": 1399,
+          "inViewport": true,
+          "visibleText": true
+        }
+      ],
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar (anchors)",
+      "locale": "ar",
+      "missingAnchors": [],
+      "anchorIssues": [
+        {
+          "a": "contact",
+          "found": true,
+          "top": 526,
+          "height": 1212,
+          "inViewport": true,
+          "visibleText": true
+        }
+      ],
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/insights",
+      "locale": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → INSIGHTS QODILY INSIGHTS. Perspectives from the Qodily te",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/insights",
+      "locale": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Travaux Services Process À propos Perspectives ENGLISH FRANÇAIS العربية DÉMARRER UN PROJET → PERSPECTIVES QODILY PERSPECTIVES.",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/insights",
+      "locale": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily أعمال خدمات منهجية من نحن رؤى ENGLISH FRANÇAIS العربية ابدأ مشروعك → رؤى QODILY رؤى. وجهات نظر فريق Qodily حول التقنية والبرمجيات والأعم",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "mobile",
+      "locale": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Home / Insights / Does Your Business Need a Website or a Web App? TECHNOLOGY August 18, 2026 6 min read DOES YOUR BUSINESS NEED A WEBSITE",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "desktop",
+      "locale": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → Home / Insights / Does Your Business Need a Website or a ",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/insights/how-custom-software-can-save-your-business-time",
+      "vp": "mobile",
+      "locale": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Home / Insights / How Custom Software Can Save Your Business Time SOFTWARE August 11, 2026 7 min read HOW CUSTOM SOFTWARE CAN SAVE YOUR B",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/insights/how-custom-software-can-save-your-business-time",
+      "vp": "desktop",
+      "locale": "en",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → Home / Insights / How Custom Software Can Save Your Busin",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "mobile",
+      "locale": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Home / Perspectives / Votre entreprise a-t-elle besoin d'un site web ou d'une application web ? TECHNOLOGY 18 août 2026 6 min ",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "desktop",
+      "locale": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Travaux Services Process À propos Perspectives ENGLISH FRANÇAIS العربية DÉMARRER UN PROJET → Home / Perspectives / Votre entre",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/insights/how-custom-software-can-save-your-business-time",
+      "vp": "mobile",
+      "locale": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Home / Perspectives / Comment un logiciel sur mesure peut faire gagner du temps à votre entreprise SOFTWARE 11 août 2026 7 min",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/insights/how-custom-software-can-save-your-business-time",
+      "vp": "desktop",
+      "locale": "fr",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "Aller au contenu principal Qodily Travaux Services Process À propos Perspectives ENGLISH FRANÇAIS العربية DÉMARRER UN PROJET → Home / Perspectives / Comment un ",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "mobile",
+      "locale": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily Home / رؤى / هل تحتاج شركتك لموقع إلكتروني أم تطبيق ويب؟ TECHNOLOGY 18 أوت 2026 6 min read هل تحتاج شركتك لموقع إلكتروني أم تطبيق ويب؟ ا",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/insights/does-your-business-need-a-website-or-a-web-app",
+      "vp": "desktop",
+      "locale": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily أعمال خدمات منهجية من نحن رؤى ENGLISH FRANÇAIS العربية ابدأ مشروعك → Home / رؤى / هل تحتاج شركتك لموقع إلكتروني أم تطبيق ويب؟ TECHNOLOGY",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/insights/how-custom-software-can-save-your-business-time",
+      "vp": "mobile",
+      "locale": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily Home / رؤى / كيف يمكن للبرمجيات المخصصة أن توفر لشركتك الوقت SOFTWARE 11 أوت 2026 7 min read كيف يمكن للبرمجيات المخصصة أن توفر لشركتك ا",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/insights/how-custom-software-can-save-your-business-time",
+      "vp": "desktop",
+      "locale": "ar",
+      "h1": 1,
+      "overflow": false,
+      "offenders": [],
+      "text": "تخطى إلى المحتوى Qodily أعمال خدمات منهجية من نحن رؤى ENGLISH FRANÇAIS العربية ابدأ مشروعك → Home / رؤى / كيف يمكن للبرمجيات المخصصة أن توفر لشركتك الوقت SOFTWA",
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/work",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/work",
+        "loc": "http://127.0.0.1:3311/en#work"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/work",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/work",
+        "loc": "http://127.0.0.1:3311/fr#work"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/work",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/work",
+        "loc": "http://127.0.0.1:3311/ar#work"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/work",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/work",
+        "loc": "http://127.0.0.1:3311/en#work"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/services",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/services",
+        "loc": "http://127.0.0.1:3311/en#services"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/services",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/services",
+        "loc": "http://127.0.0.1:3311/fr#services"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/services",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/services",
+        "loc": "http://127.0.0.1:3311/ar#services"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/services",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/services",
+        "loc": "http://127.0.0.1:3311/en#services"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/process",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/process",
+        "loc": "http://127.0.0.1:3311/en#process"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/process",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/process",
+        "loc": "http://127.0.0.1:3311/fr#process"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/process",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/process",
+        "loc": "http://127.0.0.1:3311/ar#process"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/process",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/process",
+        "loc": "http://127.0.0.1:3311/en#process"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/about",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/about",
+        "loc": "http://127.0.0.1:3311/en#about"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/about",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/about",
+        "loc": "http://127.0.0.1:3311/fr#about"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/about",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/about",
+        "loc": "http://127.0.0.1:3311/ar#about"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/about",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/about",
+        "loc": "http://127.0.0.1:3311/en#about"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/contact",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/contact",
+        "loc": "http://127.0.0.1:3311/en#contact"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/contact",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/contact",
+        "loc": "http://127.0.0.1:3311/fr#contact"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/contact",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/contact",
+        "loc": "http://127.0.0.1:3311/ar#contact"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/contact",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/contact",
+        "loc": "http://127.0.0.1:3311/en#contact"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/growth",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/growth",
+        "loc": "http://127.0.0.1:3311/en#growth"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/growth",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/growth",
+        "loc": "http://127.0.0.1:3311/fr#growth"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/growth",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/growth",
+        "loc": "http://127.0.0.1:3311/ar#growth"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/growth",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/growth",
+        "loc": "http://127.0.0.1:3311/en#growth"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/engineering",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/engineering",
+        "loc": "http://127.0.0.1:3311/en#engineering"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/engineering",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/engineering",
+        "loc": "http://127.0.0.1:3311/fr#engineering"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/engineering",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/engineering",
+        "loc": "http://127.0.0.1:3311/ar#engineering"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/engineering",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/engineering",
+        "loc": "http://127.0.0.1:3311/en#engineering"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/lab",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/lab",
+        "loc": "http://127.0.0.1:3311/en#lab"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/lab",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/lab",
+        "loc": "http://127.0.0.1:3311/fr#lab"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/lab",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/lab",
+        "loc": "http://127.0.0.1:3311/ar#lab"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/lab",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/lab",
+        "loc": "http://127.0.0.1:3311/en#lab"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/story",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/story",
+        "loc": "http://127.0.0.1:3311/en#story"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/story",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/story",
+        "loc": "http://127.0.0.1:3311/fr#story"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/story",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/story",
+        "loc": "http://127.0.0.1:3311/ar#story"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/story",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/story",
+        "loc": "http://127.0.0.1:3311/en#story"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en/transformation",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/en/transformation",
+        "loc": "http://127.0.0.1:3311/en#transformation"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/fr/transformation",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/fr/transformation",
+        "loc": "http://127.0.0.1:3311/fr#transformation"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/ar/transformation",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/ar/transformation",
+        "loc": "http://127.0.0.1:3311/ar#transformation"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/transformation",
+      "directRoute": {
+        "first": 307,
+        "final": 200,
+        "url": "http://127.0.0.1:3311/transformation",
+        "loc": "http://127.0.0.1:3311/en#transformation"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3311/en (reduced-motion)",
+      "reducedMotion": true,
+      "threeCount": 0,
+      "threeUrls": [],
+      "canvases": 1,
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    },
+    {
+      "url": "http://127.0.0.1:3311/en (webgl-disabled)",
+      "webglDisabled": true,
+      "text": "Skip to content Qodily Work Services Process About Insights ENGLISH FRANÇAIS العربية START A PROJECT → QODILY-DZ / DIGITAL SOLUTIONS FROM IDEA TO IMPACT. We build the software, websites and automation",
+      "canvases": 0,
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": []
+    }
+  ],
+  "api": {
+    "valid": {
+      "status": 200,
+      "body": "{\"ok\":true}"
+    },
+    "invalid": {
+      "status": 422,
+      "body": "{\"ok\":false,\"error\":\"validation\",\"fields\":[\"build\",\"objective\",\"needs\",\"budget\",\"timeline\",\"name\",\"email\"]}"
+    },
+    "spam": {
+      "status": 400,
+      "body": "{\"ok\":false,\"error\":\"spam\"}"
+    }
+  },
+  "seo": {
+    "robots": {
+      "status": 200,
+      "body": "User-Agent: *\nAllow: /\nDisallow: /api/\n\nHost: https://qodily.dz\nSitemap: https://qodily.dz/sitemap.xml\n"
+    },
+    "sitemap": {
+      "status": 200,
+      "urlCount": 25,
+      "hasFrAndAr": true
+    },
+    "homeMeta": {
+      "title": "<title>Qodily-dz | Digital Solutions Agency</title>",
+      "description": "name=\"description\" content=\"Qodily-dz builds software, digital experiences and growth solutions for businesses, startups and entrepreneurs.\"",
+      "og": [
+        "property=\"og:title\"",
+        "property=\"og:description\"",
+        "property=\"og:url\"",
+        "property=\"og:site_name\"",
+        "property=\"og:locale\"",
+        "property=\"og:locale:alternate\"",
+        "property=\"og:locale:alternate\"",
+        "property=\"og:type\""
+      ],
+      "canonical": "rel=\"canonical\" href=\"https://qodily.dz\"",
+      "jsonld": 12,
+      "hreflangs": 4,
+      "dirOnHTML": "ltr"
+    },
+    "ar": {
+      "dir": "rtl",
+      "lang": "ar"
+    }
+  },
+  "a11y": {
+    "dom": {
+      "skipLink": true,
+      "main": true,
+      "navs": 3,
+      "imagesNoAlt": [],
+      "buttonsWithoutName": [],
+      "linksWithoutName": [],
+      "inputsMissingLabel": 0,
+      "iframes": 0,
+      "headingSeq": "1,2,2,2,3,3,3,3,3,3,2,2,2,3,2,2,2,2,3"
+    }
+  }
+}
