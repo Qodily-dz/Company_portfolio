@@ -17,7 +17,7 @@ export function Contact() {
       className="relative overflow-hidden py-28 md:py-36"
       aria-label="Start a project with Qodily"
     >
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_100%_at_50%_0%,#0c0c12_0%,#050505_60%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_100%_at_50%_0%,#0b1018_0%,#030405_60%)]" />
 
       <Container>
         <motion.div
@@ -27,7 +27,7 @@ export function Contact() {
           transition={{ duration: 0.6, ease: EASE }}
         >
           <SectionLabel>{dict.contact.label}</SectionLabel>
-          <h2 className="mt-6 max-w-3xl text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.03em] text-foreground">
+          <h2 className="mt-6 max-w-3xl text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.03em] text-foreground">
             {dict.contact.heading1}
             <span className="block text-accent">{dict.contact.heading2Accent}</span>
           </h2>

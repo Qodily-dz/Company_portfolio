@@ -59,9 +59,9 @@ export function Preview({ accent, seed, tall = false }: PreviewProps) {
       <rect x="0" y="0" width="100" height="100" fill={`url(#pbg-${seed})`} />
 
       {/* Hover-reactive inner group: shifts up+left on hover for a parallax preview */}
-      <g className="origin-center transition-transform duration-500 ease-out group-hover:translate-x-[-2.5%] group-hover:translate-y-[-3%]">
+      <g>
         {/* faint connecting grid, always structured */}
-        <g stroke="rgba(157,132,255,0.16)" strokeWidth="0.4">
+        <g stroke="rgba(43,92,145,0.16)" strokeWidth="0.4">
           {Array.from({ length: 5 }, (_, i) => (
             <line
               key={`v${i}`}

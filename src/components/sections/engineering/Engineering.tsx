@@ -89,13 +89,13 @@ export function Engineering() {
 
         {/* Constellation */}
         <div className="relative mt-4">
-          <div className="relative h-[520px] w-full overflow-hidden rounded-2xl border border-border bg-surface/30 md:h-[560px]">
+          <div className="relative h-[520px] w-full overflow-hidden rounded-xl border border-border bg-surface/30 md:h-[560px]">
             {/* 3D field */}
             <div className="absolute inset-0">
               {Field ? (
                 <WebGLBoundary
                   fallback={
-                    <div className="h-full w-full bg-[radial-gradient(120%_110%_at_50%_45%,#0a0a0f_0%,#050505_72%)]" />
+                    <div className="h-full w-full bg-[radial-gradient(120%_110%_at_50%_45%,#0b1018_0%,#030405_72%)]" />
                   }
                 >
                   <Field
@@ -107,7 +107,7 @@ export function Engineering() {
                   />
                 </WebGLBoundary>
               ) : (
-                <div className="h-full w-full bg-[radial-gradient(120%_110%_at_50%_45%,#0a0a0f_0%,#050505_72%)]" />
+                <div className="h-full w-full bg-[radial-gradient(120%_110%_at_50%_45%,#0b1018_0%,#030405_72%)]" />
               )}
             </div>
 
@@ -142,7 +142,7 @@ export function Engineering() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="mt-6 overflow-hidden rounded-2xl border border-border bg-surface/60"
+            className="mt-6 overflow-hidden rounded-xl border border-border bg-surface/60"
           >
             {activeNode ? (
               <div className="grid items-start gap-6 p-6 md:grid-cols-[auto_1fr_auto] md:p-8">

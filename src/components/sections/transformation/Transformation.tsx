@@ -82,13 +82,13 @@ function Scrubber({ progress, dragHint }: { progress: MotionValue<number>; dragH
       />
       <motion.div
         ref={sliderRef}
-        className="absolute top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-accent/50 bg-surface shadow-[0_0_20px_rgba(124,92,255,0.35)]"
+        className="absolute top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-accent/50 bg-surface shadow-[0_0_20px_rgba(43,92,145,0.35)]"
         style={{ left: handleLeft }}
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path
             d="M8 5v14M16 5v14M5 8h6M5 16h6M13 8h6M13 16h6"
-            stroke="#9d84ff"
+            stroke="#2b5c91"
             strokeWidth="1.6"
             strokeLinecap="round"
           />
@@ -135,7 +135,7 @@ function Glyph({
   const top = useTransform(progress, (v) => `${g.sy + (g.ty - g.sy) * v}%`);
   const rot = useTransform(progress, (v) => g.rot * (1 - v));
   const scale = useTransform(progress, (v) => 1 - 0.28 * (1 - v));
-  const bg = useTransform(progress, [0, 1], ["#2a2a2f", "#7c5cff"]);
+  const bg = useTransform(progress, [0, 1], ["#273247", "#173b68"]);
   const op = useTransform(progress, (v) => 0.45 + 0.55 * v);
 
   return (

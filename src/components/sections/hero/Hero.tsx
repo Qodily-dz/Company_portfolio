@@ -3,18 +3,18 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/layout";
 import { Button, Text } from "@/components/ui";
+import { Magnetic } from "@/components/interactions";
 import { DynamicWebGL } from "@/components/webgl";
 import { getPillars } from "@/lib/navigation";
-import { useTranslations } from "@/lib/i18n";
-import { trackWhatsapp } from "@/lib/analytics";
-import { siteConfig } from "@/config/site";
+import { useTranslations, useLocale } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   const reduced = useReducedMotion();
   const dict = useTranslations();
-  const pillarItems = getPillars(dict);
+  const locale = useLocale();
+  const pillarItems = getPillars(dict, locale);
 
   const rise = (delay: number) => ({
     initial: { opacity: 0, y: 24 },
@@ -32,19 +32,19 @@ export function Hero() {
           canvas is skipped entirely for reduced-motion users and layers on top
           for everyone else, degrading to the gradient if WebGL is unavailable. */}
       <div className="absolute inset-0">
-        <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0a0a0f_0%,#050505_60%)]" />
+        <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
         <DynamicWebGL
           kind="digital-field"
           disabled={!!reduced}
           fallback={
-            <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0a0a0f_0%,#050505_60%)]" />
+            <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
           }
         />
       </div>
 
       {/* Readability vignette + bottom fade */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(95%_85%_at_50%_42%,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_46%,rgba(5,5,5,0)_72%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(95%_85%_at_50%_42%,rgba(3,4,5,0.92)_0%,rgba(3,4,5,0.55)_46%,rgba(3,4,5,0)_72%)]"
         aria-hidden
       />
       <div
@@ -53,7 +53,7 @@ export function Hero() {
       />
 
       {/* Content */}
-      <Container className="relative z-10 flex flex-1 flex-col justify-center py-28 md:py-32">
+      <Container className="relative z-10 flex flex-1 flex-col justify-center px-6 py-28 sm:px-10 md:px-16 md:py-32 lg:px-20 xl:px-28 2xl:px-32">
         <motion.div
           className="w-full"
           {...rise(0.05)}
@@ -73,7 +73,12 @@ export function Hero() {
         >
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">{dict.hero.headline1}</span>
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">
-            {dict.hero.headline2} <span className="text-accent">{dict.hero.headlineAccent}</span>
+            {dict.hero.headline2}{" "}
+            <Magnetic strength={10} radius={150} style={{ verticalAlign: "top" }}>
+              <span className="inline-flex text-accent">
+                {dict.hero.headlineAccent}
+              </span>
+            </Magnetic>
           </span>
         </motion.h1>
 
@@ -94,30 +99,21 @@ export function Hero() {
           className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4"
           {...rise(0.4)}
         >
-          <Button href="#contact" size="lg" className="w-full sm:w-auto">
-            {dict.hero.cta1}
-            <span aria-hidden>→</span>
-          </Button>
+          <Magnetic strength={12} radius={150} className="w-full sm:w-auto">
+            <Button href={`/${locale}/contact`} size="lg" className="w-full sm:w-auto">
+              {dict.hero.cta1}
+              <span aria-hidden>→</span>
+            </Button>
+          </Magnetic>
           <Button
-            href={siteConfig.whatsapp}
+            href={`/${locale}/work`}
             variant="outline"
             size="lg"
             className="w-full sm:w-auto"
-            onClick={() => trackWhatsapp({ channel: "hero" })}
           >
-            {dict.nav.talkToUs}
+            {dict.hero.cta2}
+            <span aria-hidden>→</span>
           </Button>
-        </motion.div>
-        <motion.div
-          className="mt-5 sm:text-center"
-          {...rise(0.48)}
-        >
-          <a
-            href="#work"
-            className="text-sm text-muted-more transition-colors hover:text-foreground"
-          >
-            {dict.hero.cta2} <span aria-hidden>→</span>
-          </a>
         </motion.div>
       </Container>
 
@@ -126,7 +122,7 @@ export function Hero() {
         className="relative z-10 border-t border-border/60"
         {...rise(0.52)}
       >
-        <Container>
+        <Container className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-32">
           <div className="flex items-center justify-between py-5">
             {pillarItems.map((p, i) => (
               <div key={p.label} className="flex items-center gap-3">

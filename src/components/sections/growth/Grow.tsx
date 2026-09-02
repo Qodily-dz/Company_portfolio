@@ -107,9 +107,9 @@ function Funnel({
     >
       <defs>
         <linearGradient id="funnelFlow" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7c5cff" stopOpacity="0" />
-          <stop offset="50%" stopColor="#9d84ff" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#4fd8b8" stopOpacity="0" />
+          <stop offset="0%" stopColor="#173b68" stopOpacity="0" />
+          <stop offset="50%" stopColor="#2b5c91" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#173b68" stopOpacity="0" />
         </linearGradient>
         <clipPath id="funnelClip">
           {STAGES.map((s, i) => (
@@ -161,8 +161,8 @@ function Funnel({
           >
             <motion.path
               d={layerPolygon(i)}
-              fill={isActive ? "rgba(124,92,255,0.30)" : "rgba(10,10,15,0.7)"}
-              stroke={isActive ? "#9d84ff" : "#3a3a44"}
+              fill={isActive ? "rgba(43,92,145,0.30)" : "rgba(7,10,15,0.7)"}
+              stroke={isActive ? "#2b5c91" : "#273247"}
               strokeWidth={isActive ? 1.8 : 1}
               initial={false}
               animate={{ opacity: isActive ? 1 : 0.75 }}
@@ -175,7 +175,7 @@ function Funnel({
                 textAnchor="middle"
                 fontSize="13"
                 fontWeight={isActive ? 600 : 500}
-                fill={isActive ? "#ffffff" : "#8b8b98"}
+                fill={isActive ? "#ffffff" : "#7d8795"}
                 fontFamily="ui-sans-serif, system-ui"
                 letterSpacing="0.12em"
               >
@@ -237,7 +237,7 @@ export function Grow() {
         </p>
 
         <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <div className="mx-auto w-full max-w-[440px] rounded-2xl border border-border bg-surface/30 p-6">
+          <div className="mx-auto w-full max-w-[440px] rounded-xl border border-border bg-surface/30 p-6">
             <Funnel active={active} onFocus={setActive} labels={stageLabels} />
           </div>
 
@@ -249,7 +249,7 @@ export function Grow() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.28, ease: EASE }}
-                className="rounded-2xl border border-border bg-surface/60 p-6 md:p-8"
+                className="rounded-xl border border-border bg-surface/60 p-6 md:p-8"
               >
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-sm uppercase tracking-[0.2em] text-accent">
@@ -262,7 +262,7 @@ export function Grow() {
                     className="ml-auto h-2 w-2 rounded-full"
                     style={{
                       background:
-                        active === stage.id ? "#7c5cff" : "#4fd8b8",
+                        active === stage.id ? "#2b5c91" : "#173b68",
                     }}
                     aria-hidden
                   />
@@ -328,7 +328,7 @@ export function Grow() {
           })}
         </div>
 
-        <div className="mt-14 grid items-center gap-6 rounded-2xl border border-accent/20 bg-gradient-to-br from-accent/10 via-surface/40 to-teal/10 p-8 md:grid-cols-[auto_1fr] md:p-10">
+        <div className="mt-14 grid items-center gap-6 rounded-xl border border-accent/20 bg-gradient-to-br from-accent/10 via-surface/40 to-accent-dim/40 p-8 md:grid-cols-[auto_1fr] md:p-10">
           <div className="text-[clamp(1.6rem,4vw,3rem)] font-medium uppercase leading-[0.95] tracking-[-0.02em] text-foreground">
             {dict.growth.bottomMessage1} <span className="text-accent">{dict.growth.bottomMessage2Part1}</span>
           </div>

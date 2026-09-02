@@ -138,11 +138,11 @@ export function Story() {
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         {/* Atmosphere backdrop */}
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,#08080a_0%,#050505_60%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,#0b1018_0%,#030405_60%)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_50%,rgba(124,92,255,0.07)_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_50%,rgba(43,92,145,0.07)_0%,transparent_70%)]"
           aria-hidden
         />
         <Particles />

@@ -68,18 +68,18 @@ export function Services() {
         {Field ? (
           <WebGLBoundary
             fallback={
-              <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0a0a0f_0%,#050505_60%)]" />
+              <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
             }
           >
             <Field active={active} />
           </WebGLBoundary>
         ) : (
-          <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0a0a0f_0%,#050505_60%)]" />
+          <div className="h-full w-full bg-[radial-gradient(120%_120%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
         )}
       </div>
 
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_95%_at_50%_50%,rgba(5,5,5,0.88)_0%,rgba(5,5,5,0.45)_52%,rgba(5,5,5,0.05)_78%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_95%_at_50%_50%,rgba(3,4,5,0.88)_0%,rgba(3,4,5,0.45)_52%,rgba(3,4,5,0.05)_78%)]"
         aria-hidden
       />
 
@@ -137,7 +137,7 @@ export function Services() {
                       aria-hidden
                       className={
                         on
-                          ? "text-xl text-accent transition-transform duration-500"
+                          ? "text-xl text-accent transition-transform duration-200"
                           : "text-xl text-muted-more transition-all duration-300 group-hover:text-foreground"
                       }
                     >

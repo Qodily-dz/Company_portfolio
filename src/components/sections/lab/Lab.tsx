@@ -89,7 +89,7 @@ function Badge({ label }: { label: "LAB" | "CONCEPT" }) {
     <span
       className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] ${
         isLab
-          ? "border-teal/40 text-teal"
+          ? "border-accent-soft/40 text-accent-soft"
           : "border-accent/40 text-accent"
       }`}
     >
@@ -186,17 +186,17 @@ export function Lab() {
       aria-label="Qodily Lab — experimental projects"
     >
       <div className="absolute inset-0">
-        <div className="h-full w-full bg-[radial-gradient(120%_100%_at_50%_40%,#0c0c12_0%,#050505_60%)]" />
+        <div className="h-full w-full bg-[radial-gradient(120%_100%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
       </div>
 
       <Container className="relative z-10">
         <div className="max-w-4xl">
           <SectionLabel>{dict.lab.label}</SectionLabel>
-          <h2 className="mt-6 text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.03em] text-foreground">
+          <h2 className="mt-6 text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.03em] text-foreground">
             <span className="block">{dict.lab.heading1}</span>
             <span className="block text-accent">{dict.lab.heading2}</span>
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
             {dict.lab.note}
           </p>
 

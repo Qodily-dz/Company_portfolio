@@ -33,11 +33,11 @@ export function Insights() {
       <Container>
         <div className="max-w-4xl">
           <SectionLabel>{dict.insights.label}</SectionLabel>
-          <h2 className="mt-6 text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.03em] text-foreground">
+          <h2 className="mt-6 text-[clamp(2.6rem,8vw,6.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.03em] text-foreground">
             <span className="block">{dict.insights.heading1}</span>
             <span className="block text-accent">{dict.insights.heading2}</span>
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
             {dict.insights.note}
           </p>
 

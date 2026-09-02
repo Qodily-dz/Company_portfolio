@@ -91,7 +91,7 @@ function DiscoverNode({
       cx={x}
       cy={y}
       r={r}
-      fill={index % 3 === 0 ? "#4fd8b8" : "#9d84ff"}
+      fill={index % 3 === 0 ? "#2b5c91" : "#173b68"}
       style={{ opacity }}
     />
   );
@@ -112,7 +112,7 @@ function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
           cx="200"
           cy="200"
           fill="none"
-          stroke="#7c5cff"
+          stroke="#173b68"
           strokeWidth="1"
           style={{ scale: pulse, opacity: pulse }}
           r="30"
@@ -121,7 +121,7 @@ function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
           cx="200"
           cy="200"
           fill="none"
-          stroke="#4fd8b8"
+          stroke="#2b5c91"
           strokeWidth="1"
           style={{ scale: pulse, opacity: pulse }}
           r="70"
@@ -130,13 +130,13 @@ function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
           cx="200"
           cy="200"
           fill="none"
-          stroke="#9d84ff"
+          stroke="#173b68"
           strokeWidth="1"
           style={{ scale: pulse, opacity: pulse }}
           r="110"
         />
       </g>
-      <motion.circle cx="200" cy="200" r="6" fill="#7c5cff" style={{ opacity: coreOpacity }} />
+      <motion.circle cx="200" cy="200" r="6" fill="#2b5c91" style={{ opacity: coreOpacity }} />
       {nodes.map((n, i) => (
         <DiscoverNode key={i} progress={progress} x={n.x} y={n.y} r={n.r} index={i} />
       ))}
@@ -147,7 +147,7 @@ function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
           x={nodes[i].x - 9}
           y={nodes[i].y + 5}
           fontSize="11"
-          fill="#8b8b98"
+          fill="#7d8795"
           fontFamily="monospace"
         >
           ?
@@ -199,7 +199,7 @@ function StrategizeVisual({ progress }: { progress: MotionValue<number> }) {
       <motion.path
         d={`M ${plan[0].tx} ${plan[0].ty} L ${plan[2].tx} ${plan[2].ty} L ${plan[4].tx} ${plan[4].ty} L ${plan[1].tx} ${plan[1].ty} L ${plan[3].tx} ${plan[3].ty}`}
         fill="none"
-        stroke="#7c5cff"
+        stroke="#173b68"
         strokeWidth="1.5"
         strokeLinecap="round"
         style={{ pathLength: path, opacity: path }}
@@ -214,7 +214,7 @@ function StrategizeVisual({ progress }: { progress: MotionValue<number> }) {
           sy={p.sy}
           tx={p.tx}
           ty={p.ty}
-          fill={i % 2 === 0 ? "#9d84ff" : "#4fd8b8"}
+          fill={i % 2 === 0 ? "#2b5c91" : "#173b68"}
         />
       ))}
     </svg>
@@ -228,18 +228,18 @@ function DesignVisual({ progress }: { progress: MotionValue<number> }) {
     <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
       <motion.g style={{ opacity: fill }}>
         {/* browser frame */}
-        <rect x="110" y="70" width="180" height="260" rx="10" fill="#0a0a0f" stroke="#3a3a44" strokeWidth="1" />
-        <circle cx="125" cy="86" r="4" fill="#7c5cff" />
-        <circle cx="138" cy="86" r="4" fill="#4fd8b8" />
-        <circle cx="151" cy="86" r="4" fill="#9d84ff" />
-        <rect x="110" y="104" width="180" height="8" rx="4" fill="#7c5cff" opacity="0.8" />
-        <rect x="122" y="132" width="60" height="60" rx="6" fill="#14141c" stroke="#3a3a44" strokeWidth="1" />
-        <rect x="192" y="132" width="86" height="28" rx="6" fill="#14141c" stroke="#3a3a44" strokeWidth="1" />
-        <rect x="192" y="168" width="60" height="24" rx="6" fill="#14141c" stroke="#3a3a44" strokeWidth="1" />
-        <rect x="122" y="210" width="156" height="8" rx="4" fill="#3a3a44" />
-        <rect x="122" y="226" width="120" height="8" rx="4" fill="#3a3a44" />
-        <rect x="122" y="242" width="140" height="8" rx="4" fill="#3a3a44" />
-        <rect x="122" y="288" width="156" height="26" rx="8" fill="#7c5cff" opacity="0.9" />
+        <rect x="110" y="70" width="180" height="260" rx="10" fill="#070a0f" stroke="#273247" strokeWidth="1" />
+        <circle cx="125" cy="86" r="4" fill="#173b68" />
+        <circle cx="138" cy="86" r="4" fill="#2b5c91" />
+        <circle cx="151" cy="86" r="4" fill="#173b68" />
+        <rect x="110" y="104" width="180" height="8" rx="4" fill="#2b5c91" opacity="0.8" />
+        <rect x="122" y="132" width="60" height="60" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
+        <rect x="192" y="132" width="86" height="28" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
+        <rect x="192" y="168" width="60" height="24" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
+        <rect x="122" y="210" width="156" height="8" rx="4" fill="#273247" />
+        <rect x="122" y="226" width="120" height="8" rx="4" fill="#273247" />
+        <rect x="122" y="242" width="140" height="8" rx="4" fill="#273247" />
+        <rect x="122" y="288" width="156" height="26" rx="8" fill="#2b5c91" opacity="0.9" />
       </motion.g>
     </svg>
   );
@@ -255,15 +255,15 @@ function BuildVisual({ progress }: { progress: MotionValue<number> }) {
       <motion.g style={{ opacity: fill }}>
         {[70, 150, 230].map((y, i) => (
           <g key={i}>
-            <rect x="130" y={y} width="140" height="58" rx="8" fill="#0a0a0f" stroke="#7c5cff" strokeWidth="1" opacity="0.8" />
-            <rect x="144" y={y + 12} width="60" height="6" rx="3" fill="#3a3a44" />
-            <rect x="144" y={y + 26} width="90" height="6" rx="3" fill="#3a3a44" />
+            <rect x="130" y={y} width="140" height="58" rx="8" fill="#070a0f" stroke="#173b68" strokeWidth="1" opacity="0.8" />
+            <rect x="144" y={y + 12} width="60" height="6" rx="3" fill="#273247" />
+            <rect x="144" y={y + 26} width="90" height="6" rx="3" fill="#273247" />
           </g>
         ))}
         {/* connecting packets */}
         <g>
-          <motion.line x1="200" y1="130" x2="200" y2="150" stroke="#9d84ff" strokeWidth="2" style={{ opacity: p1 }} />
-          <motion.line x1="200" y1="210" x2="200" y2="230" stroke="#9d84ff" strokeWidth="2" style={{ opacity: p1 }} />
+          <motion.line x1="200" y1="130" x2="200" y2="150" stroke="#2b5c91" strokeWidth="2" style={{ opacity: p1 }} />
+          <motion.line x1="200" y1="210" x2="200" y2="230" stroke="#2b5c91" strokeWidth="2" style={{ opacity: p1 }} />
         </g>
       </motion.g>
       {/* moving packet dots */}
@@ -271,7 +271,7 @@ function BuildVisual({ progress }: { progress: MotionValue<number> }) {
         cx="200"
         cy={useTransform(progress, [3.15 / N, 3.65 / N], [130, 230])}
         r="4"
-        fill="#7c5cff"
+        fill="#2b5c91"
         style={{ opacity: p2 }}
       />
     </svg>
@@ -285,19 +285,19 @@ function LaunchVisual({ progress }: { progress: MotionValue<number> }) {
   const live = useTransform(progress, [(4 + 0.55) / N, (4 + 0.8) / N], [0, 1]);
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      <motion.line x1="200" y1="360" x2="200" y2="40" stroke="#7c5cff" strokeWidth="1" style={{ opacity: beam }} />
+      <motion.line x1="200" y1="360" x2="200" y2="40" stroke="#173b68" strokeWidth="1" style={{ opacity: beam }} />
       <motion.g style={{ opacity: live }}>
-        <circle cx="200" cy="160" r="26" fill="none" stroke="#4fd8b8" strokeWidth="2" />
+        <circle cx="200" cy="160" r="26" fill="none" stroke="#2b5c91" strokeWidth="2" />
         <path
           d="M 188 160 l 9 9 l 16 -18"
           fill="none"
-          stroke="#4fd8b8"
+          stroke="#2b5c91"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       </motion.g>
-      <motion.circle cx="200" cy={rise} r="6" fill="#9d84ff" style={{ opacity: useTransform(progress, [4 / N, (4 + 0.7) / N], [0, 1]) }} />
+      <motion.circle cx="200" cy={rise} r="6" fill="#2b5c91" style={{ opacity: useTransform(progress, [4 / N, (4 + 0.7) / N], [0, 1]) }} />
     </svg>
   );
 }
@@ -331,18 +331,18 @@ function GrowVisual({ progress }: { progress: MotionValue<number> }) {
           progress={progress}
           x={110 + i * 38}
           h={h}
-          fill={i % 2 === 0 ? "#7c5cff" : "#4fd8b8"}
+          fill={i % 2 === 0 ? "#173b68" : "#2b5c91"}
         />
       ))}
       <motion.path
         d="M 100 300 C 150 290 175 240 220 220 C 260 205 300 250 330 180"
         fill="none"
-        stroke="#9d84ff"
+        stroke="#2b5c91"
         strokeWidth="2.5"
         strokeLinecap="round"
         style={{ pathLength: draw, opacity: draw }}
       />
-      <motion.circle cx="330" cy="180" r="5" fill="#4fd8b8" style={{ opacity: markerOpacity }} />
+      <motion.circle cx="330" cy="180" r="5" fill="#173b68" style={{ opacity: markerOpacity }} />
     </svg>
   );
 }
@@ -440,14 +440,14 @@ export function Process() {
       className="relative"
       aria-label="How we build — project process"
     >
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden bg-[#050505]">
+      <div className="sticky top-0 flex h-screen flex-col overflow-hidden bg-[#030405]">
         {/* atmosphere */}
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_60%_40%,#0a0a0f_0%,#050505_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_60%_40%,#0b1018_0%,#030405_70%)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_70%_50%,rgba(124,92,255,0.08)_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_70%_50%,rgba(43,92,145,0.08)_0%,transparent_70%)]"
           aria-hidden
         />
 
