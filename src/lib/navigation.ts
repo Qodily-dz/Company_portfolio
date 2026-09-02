@@ -5,18 +5,19 @@ export type NavItem = {
 
 /** Primary site navigation shared by the header, mobile menu, and footer. */
 export const mainNav: NavItem[] = [
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
-  { label: "Insights", href: "#insights" },
+  { label: "Work", href: "/work" },
+  { label: "Services", href: "/services" },
+  { label: "Process", href: "/process" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /** The three capability pillars, reused in nav and footer. */
 export const pillars = [
-  { label: "Build", href: "#build" },
-  { label: "Design", href: "#design" },
-  { label: "Grow", href: "#grow" },
+  { label: "Build", href: "/services#build" },
+  { label: "Design", href: "/services#design" },
+  { label: "Grow", href: "/services#grow" },
 ] as const;
 
 export type Dictionary = {
@@ -37,23 +38,26 @@ export type Dictionary = {
   };
 };
 
-/** Locale-aware main navigation — uses dictionary labels with section anchors. */
-export function getMainNav(dict: Dictionary): NavItem[] {
+/** Locale-aware main navigation — dictionary labels with real route paths. */
+export function getMainNav(dict: Dictionary, locale?: string): NavItem[] {
+  const base = locale ? `/${locale}` : "";
   return [
-    { label: dict.nav.work, href: "#work" },
-    { label: dict.nav.services, href: "#services" },
-    { label: dict.nav.process, href: "#process" },
-    { label: dict.nav.about, href: "#about" },
-    { label: dict.nav.insights, href: "#insights" },
+    { label: dict.nav.work, href: `${base}/work` },
+    { label: dict.nav.services, href: `${base}/services` },
+    { label: dict.nav.process, href: `${base}/process` },
+    { label: dict.nav.about, href: `${base}/about` },
+    { label: dict.nav.insights, href: `${base}/insights` },
+    { label: dict.nav.contact, href: `${base}/contact` },
   ];
 }
 
-/** Locale-aware pillars — uses dictionary labels with section anchors. */
-export function getPillars(dict: Dictionary) {
+/** Locale-aware pillars — anchors into the services page. */
+export function getPillars(dict: Dictionary, locale?: string) {
+  const base = locale ? `/${locale}` : "";
   return [
-    { label: dict.pillars.build, href: "#build" },
-    { label: dict.pillars.design, href: "#design" },
-    { label: dict.pillars.grow, href: "#grow" },
+    { label: dict.pillars.build, href: `${base}/services#build` },
+    { label: dict.pillars.design, href: `${base}/services#design` },
+    { label: dict.pillars.grow, href: `${base}/services#grow` },
   ] as const;
 }
 

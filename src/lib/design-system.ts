@@ -1,19 +1,19 @@
 export const colors = {
-  background: "#050505",
-  secondary: "#080808",
-  surface: "#0D0D0F",
-  foreground: "#FAFAFA",
-  foregroundSoft: "#E5E7EB",
-  muted: "#9CA3AF",
-  mutedMore: "#7A7E89",
-  accent: "#7C5CFF",
-  accentSoft: "#9D84FF",
-  accentDim: "#5A3CE8",
-  teal: "#4FD8B8",
-  tealSoft: "#7BE7CD",
-  tealBright: "#34D399",
-  border: "#1C1C1F",
-  borderStrong: "#2A2A2F",
+  background: "#030405",
+  secondary: "#070A0F",
+  surface: "#0B1018",
+  surfaceElevated: "#101722",
+  foreground: "#FFFFFF",
+  foregroundSoft: "#D5DAE1",
+  muted: "#7D8795",
+  mutedMore: "#5B6470",
+  accent: "#173B68",
+  accentSoft: "#2B5C91",
+  accentDim: "#0B1D35",
+  deepBlue: "#071426",
+  darkBlue: "#0B1D35",
+  border: "#1A2130",
+  borderStrong: "#273247",
 } as const;
 
 export const fontFamily = {
@@ -86,12 +86,12 @@ export const breakpoints = {
 } as const;
 
 export const borderRadius = {
-  xs: "0.25rem",
-  sm: "0.375rem",
-  md: "0.5rem",
-  lg: "0.75rem",
-  xl: "1rem",
-  "2xl": "1.25rem",
+  xs: "0.375rem",
+  sm: "0.5rem",
+  md: "0.625rem",
+  lg: "1rem",
+  xl: "1.25rem",
+  "2xl": "1.5rem",
   full: "9999px",
 } as const;
 

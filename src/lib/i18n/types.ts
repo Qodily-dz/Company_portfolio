@@ -14,6 +14,7 @@ export type Dictionary = {
     insights: string;
     contact: string;
     startAProject: string;
+    getStarted: string;
     talkToUs: string;
   };
   pillars: {
@@ -195,6 +196,54 @@ export type Dictionary = {
     company: string;
     getInTouch: string;
     allRights: string;
+  };
+  pages: {
+    home: {
+      servicesLabel: string;
+      workLabel: string;
+      processLabel: string;
+      aboutLabel: string;
+      exploreServices: string;
+      exploreWork: string;
+      exploreProcess: string;
+      exploreAbout: string;
+      finalCtaLabel: string;
+      finalCtaHeading: string;
+      finalCtaBody: string;
+      startProject: string;
+    };
+    work: {
+      title: string;
+      description: string;
+      intro: string;
+      note: string;
+    };
+    services: {
+      title: string;
+      description: string;
+      intro: string;
+    };
+    process: {
+      title: string;
+      description: string;
+      intro: string;
+    };
+    about: {
+      title: string;
+      description: string;
+      intro: string;
+      storyHeading: string;
+      story: string[];
+      approachHeading: string;
+      approach: string[];
+    };
+    contact: {
+      title: string;
+      description: string;
+      intro: string;
+      detailsHeading: string;
+      reply: string;
+    };
   };
   common: {
     scroll: string;

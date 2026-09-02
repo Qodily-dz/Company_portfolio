@@ -15,6 +15,7 @@ export const fr: Dictionary = {
     insights: "Perspectives",
     contact: "Contact",
     startAProject: "DÉMARRER UN PROJET",
+    getStarted: "COMMENCER",
     talkToUs: "PARLONS-EN",
   },
   pillars: {
@@ -29,7 +30,7 @@ export const fr: Dictionary = {
     headline2: "À",
     headlineAccent: "L'IMPACT.",
     supporting:
-      "Nous construisons les logiciels, les sites web et les automatisations qui aident les entreprises à se lancer, à automatiser et à croître — conçus et développés de bout en bout.",
+      "Nous concevons des produits numériques, des systèmes et des solutions de croissance qui transforment les idées en impact concret.",
     cta1: "DÉMARRER UN PROJET",
     cta2: "DÉCOUVRIR NOS TRAVAUX",
     brand: "Qodily-dz",
@@ -85,7 +86,7 @@ export const fr: Dictionary = {
     body: "Qu'il s'agisse d'un produit dès le départ ou d'un système qui doit continuer à fonctionner, les mêmes disciplines s'appliquent : architecture, ingénierie et pensée systémique. Voici la forme de notre manière de construire.",
     centerBlurb:
       "Comment nous construisons — un système connecté, conçu de bout en bout. Chaque discipline a un rôle ; ensemble, elles forment le tout.",
-    hoverHint: "Explorez le système — touchez ou cliquez un nœud",
+    hoverHint: "Explorez le système — survolez un nœud, glissez le nœud API",
     liveLabel: "Architecture en direct",
     close: "Fermer",
     expand: "Cliquer pour développer",
@@ -325,6 +326,68 @@ export const fr: Dictionary = {
       email: "Veuillez saisir une adresse e-mail valide.",
     },
     budgetHint: "Fourchettes descriptives — nous définissons la devise avec vous.",
+  },
+  pages: {
+    home: {
+      servicesLabel: "Capacités",
+      workLabel: "Travaux sélectionnés",
+      processLabel: "Notre méthode",
+      aboutLabel: "À propos",
+      exploreServices: "Voir tous les services",
+      exploreWork: "Voir tous les travaux",
+      exploreProcess: "La méthode complète",
+      exploreAbout: "En savoir plus",
+      finalCtaLabel: "Démarrer",
+      finalCtaHeading: "Vous avez une idée ?",
+      finalCtaBody:
+        "Dites-nous ce que vous construisez — nous tracerons la voie la plus honnête et rapide vers un impact réel.",
+      startProject: "DÉMARRER UN PROJET",
+    },
+    work: {
+      title: "Travaux",
+      description: "Projets et réalisations sélectionnés par Qodily-dz.",
+      intro:
+        "Une sélection de produits, plateformes et systèmes numériques — conçus et développés de bout en bout.",
+      note: "Travaux conceptuels & produits",
+    },
+    services: {
+      title: "Services",
+      description: "Faire construire et faire croître — trois capacités conçues comme un tout.",
+      intro:
+        "Une équipe, trois capacités. Tout ce dont votre produit a besoin pour passer de l'idée à l'impact.",
+    },
+    process: {
+      title: "Processus",
+      description: "Un processus en six étapes qui transforme une idée en système opérationnel.",
+      intro:
+        "Un parcours transparent en six étapes — de la découverte à la croissance — qui fait avancer chaque projet et rend chaque décision visible.",
+    },
+    about: {
+      title: "À propos",
+      description: "La vision, la mission, les valeurs et l'histoire de Qodily-dz.",
+      intro:
+        "Nous sommes un petit studio numérique algérien. Nous construisons des logiciels, des systèmes et de la croissance qui se déploient — et s'améliorent après le lancement.",
+      storyHeading: "Notre histoire",
+      story: [
+        "Qodily-dz a commencé comme une pratique à deux personnes avec une conviction simple et obstinée : petites équipes, périmètre clair et livraison honnête valent mieux qu'un processus sans fin.",
+        "Cette première pratique a survécu assez longtemps pour devenir un studio. Aujourd'hui, nous restons délibérément petits — quelques personnes senior capables de porter un projet du premier croquis jusqu'au système en production.",
+        "Nous sommes fièrement algériens et fièrement internationaux. Distants depuis le premier jour, nous travaillons avec des clients qui veulent un partenaire, pas un fournisseur.",
+      ],
+      approachHeading: "Notre façon de travailler",
+      approach: [
+        "Nous travaillons en petites équipes senior — sans transfert entre des services qui ne se parlent pas.",
+        "Nous partons du problème et de la personne qui utilisera le produit, pas d'une technologie favorite.",
+        "Nous livrons tôt, apprenons de l'usage réel et améliorons le système après le lancement.",
+      ],
+    },
+    contact: {
+      title: "Contact",
+      description: "Démarrez un projet avec Qodily-dz.",
+      intro:
+        "Dites-nous ce que vous souhaitez construire. Nous vous répondrons sous 48 heures avec une direction honnête.",
+      detailsHeading: "Direct",
+      reply: "Nous répondons sous 48 heures.",
+    },
   },
   footer: {
     capabilities: "Capacités",

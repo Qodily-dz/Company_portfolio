@@ -15,6 +15,7 @@ export const en: Dictionary = {
     insights: "Insights",
     contact: "Contact",
     startAProject: "START A PROJECT",
+    getStarted: "GET STARTED",
     talkToUs: "TALK TO US",
   },
   pillars: {
@@ -29,7 +30,7 @@ export const en: Dictionary = {
     headline2: "TO",
     headlineAccent: "IMPACT.",
     supporting:
-      "We build the software, websites and automations that help businesses launch, automate and grow — designed and engineered end to end.",
+      "We build digital products, systems and growth solutions that turn ideas into real-world impact.",
     cta1: "START A PROJECT",
     cta2: "EXPLORE OUR WORK",
     brand: "Qodily-dz",
@@ -85,7 +86,7 @@ export const en: Dictionary = {
     body: "Whether it is a product from scratch or a system that has to keep running, the same disciplines apply: architecture, engineering and systems thinking. This is the shape of how we build.",
     centerBlurb:
       "How we build — one connected system, engineered end to end. Each discipline has a role; together they form the whole.",
-    hoverHint: "Explore the system — tap or click a node",
+    hoverHint: "Explore the system — hover a node, drag the API node",
     liveLabel: "Live architecture",
     close: "Close",
     expand: "Click to expand",
@@ -325,6 +326,68 @@ export const en: Dictionary = {
       email: "Please enter a valid email address.",
     },
     budgetHint: "Descriptive ranges — we work out the currency with you.",
+  },
+  pages: {
+    home: {
+      servicesLabel: "Capabilities",
+      workLabel: "Selected work",
+      processLabel: "How we work",
+      aboutLabel: "About",
+      exploreServices: "Explore all services",
+      exploreWork: "View all work",
+      exploreProcess: "The full process",
+      exploreAbout: "More about us",
+      finalCtaLabel: "Start",
+      finalCtaHeading: "Have an idea?",
+      finalCtaBody:
+        "Tell us what you are building — we'll map the fastest honest route to real impact.",
+      startProject: "START A PROJECT",
+    },
+    work: {
+      title: "Work",
+      description: "Selected projects and product work by Qodily-dz.",
+      intro:
+        "A selection of digital products, platforms and systems — designed and engineered end to end.",
+      note: "Concept & product work",
+    },
+    services: {
+      title: "Services",
+      description: "Build, design and grow — three capabilities engineered as one.",
+      intro:
+        "One team, three capabilities. Everything your product needs to move from idea to impact.",
+    },
+    process: {
+      title: "Process",
+      description: "A six-step process that turns an idea into an operating system.",
+      intro:
+        "A transparent, six-step path — from discover to grow — that keeps every project moving and every decision visible.",
+    },
+    about: {
+      title: "About",
+      description: "The vision, mission, values and story behind Qodily-dz.",
+      intro:
+        "We are a small Algerian digital studio. We build software, systems and growth that ship — and keep improving after launch.",
+      storyHeading: "Our story",
+      story: [
+        "Qodily-dz began as a two-person practice with a simple stubborn belief: small teams, clear scope and honest shipping beat endless process.",
+        "That first studio survived long enough to become a studio. Today we stay deliberately small — a few senior people who can carry a project from first sketch to running system.",
+        "We are proudly Algerian and proudly global. Remote since day one, we work with clients who want a partner, not a vendor.",
+      ],
+      approachHeading: "How we approach work",
+      approach: [
+        "We work in small senior teams — no hand-offs between departments that don't talk to each other.",
+        "We start with the problem and the person who will use the product, not with a favourite technology.",
+        "We ship early, learn from real use, and keep improving the system after launch.",
+      ],
+    },
+    contact: {
+      title: "Contact",
+      description: "Start a project with Qodily-dz.",
+      intro:
+        "Tell us what you are trying to build. We'll get back to you within 48 hours with honest direction.",
+      detailsHeading: "Direct",
+      reply: "We reply within 48 hours.",
+    },
   },
   footer: {
     capabilities: "Capabilities",
