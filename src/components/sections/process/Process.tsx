@@ -32,13 +32,13 @@ type Stage = {
 /* The scroll-driven visuals are designed for exactly 6 stages. */
 const N = 6;
 
-/* ---------------------------------------------------------------------------
- * Deterministic (pure) pseudo-random — avoids React Compiler purity rule.
- * ------------------------------------------------------------------------- */
 
+
+/* Deterministic (pure) bit-exact integer PRNG in [0,1) — 100% identical on SSR & client. */
 function rand(i: number, salt: number): number {
-  const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453;
-  return x - Math.floor(x);
+  let h = Math.imul(i ^ (salt * 0x9e3779b9), 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
 /* ---------------------------------------------------------------------------
@@ -101,9 +101,9 @@ function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
   const pulse = useTransform(progress, [0, 1 / N, 2 / N], [0, 1, 0]);
   const coreOpacity = useTransform(progress, [0, 0.02 / N], [0, 1]);
   const nodes = Array.from({ length: 9 }, (_, i) => ({
-    x: 30 + rand(i, 7) * 340,
-    y: 40 + rand(i, 9) * 320,
-    r: 4 + rand(i, 11) * 3,
+    x: +(30 + rand(i, 7) * 340).toFixed(2),
+    y: +(40 + rand(i, 9) * 320).toFixed(2),
+    r: +(4 + rand(i, 11) * 3).toFixed(2),
   }));
   return (
     <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">

@@ -12,8 +12,9 @@ import { SectionLabel } from "@/components/ui";
 import { useTranslations } from "@/lib/i18n";
 
 function rand(i: number, salt: number): number {
-  const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453;
-  return x - Math.floor(x);
+  let h = Math.imul(i ^ (salt * 0x9e3779b9), 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
 function Scrubber({ progress, dragHint }: { progress: MotionValue<number>; dragHint: string }) {

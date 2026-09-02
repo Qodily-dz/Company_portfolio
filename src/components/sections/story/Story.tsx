@@ -77,22 +77,22 @@ function Statement({
   );
 }
 
-/** Deterministic (pure) pseudo-random unit value in [0,1) — avoids the
- *  React Compiler purity rule against calling Math.random during render. */
+/** Deterministic (pure) bit-exact integer PRNG in [0,1) — 100% identical on SSR & client. */
 function rand(i: number, salt: number): number {
-  const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453;
-  return x - Math.floor(x);
+  let h = Math.imul(i ^ (salt * 0x9e3779b9), 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
 function Particles() {
   const dots = useMemo(
     () =>
       Array.from({ length: 26 }, (_, i) => ({
-        left: rand(i, 1) * 100,
-        top: rand(i, 2) * 100,
-        size: 1 + rand(i, 3) * 2,
-        delay: rand(i, 4) * 6,
-        dur: 7 + rand(i, 5) * 8,
+        left: +(rand(i, 1) * 100).toFixed(3),
+        top: +(rand(i, 2) * 100).toFixed(3),
+        size: +(1 + rand(i, 3) * 2).toFixed(2),
+        delay: +(rand(i, 4) * 6).toFixed(2),
+        dur: +(7 + rand(i, 5) * 8).toFixed(2),
       })),
     []
   );
@@ -103,7 +103,12 @@ function Particles() {
         <motion.span
           key={i}
           className="absolute rounded-full bg-accent/40"
-          style={{ left: `${d.left}%`, top: `${d.top}%`, width: d.size, height: d.size }}
+          style={{
+            left: `${d.left}%`,
+            top: `${d.top}%`,
+            width: `${d.size}px`,
+            height: `${d.size}px`,
+          }}
           animate={{ y: [0, -30, 0], opacity: [0.2, 0.6, 0.2] }}
           transition={{
             duration: d.dur,
