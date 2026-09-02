@@ -2,17 +2,15 @@
 
 import { useEffect, useState } from "react";
 import type { ComponentType } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { Container } from "@/components/layout";
 import { Button, SectionLabel } from "@/components/ui";
 import { WebGLBoundary } from "@/components/webgl";
 import { supportsWebGL } from "@/lib/webgl";
-import { PILLARS } from "@/lib/services";
 import type { PillarId } from "@/lib/services";
+import { ServicesEnvironment } from "@/components/sections/services/ServicesEnvironment";
 import { useTranslations, useLocale } from "@/lib/i18n";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Dedicated /services page — BUILD / DESIGN / GROW, each with its own visual
@@ -39,8 +37,6 @@ export function ServicesPage() {
       alive = false;
     };
   }, [reduced]);
-
-  const translatedPillars = dict.servicesData.pillars;
 
   return (
     <div aria-label={dict.pages.services.title}>
@@ -84,78 +80,8 @@ export function ServicesPage() {
         />
 
         <Container className="pointer-events-none relative z-10 flex min-h-svh flex-col justify-center py-24 md:py-28">
-          <div className="pointer-events-auto flex flex-wrap gap-2">
-            {PILLARS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setActive(p.id)}
-                className={`rounded-full border px-5 py-2 text-sm font-medium uppercase tracking-[0.12em] transition-colors ${
-                  active === p.id
-                    ? "border-accent text-accent-soft"
-                    : "border-border-strong text-muted hover:border-accent hover:text-foreground"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="pointer-events-auto mt-12">
-            <AnimatePresence mode="wait">
-              {PILLARS.map((p) => {
-                if (p.id !== active) return null;
-                const tPillar = translatedPillars.find(
-                  (tp: { label: string }) => tp.label.toLowerCase() === p.label.toLowerCase()
-                );
-                return (
-                  <motion.div
-                    key={p.id}
-                    id={p.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.4, ease: EASE }}
-                    className="max-w-3xl"
-                  >
-                    <div className="font-mono text-sm text-accent">{p.index}</div>
-                    <h2 className="mt-3 text-[clamp(2.4rem,7vw,5rem)] font-medium uppercase leading-[0.92] tracking-[-0.03em] text-foreground">
-                      {tPillar?.label ?? p.label}
-                    </h2>
-                    <div className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-accent-soft">
-                      {tPillar?.tagline ?? p.tagline}
-                    </div>
-                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-                      {tPillar?.lede ?? p.lede}
-                    </p>
-                    <div className="mt-7 flex flex-wrap gap-2">
-                      {(tPillar?.services ?? p.services).map((s) => (
-                        <span
-                          key={s}
-                          className="rounded-md border border-border bg-white/[0.02] px-3 py-1.5 text-sm text-foreground-soft"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                    {p.funnel && (
-                      <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2">
-                        {p.funnel.map((s, i) => (
-                          <span key={s} className="inline-flex items-center gap-3">
-                            {i > 0 && (
-                              <span aria-hidden className="text-accent">
-                                →
-                              </span>
-                            )}
-                            <span className="text-sm text-muted">{s}</span>
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+          <div className="pointer-events-auto w-full">
+            <ServicesEnvironment active={active} onChange={setActive} dict={dict} />
           </div>
 
           <div className="pointer-events-auto mt-14 flex items-center gap-4">

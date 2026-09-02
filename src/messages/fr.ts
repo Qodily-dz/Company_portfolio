@@ -672,16 +672,15 @@ export const fr: Dictionary = {
       },
       {
         label: "Designer",
-        tagline: "Expérience et interface",
-        lede: "Nous façonnons l'apparence et le ressenti de votre produit — interfaces, identités et systèmes de design qui rendent le complexe simple et pertinent.",
+        tagline: "Composition numérique",
+        lede: "Nous façonnons la lecture et le ressenti de votre produit — interfaces, identités et systèmes de design rendus comme une composition précise et vivante.",
         services: [
           "UI/UX",
           "Conception de produit",
           "Design web",
+          "Design mobile",
           "Branding",
-          "Identité visuelle",
           "Systèmes de design",
-          "Design réseaux sociaux",
         ],
       },
       {

@@ -39,23 +39,22 @@ export const PILLARS: readonly PillarData[] = [
     id: "design",
     label: "Design",
     index: "02",
-    tagline: "Experience & Interface",
-    lede: "We shape how your product looks and feels — interfaces, identities and design systems that make complex things feel simple and worthwhile.",
+    tagline: "Digital Composition",
+    lede: "We shape how your product reads and feels — interfaces, identities and design systems rendered as a precise, living composition.",
     services: [
       "UI/UX",
       "Product Design",
       "Web Design",
+      "Mobile Design",
       "Branding",
-      "Visual Identity",
       "Design Systems",
-      "Social Media Design",
     ],
   },
   {
     id: "grow",
     label: "Grow",
     index: "03",
-    tagline: "Direction & Data",
+    tagline: "Data Flow",
     lede: "We turn attention into outcomes — campaigns, content and analytics that move people from first touch to lasting growth.",
     services: [
       "Digital Marketing",
@@ -66,7 +65,7 @@ export const PILLARS: readonly PillarData[] = [
       "Lead Generation",
       "Analytics",
     ],
-    funnel: ["Reach", "Engagement", "Leads", "Customers", "Growth"],
+    funnel: ["Attention", "Engagement", "Leads", "Customers", "Growth"],
   },
 ] as const;
 
