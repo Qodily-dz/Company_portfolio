@@ -249,8 +249,8 @@ export const ar: Dictionary = {
   },
   contact: {
     label: "ابدأ مشروعك",
-    heading1: "أخبرنا بما",
-    heading2Accent: "تحتاجه.",
+    heading1: "لنبنِ",
+    heading2Accent: "شيئاً يهُمّ.",
     heading2Rest: "",
     body: "ست خطوات قصيرة حتى نفهم المشروع قبل أن نتحدث. لا مصطلحات معقدة، لا التزام — مجرد أوضح بريف.",
     stepTitles: [
@@ -266,9 +266,11 @@ export const ar: Dictionary = {
       "تطبيق ويب",
       "تطبيق موبايل",
       "تطبيق سطح مكتب",
+      "SaaS",
+      "UI/UX",
+      "تسويق رقمي",
+      "وسائل التواصل",
       "برمجيات مخصصة",
-      "تسويق",
-      "علامة تجارية",
       "أخرى",
     ],
     needOptions: [
@@ -302,7 +304,7 @@ export const ar: Dictionary = {
     objectiveGoodHint: "ممتاز، هذا يعطينا صورة واضحة.",
     back: "→ رجوع",
     continue: "متابعة ←",
-    sendCta: "إرسال طلب المشروع",
+    sendCta: "ابدأ المحادثة",
     successMessage: "ممتاز. فهمنا الفكرة.",
     successBody:
       "تلقينا طلب مشروعك. سيتواصل معك أحد أعضاء فريق Qodily قريباً.",

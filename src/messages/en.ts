@@ -249,10 +249,10 @@ export const en: Dictionary = {
   },
   contact: {
     label: "Start a project",
-    heading1: "Tell us what",
-    heading2Accent: "you need.",
+    heading1: "Let's Build",
+    heading2Accent: "Something That Matters.",
     heading2Rest: "",
-    body: "Six short steps so we understand the project before we talk. No jargon, no obligation — just a clearer brief.",
+    body: "A short structured brief so we understand the project before we talk. No jargon, no obligation — just a clearer way to start.",
     stepTitles: [
       "What are you building?",
       "What is your objective?",
@@ -266,9 +266,11 @@ export const en: Dictionary = {
       "Web App",
       "Mobile App",
       "Desktop App",
+      "SaaS",
+      "UI/UX",
+      "Digital Marketing",
+      "Social Media",
       "Custom Software",
-      "Marketing",
-      "Branding",
       "Other",
     ],
     needOptions: [
@@ -302,7 +304,7 @@ export const en: Dictionary = {
     objectiveGoodHint: "Great, that gives us a clear picture.",
     back: "← Back",
     continue: "Continue →",
-    sendCta: "SEND PROJECT REQUEST",
+    sendCta: "START THE CONVERSATION",
     successMessage: "Perfect. We've got the idea.",
     successBody:
       "We've received your project request. A member of the Qodily team will get back to you shortly.",
