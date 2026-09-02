@@ -47,6 +47,7 @@ export function ContactRequests() {
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
 
   const stepKey = STEP_FIELDS[step];
   const isSubmitting = status === "submitting";
@@ -58,9 +59,13 @@ export function ContactRequests() {
   }
 
   useEffect(() => {
-    // Move focus to the step heading when the step changes so keyboard and
-    // screen-reader users know which step they are on.
-    headingRef.current?.focus();
+    // Only move focus when step changes after user interaction,
+    // not on the initial page load to avoid hijacking window scroll.
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    headingRef.current?.focus({ preventScroll: true });
   }, [step]);
 
   async function handleNext() {
@@ -547,7 +552,7 @@ function WhatsAppRow({ preferChat, whatsappCta, whatsappPrefill }: { preferChat:
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackWhatsapp({ channel: "contact_form" })}
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border-strong px-6 text-sm font-medium text-foreground transition-all duration-200 hover:border-accent hover:text-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border-strong px-6 text-sm font-medium text-foreground transition-all duration-200 hover:border-accent hover:text-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {whatsappCta}
       </a>

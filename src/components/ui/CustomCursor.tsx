@@ -67,6 +67,7 @@ export function CustomCursor() {
 
   useEffect(() => {
     if (prefersReducedMotion || !finePointer) return;
+    document.documentElement.classList.add("hide-native-cursor");
 
     const onMove = (e: PointerEvent) => {
       dotX.set(e.clientX);
@@ -108,6 +109,7 @@ export function CustomCursor() {
     document.documentElement.addEventListener("mouseleave", onLeave);
 
     return () => {
+      document.documentElement.classList.remove("hide-native-cursor");
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerover", onOver);
       document.removeEventListener("pointerout", onOut);
@@ -132,8 +134,8 @@ export function CustomCursor() {
           width: isActive ? 56 : 28,
           height: isActive ? 56 : 28,
           backgroundColor: isActive
-            ? "rgba(124,92,255,0.12)"
-            : "rgba(124,92,255,0)",
+            ? "rgba(43,92,145,0.12)"
+            : "rgba(43,92,145,0)",
           opacity: 0.9,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 28 }}

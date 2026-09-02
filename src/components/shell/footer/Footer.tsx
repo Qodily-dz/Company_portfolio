@@ -3,15 +3,17 @@
 import { siteConfig } from "@/config/site";
 import { Container } from "@/components/layout";
 import { Link, Divider } from "@/components/ui";
+import { UnderlineFollow, ScrambleText } from "@/components/interactions";
 import { Logo } from "@/components/brand/Logo";
 import { getMainNav, getPillars, socialLinks } from "@/lib/navigation";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslations, useLocale } from "@/lib/i18n";
 
 export function Footer() {
   const dict = useTranslations();
+  const locale = useLocale();
   const year = new Date().getFullYear();
-  const navItems = getMainNav(dict);
-  const pillarItems = getPillars(dict);
+  const navItems = getMainNav(dict, locale);
+  const pillarItems = getPillars(dict, locale);
 
   return (
     <footer className="border-t border-border bg-secondary">
@@ -33,13 +35,13 @@ export function Footer() {
               {dict.footer.capabilities}
             </p>
             {pillarItems.map((p) => (
-              <Link
+              <UnderlineFollow
                 key={p.href}
                 href={p.href}
-                className="text-sm text-muted hover:text-foreground"
+                className="text-sm text-muted"
               >
                 {p.label}
-              </Link>
+              </UnderlineFollow>
             ))}
           </nav>
 
@@ -48,14 +50,14 @@ export function Footer() {
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-more">
               {dict.footer.company}
             </p>
-            {[...navItems, { label: dict.nav.contact, href: "#contact" }].map((item) => (
-              <Link
+            {navItems.map((item) => (
+              <UnderlineFollow
                 key={item.href}
                 href={item.href}
-                className="text-sm text-muted hover:text-foreground"
+                className="text-sm text-muted"
               >
                 {item.label}
-              </Link>
+              </UnderlineFollow>
             ))}
           </nav>
 
@@ -96,7 +98,10 @@ export function Footer() {
             © {year} {siteConfig.legalName}. {dict.footer.allRights}
           </p>
           <p className="text-xs uppercase tracking-[0.14em] text-muted-more">
-            {siteConfig.positioning}
+            <ScrambleText
+              text={siteConfig.positioning}
+              className="inline"
+            />
           </p>
         </div>
       </Container>

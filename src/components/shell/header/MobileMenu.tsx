@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { getMainNav, getPillars, socialLinks } from "@/lib/navigation";
+import { getMainNav, socialLinks } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "@/lib/i18n";
-import { trackWhatsapp } from "@/lib/analytics";
+import { useTranslations, useLocale } from "@/lib/i18n";
 import { siteConfig } from "@/config/site";
-import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { trackWhatsapp } from "@/lib/analytics";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 function CloseIcon() {
   return (
@@ -38,8 +39,12 @@ function MenuIcon() {
 
 /**
  * A premium fullscreen mobile navigation.
- * Rendered as an overlay with staggered editorial reveals, body scroll lock,
- * and focus trapping. Trigger button lives in the header.
+ *
+ * Editorial large-typography links (WORK / SERVICES / PROCESS / ABOUT /
+ * INSIGHTS), a prominent START A PROJECT CTA, and social links — presented
+ * as an extension of the brand over a deep near-black surface. Rendered as an
+ * overlay with staggered reveals, body scroll lock, and focus trapping. The
+ * trigger button and the language dropdown live in the header row.
  */
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -48,8 +53,8 @@ export function MobileMenu() {
   const firstFocusRef = useRef<HTMLAnchorElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const dict = useTranslations();
-  const navItems = getMainNav(dict);
-  const pillarItems = getPillars(dict);
+  const locale = useLocale();
+  const navItems = getMainNav(dict, locale).slice(0, 5); // Work, Services, Process, About, Insights
 
   const toggle = () => setOpen((v) => !v);
 
@@ -82,7 +87,7 @@ export function MobileMenu() {
       }
       if (e.key !== "Tab") return;
       const els = panelRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled])'
+        "a[href], button:not([disabled])"
       );
       if (!els || els.length === 0) return;
       const first = els[0];
@@ -108,7 +113,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls="site-mobile-menu"
         aria-label={open ? dict.common.close : "Open menu"}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground transition-colors hover:bg-white/[.06] md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-white/[.06] lg:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>
@@ -118,94 +123,91 @@ export function MobileMenu() {
           <motion.div
             id="site-mobile-menu"
             ref={panelRef}
-            className="fixed inset-0 z-[1900] md:hidden"
+            className="fixed inset-0 z-[1900] lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
-            style={{ backgroundColor: "rgba(5,5,5,0.98)" }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: EASE }}
+            style={{ backgroundColor: "rgba(3,4,5,0.98)" }}
             role="dialog"
             aria-modal="true"
             aria-label="Main menu"
           >
-            <div className="flex h-full flex-col overflow-y-auto px-6 pb-10 pt-24">
-              <div className="flex flex-1 flex-col gap-1">
+            {/* Ambient radial accent top-center */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-[radial-gradient(60%_100%_at_50%_0%,rgba(23,59,104,0.28),transparent)]"
+            />
+
+            <div className="relative flex h-full flex-col overflow-y-auto px-7 pb-10 pt-28">
+              {/* Primary links — large editorial typography */}
+              <nav
+                className="flex flex-1 flex-col justify-center gap-1"
+                aria-label="Main menu"
+              >
                 {navItems.map((item, i) => (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 12 }}
                     transition={{
-                      duration: prefersReducedMotion ? 0 : 0.35,
-                      delay: prefersReducedMotion ? 0 : 0.06 * i + 0.05,
-                      ease: [0.16, 1, 0.3, 1],
+                      duration: prefersReducedMotion ? 0 : 0.4,
+                      delay: prefersReducedMotion ? 0 : 0.05 * i + 0.1,
+                      ease: EASE,
                     }}
                   >
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="group block py-2 text-4xl font-medium tracking-tight text-foreground transition-colors hover:text-accent-soft"
+                      className="group flex items-baseline gap-3 py-2.5"
                     >
-                      {item.label}
+                      <span className="text-xs font-medium tracking-[0.2em] text-muted-more">
+                        0{i + 1}
+                      </span>
+                      <span className="text-4xl font-semibold tracking-tight text-foreground transition-all duration-200 group-hover:translate-x-2 group-hover:text-accent-soft sm:text-5xl">
+                        {item.label}
+                      </span>
                     </Link>
                   </motion.div>
                 ))}
-              </div>
+              </nav>
 
-              {/* Language switcher */}
+              {/* CTA */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: prefersReducedMotion ? 0 : 0.28, duration: 0.4 }}
-                className="mt-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{
+                  duration: prefersReducedMotion ? 0 : 0.4,
+                  delay: prefersReducedMotion ? 0 : 0.42,
+                  ease: EASE,
+                }}
+                className="border-t border-border pt-8"
               >
-                <LanguageSwitcher />
-              </motion.div>
-
-              {/* Capability pillars */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: prefersReducedMotion ? 0 : 0.32, duration: 0.4 }}
-                className="mt-10 border-t border-border pt-6"
-              >
-                <div className="flex gap-6">
-                  {pillarItems.map((p) => (
-                    <Link
-                      key={p.href}
-                      href={p.href}
-                      onClick={() => setOpen(false)}
-                      className="text-sm font-medium uppercase tracking-[0.14em] text-muted transition-colors hover:text-foreground"
-                    >
-                      {p.label}
-                    </Link>
-                  ))}
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    href={`/${locale}/contact`}
+                    ref={firstFocusRef}
+                    onClick={() => setOpen(false)}
+                    className="inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background transition-colors hover:bg-white/90"
+                  >
+                    {dict.nav.startAProject}
+                    <span aria-hidden>→</span>
+                  </Link>
+                  <a
+                    href={siteConfig.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      trackWhatsapp({ channel: "mobile_menu" });
+                      setOpen(false);
+                    }}
+                    className="inline-flex h-12 items-center gap-2 rounded-full border border-border-strong px-6 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent-soft"
+                  >
+                    {dict.nav.talkToUs}
+                  </a>
                 </div>
-
-                <a
-                  href="#contact"
-                  ref={firstFocusRef}
-                  onClick={() => setOpen(false)}
-                  className="mt-8 inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-white/90"
-                >
-                  {dict.nav.startAProject}
-                  <span aria-hidden>→</span>
-                </a>
-                <a
-                  href={siteConfig.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    trackWhatsapp({ channel: "mobile_menu" });
-                    setOpen(false);
-                  }}
-                  className="mt-4 inline-flex items-center gap-2 rounded-md border border-border-strong px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent-soft"
-                >
-                  {dict.nav.talkToUs}
-                </a>
               </motion.div>
 
               {/* Social links */}
@@ -213,8 +215,11 @@ export function MobileMenu() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ delay: prefersReducedMotion ? 0 : 0.4, duration: 0.4 }}
-                className="mt-10 flex flex-wrap gap-x-6 gap-y-2"
+                transition={{
+                  duration: prefersReducedMotion ? 0 : 0.4,
+                  delay: prefersReducedMotion ? 0 : 0.52,
+                }}
+                className="mt-8 flex flex-wrap gap-x-6 gap-y-2"
               >
                 {socialLinks.map((s) => (
                   <a
@@ -223,7 +228,7 @@ export function MobileMenu() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "text-sm text-muted transition-colors hover:text-foreground"
+                      "text-sm text-muted transition-all duration-200 hover:-translate-y-px hover:text-foreground"
                     )}
                   >
                     {s.label}
