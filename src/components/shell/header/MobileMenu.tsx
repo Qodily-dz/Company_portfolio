@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getMainNav, socialLinks } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations, useLocale } from "@/lib/i18n";
+import { Arrow } from "@/components/ui";
 import { siteConfig } from "@/config/site";
 import { trackWhatsapp } from "@/lib/analytics";
 
@@ -206,6 +207,7 @@ export function MobileMenu() {
                     className="inline-flex h-12 items-center gap-2 rounded-full border border-border-strong px-6 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent-soft"
                   >
                     {dict.nav.talkToUs}
+                    <Arrow external />
                   </a>
                 </div>
               </motion.div>

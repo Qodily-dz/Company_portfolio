@@ -74,7 +74,7 @@ export function Hero() {
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">{dict.hero.headline1}</span>
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">
             {dict.hero.headline2}{" "}
-            <Magnetic strength={10} radius={150} style={{ verticalAlign: "top" }}>
+            <Magnetic strength={5} radius={120} style={{ verticalAlign: "top" }}>
               <span className="inline-flex text-accent">
                 {dict.hero.headlineAccent}
               </span>
@@ -99,7 +99,7 @@ export function Hero() {
           className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4"
           {...rise(0.4)}
         >
-          <Magnetic strength={12} radius={150} className="w-full sm:w-auto">
+          <Magnetic strength={6} radius={130} className="w-full sm:w-auto">
             <Button href={`/${locale}/contact`} size="lg" className="w-full sm:w-auto">
               {dict.hero.cta1}
               <span aria-hidden>→</span>

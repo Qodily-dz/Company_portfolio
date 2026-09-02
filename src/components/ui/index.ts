@@ -1,5 +1,6 @@
 export { Button } from "./Button";
 export type { ButtonProps } from "./Button";
+export { Arrow } from "./Arrow";
 export { MagneticButton } from "./MagneticButton";
 export { Link } from "./Link";
 export { Badge } from "./Badge";

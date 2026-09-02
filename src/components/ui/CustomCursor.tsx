@@ -8,11 +8,13 @@ import {
 } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
-type CursorState = "default" | "link" | "button" | "project" | "view";
+type CursorState = "default" | "link" | "button" | "project" | "view" | "drag" | "explore";
 
 const LABELS: Partial<Record<CursorState, string>> = {
   project: "View",
   view: "View",
+  drag: "Drag",
+  explore: "Explore",
 };
 
 /** Whether the device has a fine pointer (desktop mouse/trackpad). */
@@ -81,6 +83,8 @@ export function CustomCursor() {
       if (!el) return "default";
       const v = el.dataset.cursor;
       if (v === "project" || v === "view") return v;
+      if (v === "drag") return "drag";
+      if (v === "explore") return "explore";
       if (v === "button") return "button";
       if (v === "link") return "link";
       if (v === "off") return "default";

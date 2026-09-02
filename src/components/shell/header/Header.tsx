@@ -60,29 +60,39 @@ export function Header() {
       <motion.header
         initial={false}
         animate={{
-          height: scrolled ? 64 : 96,
+          height: scrolled ? 60 : 96,
+          left: scrolled ? "max(1rem, env(safe-area-inset-left))" : "0px",
+          right: scrolled ? "max(1rem, env(safe-area-inset-right))" : "0px",
+          top: scrolled ? "max(0.75rem, env(safe-area-inset-top))" : "0px",
+          borderRadius: scrolled ? 16 : 0,
           backgroundColor: scrolled
-            ? "rgba(7,10,15,0.72)"
+            ? "rgba(7,10,15,0.78)"
             : "rgba(3,4,5,0)",
           boxShadow: scrolled
-            ? "0 10px 30px rgba(0,0,0,0.35)"
+            ? "0 10px 30px rgba(0,0,0,0.4)"
             : "0 0 0 rgba(0,0,0,0)",
         }}
         transition={{ duration: dur, ease: EASE }}
         className={cn(
-          "fixed inset-x-0 top-0 z-[1800] border-b transition-[backdrop-filter] duration-500",
+          "fixed inset-x-0 top-0 z-[1800] transition-[backdrop-filter] duration-500",
           scrolled
-            ? "backdrop-blur-xl"
-            : "backdrop-blur-none"
+            ? "backdrop-blur-xl border border-border-strong"
+            : "backdrop-blur-none border-b"
         )}
         style={{
           borderColor: scrolled
             ? "rgba(39,50,71,0.9)"
             : "rgba(39,50,71,0)",
-          borderBottomWidth: 1,
         }}
       >
-        <Container className="flex h-full items-center justify-between gap-4">
+        <Container
+          className={cn(
+            "flex h-full items-center justify-between gap-3",
+            scrolled
+              ? "px-3 sm:px-4 lg:px-5"
+              : "px-4 sm:px-6 md:px-8 lg:px-10"
+          )}
+        >
           {/* LEFT — logo (full -> icon) */}
           <Link href={`/${locale}`} className="shrink-0" aria-label="Qodily-dz">
             <span className="relative flex items-center">
@@ -116,7 +126,7 @@ export function Header() {
 
           {/* CENTER — clean text nav */}
           <nav
-            className="hidden items-center gap-8 lg:flex"
+            className="hidden items-center gap-6 xl:gap-8 lg:flex"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (

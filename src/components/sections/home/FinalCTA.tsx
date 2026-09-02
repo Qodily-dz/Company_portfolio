@@ -39,7 +39,7 @@ export function FinalCTA() {
 
         <Reveal delay={0.15}>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Magnetic strength={12} radius={150} className="w-full sm:w-auto">
+            <Magnetic strength={6} radius={130} className="w-full sm:w-auto">
               <Button
                 href={`/${locale}/contact`}
                 size="lg"

@@ -18,11 +18,15 @@ import { cn } from "@/lib/utils";
  * cursor within `radius`, then springs it back to rest on leave. Measures its
  * own box (not the child) so it works for every child, including buttons that
  * render as anchors. No-op under prefers-reduced-motion.
+ *
+ * Deliberately subtle: default pull is capped at ~6px with a modest reach so
+ * elements feel responsive without "chasing" the cursor. Keep magnetism for a
+ * few key CTAs only — not everything on the page.
  * ------------------------------------------------------------------------- */
 
 type MagneticProps = {
   children: ReactNode;
-  /** Maximum pull distance in px. */
+  /** Maximum pull distance in px (kept small — ~4–8px). */
   strength?: number;
   /** Reach of the magnet in px. */
   radius?: number;
@@ -32,8 +36,8 @@ type MagneticProps = {
 
 export function Magnetic({
   children,
-  strength = 18,
-  radius = 180,
+  strength = 6,
+  radius = 120,
   className,
   style,
 }: MagneticProps) {
@@ -41,8 +45,8 @@ export function Magnetic({
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 240, damping: 20, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 240, damping: 20, mass: 0.4 });
+  const sx = useSpring(x, { stiffness: 260, damping: 22, mass: 0.35 });
+  const sy = useSpring(y, { stiffness: 260, damping: 22, mass: 0.35 });
 
   const onPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (reduced) return;
