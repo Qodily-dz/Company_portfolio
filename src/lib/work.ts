@@ -169,3 +169,16 @@ export const PROJECTS: Project[] = [
     span: "md:col-span-7",
   },
 ];
+
+/** Resolves a project by its route slug (the id doubles as the slug). */
+export function getProjectBySlug(slug: string): Project | undefined {
+  return PROJECTS.find((p) => p.id === slug);
+}
+
+/** Previous/next project for "keep browsing" navigation on the case study. */
+export function getAdjacentProjects(slug: string) {
+  const idx = PROJECTS.findIndex((p) => p.id === slug);
+  const prev = idx > 0 ? PROJECTS[idx - 1] : null;
+  const next = idx < PROJECTS.length - 1 ? PROJECTS[idx + 1] : null;
+  return { prev, next };
+}

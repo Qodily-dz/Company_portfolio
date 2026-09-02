@@ -8,13 +8,14 @@ import {
 } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
-type CursorState = "default" | "link" | "button" | "project" | "view" | "drag" | "explore";
+type CursorState = "default" | "link" | "button" | "project" | "view" | "drag" | "explore" | "case";
 
 const LABELS: Partial<Record<CursorState, string>> = {
   project: "View",
   view: "View",
   drag: "Drag",
   explore: "Explore",
+  case: "View Case",
 };
 
 /** Whether the device has a fine pointer (desktop mouse/trackpad). */
@@ -83,6 +84,7 @@ export function CustomCursor() {
       if (!el) return "default";
       const v = el.dataset.cursor;
       if (v === "project" || v === "view") return v;
+      if (v === "case") return "case";
       if (v === "drag") return "drag";
       if (v === "explore") return "explore";
       if (v === "button") return "button";
@@ -124,6 +126,7 @@ export function CustomCursor() {
   if (prefersReducedMotion || !finePointer) return null;
 
   const isActive = state !== "default";
+  const isCase = state === "case";
 
   return (
     <div
@@ -135,8 +138,8 @@ export function CustomCursor() {
         className="fixed rounded-full border border-accent/60"
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
-          width: isActive ? 56 : 28,
-          height: isActive ? 56 : 28,
+          width: isCase ? 118 : isActive ? 56 : 28,
+          height: isCase ? 44 : isActive ? 56 : 28,
           backgroundColor: isActive
             ? "rgba(43,92,145,0.12)"
             : "rgba(43,92,145,0)",
@@ -145,8 +148,9 @@ export function CustomCursor() {
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
       >
         {isActive && (
-          <span className="absolute inset-0 flex items-center justify-center text-[10px] font-medium uppercase tracking-wider text-accent-soft">
+          <span className="absolute inset-0 flex items-center justify-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-accent-soft">
             {LABELS[state] ?? ""}
+            {isCase && <span aria-hidden>→</span>}
           </span>
         )}
       </motion.div>

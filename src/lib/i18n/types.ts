@@ -54,15 +54,19 @@ export type Dictionary = {
     heading1: string;
     heading2: string;
     view: string;
+    viewCase: string;
     concept: string;
     backToWork: string;
     project: string;
     challenge: string;
-    approach: string;
+    solution: string;
+    architecture: string;
     design: string;
-    product: string;
     technology: string;
-    outcome: string;
+    result: string;
+    nextProject: string;
+    prevProject: string;
+    openCase: string;
   };
   engineering: {
     label: string;

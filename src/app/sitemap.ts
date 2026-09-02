@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { locales } from "@/lib/i18n/config";
 import { ARTICLES } from "@/lib/insights";
+import { PROJECTS } from "@/lib/work";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
@@ -75,6 +76,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: {
           languages: Object.fromEntries(
             locales.map((l) => [l, `${base}/${l}/insights/${article.slug}`]),
+          ),
+        },
+      });
+    }
+  }
+
+  // Case studies per locale
+  for (const locale of locales) {
+    for (const project of PROJECTS) {
+      entries.push({
+        url: `${base}/${locale}/work/${project.id}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.8,
+        alternates: {
+          languages: Object.fromEntries(
+            locales.map((l) => [l, `${base}/${l}/work/${project.id}`]),
           ),
         },
       });
