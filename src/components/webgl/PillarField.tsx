@@ -56,6 +56,46 @@ const GROW = /* glsl */ `
   return vec3(fx, y, z);
 `;
 
+/* Per-environment CURSOR/SCROLL influence. Each body returns a directional
+   push (x,y) plus a strength scalar in z, blended by the morph weight so the
+   same digital matter responds distinctly per pillar. `pos`, `uMouse` (vec3)
+   and `uScrollVel` are in scope. */
+
+/* BUILD — SYSTEM ARCHITECTURE: structured + engineered.
+   Cursor snaps the matter toward a tight lattice alignment and pushes it
+   along grid axes; strength leans toward the camera (structural depth). */
+const BUILD_INT = /* glsl */ `
+  vec2 d = pos.xy - uMouse.xy;
+  float dd = length(d) + 1e-4;
+  float fall = smoothstep(2.2, 0.0, dd);
+  float cell = 0.34;
+  vec2 g = uMouse.xy + (floor(pos.xy / cell + 0.5) - pos.xy / cell) * cell;
+  vec2 align = (g - pos.xy);
+  return vec3(d / dd * fall * 0.55 + align * fall * 0.5, 0.55 * fall);
+`;
+
+/* DESIGN — DIGITAL COMPOSITION: precise + fluid.
+   Cursor repels into clean columns; blocks slide into a tidy composition
+   and flatten slightly toward the surface. */
+const DESIGN_INT = /* glsl */ `
+  vec2 d = pos.xy - uMouse.xy;
+  float dd = length(d) + 1e-4;
+  float fall = smoothstep(2.4, 0.0, dd);
+  float col = 0.5;
+  float xoff = (round(pos.y / col) * col) * 0.45;
+  return vec3((pos.x - uMouse.x) * fall * 0.3 + xoff * fall, -d.y * fall * 0.22, -0.4 * fall);
+`;
+
+/* GROW — DATA FLOW: directional + magnetic.
+   Cursor draws matter onto its flow line and rushes it forward along the
+   funnel; the stream bends toward the cursor. */
+const GROW_INT = /* glsl */ `
+  vec2 d = pos.xy - uMouse.xy;
+  float dd = length(d) + 1e-4;
+  float fall = smoothstep(2.4, 0.0, dd);
+  return vec3(fall * 0.55, (uMouse.y - pos.y) * fall * 0.42, 0.8 * fall);
+`;
+
 /* BUILD: travelling data-packet pulse through the lattice. */
 const BUILD_PULSE = /* glsl */ `
   float packet = fract(tm * 0.28 + dot(floor(position * 4.0 * (0.5 + aSeed)), vec3(1.0, 0.5, 0.7)) * 0.7);
@@ -65,9 +105,9 @@ const BUILD_PULSE = /* glsl */ `
 `;
 
 const STATES: MorphState[] = [
-  { body: BUILD, color: "#173b68" },
-  { body: DESIGN, color: "#2b5c91" },
-  { body: GROW, color: "#0b1d35" },
+  { body: BUILD, color: "#173b68", interact: BUILD_INT },
+  { body: DESIGN, color: "#2b5c91", interact: DESIGN_INT },
+  { body: GROW, color: "#0b1d35", interact: GROW_INT },
 ];
 
 const FALLBACK = (

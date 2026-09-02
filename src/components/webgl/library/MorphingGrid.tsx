@@ -26,6 +26,11 @@ export type MorphState = {
   body: string;
   /** State hex color used while this state dominates the blend. */
   color: string;
+  /** Optional GLSL body defining `vec3 intK(vec3 pos, float seed, float tm)`
+   *  — a per-state CURSOR/SCROLL influence that displaces matter. Lets each
+   *  environment feel different (BUILD snaps, DESIGN rearranges, GROW flows)
+   *  while the base morph keeps the shared digital-matter narrative. */
+  interact?: string;
 };
 
 const GRID = `
@@ -115,6 +120,14 @@ export function MorphingGrid({
       .map((s, i) => `vec3 _run${i}(vec3 ipos, float seed, float tm){${s.body}}`)
       .join("\n");
 
+    const intDecls = states
+      .map((s, i) =>
+        s.interact
+          ? `vec3 _int${i}(vec3 pos, float seed, float tm){${s.interact}}`
+          : `vec3 _int${i}(vec3 pos, float seed, float tm){ return vec3(0.0); }`
+      )
+      .join("\n");
+
     const vertBody = `
 uniform float uTime;
 uniform float uMorph;
@@ -135,6 +148,7 @@ varying vec3 vColor;
 
 ${NOISE_LIB}
 ${decls}
+${intDecls}
 
 void main(){
   float tm = uTime;
@@ -153,13 +167,21 @@ ${weights.join("\n")}
     0.0
   ) * 0.05 * mix(1.0, 0.2, uFocus);
 
-  // Mouse swirl — influence fades to ~0 under reduced motion via uFocus.
+  // Mouse influence — base falloff, scaled by reduced motion via uFocus.
   vec2 toM = pos.xy - uMouse.xy;
   float dm = length(toM);
   float fb = smoothstep(1.9, 0.0, dm);
-  float infl = uMouse.z * uMouseVel;
-  pos.xy += normalize(toM + 1e-6) * fb * 0.22 * infl * 0.4;
-  pos.xy += vec2(-toM.y, toM.x) * fb * fb * 0.06 * infl;
+  float infl = uMouse.z * uMouseVel * uFocus;
+
+  // Per-state CURSOR/SCROLL interaction — weighted by the morph blend so each
+  // environment responds in its own way without a hard cut. Each _int body
+  // returns a directional push (x,y) plus a strength scalar in z.
+  vec3 _disp = (${weights.map((_, i) => `_int${i}(pos, aSeed, tm) * _w${i}`).join(" + ")}) / max(_wsum, 1e-4);
+  float _istrength = clamp(_disp.z, -1.0, 1.0);
+  pos.xy += _disp.xy * (0.3 + 1.2 * abs(_istrength));
+  pos.xy += normalize(toM + 1e-6) * fb * 0.18 * infl * (1.0 - _istrength) * 0.6;
+  pos.z += _istrength * 0.4 * infl;
+  pos.xy += vec2(-toM.y, toM.x) * fb * fb * 0.05 * infl;
 
   // Scroll velocity: add motion while the user scrolls fast, settles after.
   pos.z += uScrollVel * 0.2;
