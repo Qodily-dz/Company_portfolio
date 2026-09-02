@@ -1,16 +1,13 @@
 import { SiteShell } from "@/components/shell/SiteShell";
 import { Hero } from "@/components/sections/hero";
-import { Services } from "@/components/sections/services";
 import { Story } from "@/components/sections/story";
-import { Transformation } from "@/components/sections/transformation";
-import { Work } from "@/components/sections/work";
-import { Engineering } from "@/components/sections/engineering";
-import { Process } from "@/components/sections/process";
-import { Grow } from "@/components/sections/growth";
-import { Insights } from "@/components/sections/insights";
-import { Lab } from "@/components/sections/lab";
-import { About } from "@/components/sections/about";
-import { Contact } from "@/components/sections/contact";
+import {
+  ServicesPreview,
+  WorkPreview,
+  ProcessPreview,
+  AboutPreview,
+  FinalCta,
+} from "@/components/home";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { defaultLocale, locales, toLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -65,17 +62,18 @@ export default async function LocaleHome({
         <JsonLd key={i} data={data} />
       ))}
       <Hero />
-      <Services />
+      {/* 02 Short statement */}
       <Story />
-      <Transformation />
-      <Work />
-      <Engineering />
-      <Process />
-      <Grow />
-      <Insights />
-      <Lab />
-      <About />
-      <Contact />
+      {/* 03 BUILD / DESIGN / GROW */}
+      <ServicesPreview />
+      {/* 04 Selected work */}
+      <WorkPreview />
+      {/* 05 How we work */}
+      <ProcessPreview />
+      {/* 06 About / vision */}
+      <AboutPreview />
+      {/* 07 Final CTA */}
+      <FinalCta />
     </SiteShell>
   );
 }

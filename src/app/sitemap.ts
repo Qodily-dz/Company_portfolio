@@ -31,6 +31,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
+  // Top-level pages per locale
+  const topLevel = ["work", "services", "process", "about", "contact"];
+  for (const locale of locales) {
+    for (const seg of topLevel) {
+      entries.push({
+        url: `${base}/${locale}/${seg}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.8,
+        alternates: {
+          languages: Object.fromEntries(
+            locales.map((l) => [l, `${base}/${l}/${seg}`]),
+          ),
+        },
+      });
+    }
+  }
+
   // Insights listing per locale
   for (const locale of locales) {
     entries.push({

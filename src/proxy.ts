@@ -3,24 +3,6 @@ import { locales, defaultLocale, type Locale } from "@/lib/i18n/config";
 
 const COOKIE_NAME = "NEXT_LOCALE";
 
-/**
- * Single-page anchor sections on the localized home page. These are not
- * routes, so deep links to them are folded into their home-page hash to avoid
- * pointless 404s.
- */
-const ANCHOR_SECTIONS = new Set([
-  "work",
-  "services",
-  "process",
-  "about",
-  "contact",
-  "growth",
-  "engineering",
-  "lab",
-  "story",
-  "transformation",
-]);
-
 function getLocaleFromPathname(pathname: string): Locale | null {
   const seg = pathname.split("/")[1];
   if (seg && (locales as readonly string[]).includes(seg)) {
@@ -43,18 +25,6 @@ export function proxy(request: NextRequest) {
 
   const urlLocale = getLocaleFromPathname(pathname);
   const stripped = stripLocale(pathname);
-  const seg = stripped === "/" ? "" : stripped.replace(/^\/+|\/+$/g, "");
-
-  // Anchor-section deep links -> home page hash, keeping locale context.
-  if (seg && ANCHOR_SECTIONS.has(seg)) {
-    const cookieLocale = request.cookies.get(COOKIE_NAME)?.value as Locale | undefined;
-    const locale =
-      urlLocale ??
-      (cookieLocale && (locales as readonly string[]).includes(cookieLocale)
-        ? cookieLocale
-        : defaultLocale);
-    return NextResponse.redirect(new URL(`/${locale}#${seg}`, request.url));
-  }
 
   if (urlLocale) {
     const response = NextResponse.next();

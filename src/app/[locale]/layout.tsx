@@ -74,8 +74,9 @@ export default async function LocaleLayout({
       lang={locale}
       dir={rtl ? "rtl" : "ltr"}
       className={`${geistSans.variable} ${geistMono.variable} ${notoSansArabic} scrollbar-thin antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-foreground">
+      <body className="min-h-full bg-background text-foreground" suppressHydrationWarning>
         <MotionConfig reducedMotion="user">
           <TooltipProvider>
             <I18nProvider locale={locale} dict={dict}>
