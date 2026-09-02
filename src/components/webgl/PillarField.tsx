@@ -96,14 +96,6 @@ const GROW_INT = /* glsl */ `
   return vec3(fall * 0.55, (uMouse.y - pos.y) * fall * 0.42, 0.8 * fall);
 `;
 
-/* BUILD: travelling data-packet pulse through the lattice. */
-const BUILD_PULSE = /* glsl */ `
-  float packet = fract(tm * 0.28 + dot(floor(position * 4.0 * (0.5 + aSeed)), vec3(1.0, 0.5, 0.7)) * 0.7);
-  float pulse = smoothstep(0.16, 0.0, packet) * _w0;
-  c *= 1.0 + pulse * 1.5;
-  baseAlpha *= 0.8 + 0.6 * pulse;
-`;
-
 const STATES: MorphState[] = [
   { body: BUILD, color: "#173b68", interact: BUILD_INT },
   { body: DESIGN, color: "#2b5c91", interact: DESIGN_INT },
@@ -122,7 +114,6 @@ function Morpher({ quality, reduced, target }: { quality: Quality; reduced: bool
       states={STATES}
       morph={target}
       reduced={reduced}
-      vertexFooter={BUILD_PULSE}
     />
   );
 }
