@@ -222,7 +222,7 @@ export function ServicesEnvironment({ active, onChange, dict }: ServicesEnvironm
 
             {/* Interaction hint */}
             <p className="mt-9 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-more">
-              <span aria-hidden className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
               {HINT[active]}
             </p>
           </motion.div>

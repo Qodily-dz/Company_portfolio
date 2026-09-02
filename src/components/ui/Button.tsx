@@ -23,7 +23,7 @@ const baseStyles =
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-foreground text-background hover:bg-white/90 hover:shadow-[0_0_24px_var(--color-accent-glow)] active:bg-white/80",
+    "bg-foreground text-background hover:bg-white/90 active:bg-white/80",
   secondary:
     "bg-white/[.06] text-foreground hover:bg-white/[.12] active:bg-white/[.16] border border-border",
   outline:

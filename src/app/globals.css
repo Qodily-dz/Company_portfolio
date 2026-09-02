@@ -3,7 +3,7 @@
 @theme {
   /* ---- Core palette ----
      Qodily visual identity: black / white / dark navy / deep blue.
-     Blue stays restrained (5-10%); black + near-black own the surface. */
+     Blue stays a restrained accent; black + near-black own the surface. */
   --color-background: #030405;
   --color-secondary: #070a0f;
   --color-surface: #0b1018;

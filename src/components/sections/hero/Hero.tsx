@@ -42,13 +42,14 @@ export function Hero() {
         />
       </div>
 
-      {/* Readability vignette + bottom fade */}
+      {/* Restrained readability vignette — lets the system show through while
+          keeping the headline dominant. One subtle layer, not stacked glows. */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(95%_85%_at_50%_42%,rgba(3,4,5,0.92)_0%,rgba(3,4,5,0.55)_46%,rgba(3,4,5,0)_72%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_50%_42%,rgba(3,4,5,0.78)_0%,rgba(3,4,5,0.3)_48%,rgba(3,4,5,0)_76%)]"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-background"
         aria-hidden
       />
 
@@ -74,11 +75,7 @@ export function Hero() {
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">{dict.hero.headline1}</span>
           <span className="block text-[clamp(2.5rem,9vw,7rem)]">
             {dict.hero.headline2}{" "}
-            <Magnetic strength={5} radius={120} style={{ verticalAlign: "top" }}>
-              <span className="inline-flex text-accent">
-                {dict.hero.headlineAccent}
-              </span>
-            </Magnetic>
+            <span className="inline-flex text-accent">{dict.hero.headlineAccent}</span>
           </span>
         </motion.h1>
 
