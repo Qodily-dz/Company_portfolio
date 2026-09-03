@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { Container } from "@/components/layout";
 import { Logo } from "@/components/brand/Logo";
 import { UnderlineFollow } from "@/components/interactions";
 import { getMainNav } from "@/lib/navigation";
@@ -15,30 +14,27 @@ import { MobileMenu } from "./MobileMenu";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * Header — two-state responsive navigation bar.
+ * Header — two states.
  *
- * STATE A (top, scrollY <= 40): tall + transparent, integrated with the hero.
- * Full "Qodily-dz" logo with wordmark, clean text nav links, a large outline
- * CTA, and the language dropdown.
+ * TOP (scrollY <= 48): full-height (88px) transparent bar integrated with the
+ * hero — full logo, text nav, language dropdown, START A PROJECT → CTA.
  *
- * STATE B (scrolled): a compact floating command bar — reduced height/padding,
- * icon-only logo, a small pill CTA, and a dark translucent backdrop-blurred
- * surface with a subtle border + shadow.
- *
- * The transition (height/padding, logo contraction, link tightening, CTA
- * shrink, glass surface) is one continuous 300–500ms spring-like animation.
- * The navbar never hides while scrolling.
+ * SCROLLED: a gently compacted floating glass bar. Not icon-only and never
+ * pushes content: the full logo stays, only slightly smaller, so it is never
+ * cropped. Height ~64px, translucent blur + subtle border, CTA becomes the
+ * compact "GET STARTED →" pill.
  */
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const dict = useTranslations();
   const locale = useLocale();
-  const navItems = getMainNav(dict, locale).slice(0, 5); // Work, Services, Process, About, Insights
+  const navItems = getMainNav(dict, locale).slice(0, 5);
 
   useEffect(() => {
     const onScroll = () => {
-      const past = window.scrollY > 40;
+      const past = window.scrollY > 48;
       setScrolled((prev) => (prev === past ? prev : past));
     };
     onScroll();
@@ -60,103 +56,87 @@ export function Header() {
       <motion.header
         initial={false}
         animate={{
-          height: scrolled ? 60 : 96,
-          left: scrolled ? "max(1rem, env(safe-area-inset-left))" : "0px",
-          right: scrolled ? "max(1rem, env(safe-area-inset-right))" : "0px",
-          top: scrolled ? "max(0.75rem, env(safe-area-inset-top))" : "0px",
-          borderRadius: scrolled ? 16 : 0,
+          height: scrolled ? 64 : 88,
+          /* Slight inset when scrolled, but keep it essentially full width. */
+          left: scrolled ? "max(0.75rem, env(safe-area-inset-left))" : "0px",
+          right: scrolled ? "max(0.75rem, env(safe-area-inset-right))" : "0px",
+          top: scrolled ? "max(0.5rem, env(safe-area-inset-top))" : "0px",
+          borderRadius: scrolled ? 20 : 0,
           backgroundColor: scrolled
             ? "rgba(7,10,15,0.78)"
             : "rgba(3,4,5,0)",
           boxShadow: scrolled
-            ? "0 10px 30px rgba(0,0,0,0.4)"
+            ? "0 8px 32px rgba(0,0,0,0.35)"
             : "0 0 0 rgba(0,0,0,0)",
+          borderColor: scrolled
+            ? "rgba(39,50,71,0.6)"
+            : "rgba(39,50,71,0)",
         }}
         transition={{ duration: dur, ease: EASE }}
         className={cn(
-          "fixed inset-x-0 top-0 z-[1800] transition-[backdrop-filter] duration-500",
-          scrolled
-            ? "backdrop-blur-xl border border-border-strong"
-            : "backdrop-blur-none border-b"
+          "fixed inset-x-0 top-0 z-[1800] border",
+          "transition-[backdrop-filter] duration-500",
+          scrolled ? "backdrop-blur-xl" : "backdrop-blur-none",
         )}
-        style={{
-          borderColor: scrolled
-            ? "rgba(39,50,71,0.9)"
-            : "rgba(39,50,71,0)",
-        }}
+        style={{ borderColor: "transparent" }}
       >
-        <Container
-          className={cn(
-            "flex h-full items-center justify-between gap-3",
-            scrolled
-              ? "px-3 sm:px-4 lg:px-5"
-              : "px-4 sm:px-6 md:px-8 lg:px-10"
-          )}
+        <div
+          className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between gap-4 px-5 sm:px-6 md:px-8 lg:px-12"
         >
-          {/* LEFT — logo (full -> icon) */}
+          {/* LEFT — logo stays FULL, never icon-only or cropped */}
           <Link href={`/${locale}`} className="shrink-0" aria-label="Qodily-dz">
-            <span className="relative flex items-center">
-              <AnimatePresence initial={false} mode="popLayout">
-                {scrolled ? (
-                  <motion.span
-                    key="icon"
-                    initial={{ opacity: 0, scale: 0.7, width: 0 }}
-                    animate={{ opacity: 1, scale: 1, width: "auto" }}
-                    exit={{ opacity: 0, scale: 0.7, width: 0 }}
-                    transition={{ duration: dur, ease: EASE }}
-                    className="flex overflow-hidden"
-                  >
-                    <Logo showWordmark={false} markClassName="h-6 w-auto" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="full"
-                    initial={{ opacity: 0, scale: 1.08 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.08 }}
-                    transition={{ duration: dur, ease: EASE }}
-                    className="flex"
-                  >
-                    <Logo markClassName="h-7 w-auto" />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </span>
+            <motion.span
+              animate={{ scale: scrolled ? 0.9 : 1 }}
+              transition={{ duration: dur, ease: EASE }}
+              className="flex origin-left items-center"
+            >
+              <Logo
+                showWordmark={true}
+                markClassName={scrolled ? "h-6 w-auto" : "h-7 w-auto"}
+                className={scrolled ? "gap-2" : "gap-2.5"}
+              />
+            </motion.span>
           </Link>
 
-          {/* CENTER — clean text nav */}
+          {/* CENTER — nav links */}
           <nav
-            className="hidden items-center gap-6 xl:gap-8 lg:flex"
+            className="hidden items-center lg:flex"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (
               <UnderlineFollow
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-muted transition-all duration-200 hover:text-foreground hover:-translate-y-px"
+                className={cn(
+                  "font-medium transition-colors hover:text-foreground hover:-translate-y-px",
+                  scrolled
+                    ? "px-3 py-1 text-[13px] text-foreground-soft"
+                    : "px-3.5 py-1.5 text-sm text-muted",
+                )}
               >
                 {item.label}
               </UnderlineFollow>
             ))}
           </nav>
 
-          {/* RIGHT — language dropdown + CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* RIGHT — language + CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
             <LanguageSwitcher />
 
             <motion.div
-              animate={{ scale: scrolled ? 0.92 : 1 }}
+              animate={{ scale: scrolled ? 0.94 : 1 }}
               transition={{ duration: dur, ease: EASE }}
               className="hidden sm:block"
             >
               <Link
                 href={`/${locale}/contact`}
                 data-cursor="button"
-                className={
+                className={cn(
+                  "group inline-flex items-center gap-2 rounded-full transition-all duration-300",
                   scrolled
-                    ? "group inline-flex h-9 items-center gap-2 rounded-full bg-foreground px-4 text-xs font-semibold text-background transition-colors hover:bg-white/90"
-                    : "group inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-6 text-sm font-medium text-foreground transition-all hover:border-accent hover:text-accent-soft"
-                }
+                    ? "h-9 px-5 text-xs font-semibold bg-foreground text-background hover:bg-white/90"
+                    : "h-10 px-6 text-sm font-medium border border-border-strong text-foreground hover:border-accent hover:text-accent-soft",
+                )}
               >
                 <span>{scrolled ? dict.nav.getStarted : dict.nav.startAProject}</span>
                 <span
@@ -170,7 +150,7 @@ export function Header() {
 
             <MobileMenu />
           </div>
-        </Container>
+        </div>
       </motion.header>
     </>
   );
