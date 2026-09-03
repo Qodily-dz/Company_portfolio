@@ -8,16 +8,16 @@ export const palette = {
   bg: [0.012, 0.016, 0.020] as const,
   /** #0b1018 — surface */
   surface: [0.043, 0.063, 0.094] as const,
-  /** #173b68 — accent navy */
-  navy: [0.090, 0.231, 0.408] as const,
-  /** #2b5c91 — accent blue */
-  blue: [0.169, 0.361, 0.569] as const,
-  /** #0b1d35 — dim accent */
-  dim: [0.043, 0.114, 0.208] as const,
-  /** #4a5263 — muted gray */
-  gray: [0.290, 0.322, 0.388] as const,
-  /** #7d8795 — secondary muted */
-  muted: [0.490, 0.529, 0.584] as const,
+  /** #2b6cb5 — vivid accent navy */
+  navy: [0.169, 0.424, 0.710] as const,
+  /** #4a8fd8 — vivid accent blue */
+  blue: [0.290, 0.561, 0.847] as const,
+  /** #142a4a — dim accent */
+  dim: [0.078, 0.165, 0.290] as const,
+  /** #3c4a60 — muted gray */
+  gray: [0.235, 0.290, 0.376] as const,
+  /** #8c96a6 — secondary muted */
+  muted: [0.549, 0.588, 0.651] as const,
   /** White */
   white: [1, 1, 1] as const,
 } as const;

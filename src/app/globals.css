@@ -2,36 +2,36 @@
 
 @theme {
   /* ---- Core palette ----
-     Qodily visual identity: black / white / dark navy / deep blue.
-     Blue stays a restrained accent; black + near-black own the surface. */
+     Qodily visual identity: black / white / deep navy / luminous blue.
+     Blue is a vivid accent; black + near-black own the surface. */
   --color-background: #030405;
   --color-secondary: #070a0f;
   --color-surface: #0b1018;
-  --color-surface-elevated: #101722;
+  --color-surface-elevated: #141e2e;
 
-  /* Deep navy tones — reserved for depth, panels and atmosphere. */
-  --color-deep-blue: #071426;
-  --color-dark-blue: #0b1d35;
+  /* Deep navy tones — depth, panels, atmosphere. */
+  --color-deep-blue: #0b1d35;
+  --color-dark-blue: #122a4a;
 
   --color-foreground: #ffffff;
-  --color-foreground-soft: #d5dae1;
-  --color-muted: #7d8795;
-  --color-muted-more: #5b6470;
-  --color-muted-less: #aeb6c2;
+  --color-foreground-soft: #e0e4ea;
+  --color-muted: #8c96a6;
+  --color-muted-more: #6b7686;
+  --color-muted-less: #b8c0cc;
 
-  /* Blue accent — subtle, technical, restrained. */
-  --color-accent: #173b68;
-  --color-accent-soft: #2b5c91;
-  --color-accent-dim: #0b1d35;
-  --color-accent-ghost: rgba(23, 59, 104, 0.28);
-  --color-accent-glow: rgba(43, 92, 145, 0.3);
+  /* Blue accent — vivid, technical, luminous. */
+  --color-accent: #2b6cb5;
+  --color-accent-soft: #4a8fd8;
+  --color-accent-dim: #142a4a;
+  --color-accent-ghost: rgba(43, 108, 181, 0.32);
+  --color-accent-glow: rgba(74, 143, 216, 0.45);
 
-  /* Highlight blue — used sparingly for interaction energy. */
-  --color-blue-highlight: #2b5c91;
+  /* Highlight blue — interaction energy. */
+  --color-blue-highlight: #5fa3e0;
 
-  --color-border: #1a2130;
-  --color-border-strong: #273247;
-  --color-border-accent: rgba(43, 92, 145, 0.45);
+  --color-border: #1c2638;
+  --color-border-strong: #2c3a52;
+  --color-border-accent: rgba(74, 143, 216, 0.5);
 
   --color-success: #3d9a6e;
   --color-warning: #fbbf24;
@@ -142,6 +142,16 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-pop-in {
     animation: none;
+  }
+}
+
+/* Code terminal compile-bar shimmer */
+@keyframes qody-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
   }
 }
 
