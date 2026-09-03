@@ -50,7 +50,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "Node.js", "PostgreSQL", "WebSockets"],
     outcome:
       "Concept: the design removes the shared friction of a busy service by replacing paper and phone with one ordered workflow. To be validated with a live venue before build.",
-    accent: { a: "#173b68", b: "#2b5c91" },
+    accent: { a: "#2b6cb5", b: "#5fa3e0" },
     span: "md:col-span-7",
   },
   {
@@ -73,7 +73,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "Stripe", "PostgreSQL", "TypeScript"],
     outcome:
       "Concept: the flow turns a manual, chat-based sales process into a self-serve store, freeing the team to focus on products rather than re-keying orders.",
-    accent: { a: "#2b5c91", b: "#173b68" },
+    accent: { a: "#4a8fd8", b: "#2b6cb5" },
     span: "md:col-span-5",
   },
   {
@@ -96,7 +96,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "Supabase", "Tailwind", "OpenAI API"],
     outcome:
       "Concept: focuses a sales team on follow-up consistency — a reliably recorded next step for every relationship — rather than reporting busywork.",
-    accent: { a: "#173b68", b: "#2b5c91" },
+    accent: { a: "#2b6cb5", b: "#5fa3e0" },
     span: "md:col-span-4",
   },
   {
@@ -119,7 +119,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "PostgreSQL", "Node.js"],
     outcome:
       "Concept: aims to reduce no-shows and phone time by shifting booking and reminders to self-service — to be measured with a pilot clinic.",
-    accent: { a: "#0b1d35", b: "#173b68" },
+    accent: { a: "#142a4a", b: "#2b6cb5" },
     span: "md:col-span-4",
   },
   {
@@ -142,7 +142,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "PostgreSQL", "React"],
     outcome:
       "Concept: replaces duplicated paper records with one structured source of truth for a school — to be piloted with staff feedback.",
-    accent: { a: "#0b1d35", b: "#2b5c91" },
+    accent: { a: "#142a4a", b: "#4a8fd8" },
     span: "md:col-span-4",
   },
   {
@@ -165,7 +165,7 @@ export const PROJECTS: Project[] = [
     technology: ["Next.js", "D3", "TypeScript"],
     outcome:
       "Concept: reframes reporting from more data to usable clarity — the usefulness to be confirmed with the team in early sessions.",
-    accent: { a: "#2b5c91", b: "#173b68" },
+    accent: { a: "#4a8fd8", b: "#2b6cb5" },
     span: "md:col-span-7",
   },
 ];

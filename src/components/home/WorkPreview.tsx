@@ -65,7 +65,9 @@ export function WorkPreview() {
                 transition={{ duration: 0.6, ease: EASE, delay: i * 0.08 }}
                 className={`group relative overflow-hidden rounded-xl border border-border bg-surface/60 ${LAYOUTS[i]}`}
               >
-                <Tilt max={3} className="absolute inset-0">
+                {/* This must remain in normal flow: making the Tilt wrapper absolute
+                    collapsed every project tile to zero height, leaving the section blank. */}
+                <Tilt max={3} className="relative block">
                   <div className={`relative w-full ${HEIGHTS[i]}`}>
                     <Preview accent={p.accent} seed={i + 1} tall={i === 1} />
                     <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-background via-background/70 to-transparent" />
