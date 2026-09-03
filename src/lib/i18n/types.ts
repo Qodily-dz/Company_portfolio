@@ -85,12 +85,15 @@ export type Dictionary = {
     label: string;
     heading1: string;
     heading2: string;
-    scrollHint: string;
+    subtitle: string;
     stages: {
       id: string;
       num: string;
       title: string;
       desc: string;
+      whatWeDo: string[];
+      deliverables: string[];
+      technologies: string[];
     }[];
   };
   growth: {

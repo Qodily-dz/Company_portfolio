@@ -1,25 +1,22 @@
 "use client";
 
-import { useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { useCallback, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Container } from "@/components/layout";
 import { useTranslations } from "@/lib/i18n";
 
 /* ---------------------------------------------------------------------------
- * HOW WE BUILD — an interactive project process.
+ * Process — HOW WE TURN IDEAS INTO IMPACT.
  *
- * One sticky scroll experience: as you scroll, a single evolving "system"
- * visual moves through six stages (discover → grow). The active stage is
- * highlighted on a linked timeline rail; clicking a stage scrolls straight to
- * it. The timeline + shared scroll progress both drive the central visual, so
- * the active step always controls what you see. Clear, transparent, no
- * six-generic-cards.
+ * Click-driven two-column layout:
+ *   LEFT  — sticky step navigation (01–06) with vertical progress
+ *   RIGHT — active panel with step info, WHAT WE DO, DELIVERABLES,
+ *           TECHNOLOGIES, and a single evolving SVG visual.
+ *
+ * NOT scroll-driven (no 600vh). The whole section fits in ~100vh.
+ * Clicking a step changes the panel content immediately.
+ * One visual system evolves through all six stages.
+ * Mobile: stacked horizontal progress + panel.
  * ------------------------------------------------------------------------- */
 
 type Stage = {
@@ -27,379 +24,250 @@ type Stage = {
   num: string;
   title: string;
   desc: string;
+  whatWeDo: string[];
+  deliverables: string[];
+  technologies: string[];
 };
 
-/* The scroll-driven visuals are designed for exactly 6 stages. */
 const N = 6;
 
-
-
-/* Deterministic (pure) bit-exact integer PRNG in [0,1) — 100% identical on SSR & client. */
-function rand(i: number, salt: number): number {
-  let h = Math.imul(i ^ (salt * 0x9e3779b9), 0x85ebca6b);
-  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
-  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
-}
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ---------------------------------------------------------------------------
- * Layer wrapper — crossfades a stage's central visual across its scroll band.
+ * Evolving SVG visual — one system that transforms per stage.
  * ------------------------------------------------------------------------- */
 
-function StageLayer({
-  progress,
-  index,
-  children,
-}: {
-  progress: MotionValue<number>;
-  index: number;
-  children: React.ReactNode;
-}) {
-  const a0 = index / N;
-  const a1 = index / N + 0.42 / N;
-  const a2 = (index + 1) / N - 0.42 / N;
-  const a3 = (index + 1) / N;
-  const opacity = useTransform(progress, [a0, a1, a2, a3], [0, 1, 1, 0]);
-  const y = useTransform(progress, [a0, a1, a2, a3], [14, 0, 0, -10]);
-  const scale = useTransform(progress, [a0, a1, a2, a3], [0.94, 1, 1, 0.96]);
-  return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center"
-      style={{ opacity, y, scale }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+function ProcessVisual({ active }: { active: number }) {
+  const stageProgress = active / (N - 1);
 
-/* --- 01 DISCOVER — scattered exploration: query nodes + concentric pulses --- */
-function DiscoverNode({
-  progress,
-  x,
-  y,
-  r,
-  index,
-}: {
-  progress: MotionValue<number>;
-  x: number;
-  y: number;
-  r: number;
-  index: number;
-}) {
-  const opacity = useTransform(progress, [(index * 0.5) / N, (index * 0.5 + 0.8) / N], [0, 1]);
-  return (
-    <motion.circle
-      cx={x}
-      cy={y}
-      r={r}
-      fill={index % 3 === 0 ? "#2b5c91" : "#173b68"}
-      style={{ opacity }}
-    />
-  );
-}
+  /* Node positions shift from scattered (discover) → organized (grow) */
+  const nodePositions = useMemo(() => {
+    const scattered = [
+      [60, 50], [340, 40], [40, 180], [370, 200],
+      [100, 320], [310, 330], [200, 170],
+    ];
+    const organized = [
+      [80, 60], [400, 60], [80, 190], [400, 190],
+      [80, 320], [400, 320], [240, 190],
+    ];
+    return scattered.map((s, i) => {
+      const t = stageProgress;
+      return [
+        s[0] + (organized[i][0] - s[0]) * t,
+        s[1] + (organized[i][1] - s[1]) * t,
+      ];
+    });
+  }, [stageProgress]);
 
-function DiscoverVisual({ progress }: { progress: MotionValue<number> }) {
-  const pulse = useTransform(progress, [0, 1 / N, 2 / N], [0, 1, 0]);
-  const coreOpacity = useTransform(progress, [0, 0.02 / N], [0, 1]);
-  const nodes = Array.from({ length: 9 }, (_, i) => ({
-    x: +(30 + rand(i, 7) * 340).toFixed(2),
-    y: +(40 + rand(i, 9) * 320).toFixed(2),
-    r: +(4 + rand(i, 11) * 3).toFixed(2),
-  }));
+  /* Connections strengthen as we progress */
+  const edgeOpacity = 0.15 + stageProgress * 0.6;
+  const nodeSize = 4 + stageProgress * 3;
+
+  /* Stage-specific visual elements */
+  const showWireframe = active >= 2;
+  const showArchitecture = active >= 3;
+  const showComplete = active >= 4;
+  const showGrowth = active >= 5;
+
   return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      <g style={{ transformOrigin: "200px 200px" }}>
-        <motion.circle
-          cx="200"
-          cy="200"
-          fill="none"
-          stroke="#173b68"
-          strokeWidth="1"
-          style={{ scale: pulse, opacity: pulse }}
-          r="30"
-        />
-        <motion.circle
-          cx="200"
-          cy="200"
-          fill="none"
-          stroke="#2b5c91"
-          strokeWidth="1"
-          style={{ scale: pulse, opacity: pulse }}
-          r="70"
-        />
-        <motion.circle
-          cx="200"
-          cy="200"
-          fill="none"
-          stroke="#173b68"
-          strokeWidth="1"
-          style={{ scale: pulse, opacity: pulse }}
-          r="110"
-        />
-      </g>
-      <motion.circle cx="200" cy="200" r="6" fill="#2b5c91" style={{ opacity: coreOpacity }} />
-      {nodes.map((n, i) => (
-        <DiscoverNode key={i} progress={progress} x={n.x} y={n.y} r={n.r} index={i} />
-      ))}
-      {/* query glyphs */}
-      {[0, 3, 6].map((i) => (
-        <text
-          key={i}
-          x={nodes[i].x - 9}
-          y={nodes[i].y + 5}
-          fontSize="11"
-          fill="#7d8795"
-          fontFamily="monospace"
+    <svg viewBox="0 0 480 380" className="w-full h-auto" aria-hidden>
+      {/* Grid — appears in Design stage */}
+      {showWireframe && (
+        <motion.g
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.06 }}
+          transition={{ duration: 0.6 }}
         >
-          ?
-        </text>
-      ))}
-    </svg>
-  );
-}
+          {Array.from({ length: 10 }, (_, i) => (
+            <line key={`gv-${i}`} x1={48 * i} y1="0" x2={48 * i} y2="380" stroke="#2b5c91" strokeWidth="0.5" />
+          ))}
+          {Array.from({ length: 8 }, (_, i) => (
+            <line key={`gh-${i}`} x1="0" y1={47.5 * i} x2="480" y2={47.5 * i} stroke="#2b5c91" strokeWidth="0.5" />
+          ))}
+        </motion.g>
+      )}
 
-/* --- 02 STRATEGIZE — scattered dots snap into a directed plan --- */
-function PlanDot({
-  progress,
-  a0,
-  a1,
-  sx,
-  sy,
-  tx,
-  ty,
-  fill,
-}: {
-  progress: MotionValue<number>;
-  a0: number;
-  a1: number;
-  sx: number;
-  sy: number;
-  tx: number;
-  ty: number;
-  fill: string;
-}) {
-  const cx = useTransform(progress, [a0, a1], [sx, tx]);
-  const cy = useTransform(progress, [a0, a1], [sy, ty]);
-  return <motion.circle cx={cx} cy={cy} r="5" fill={fill} />;
-}
-
-function StrategizeVisual({ progress }: { progress: MotionValue<number> }) {
-  const plan: Array<{ sx: number; sy: number; tx: number; ty: number }> = [
-    { sx: 60, sy: 320, tx: 130, ty: 270 },
-    { sx: 330, sy: 80, tx: 270, ty: 150 },
-    { sx: 40, sy: 60, tx: 130, ty: 140 },
-    { sx: 350, sy: 330, tx: 270, ty: 270 },
-    { sx: 190, sy: 340, tx: 200, ty: 200 },
-  ];
-  const a0 = 1 / N + 0.1 / N;
-  const a1 = 2 / N - 0.2 / N;
-  const path = useTransform(progress, [a0, a1], [0, 1]);
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      {/* structured plan paths */}
-      <motion.path
-        d={`M ${plan[0].tx} ${plan[0].ty} L ${plan[2].tx} ${plan[2].ty} L ${plan[4].tx} ${plan[4].ty} L ${plan[1].tx} ${plan[1].ty} L ${plan[3].tx} ${plan[3].ty}`}
-        fill="none"
-        stroke="#173b68"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        style={{ pathLength: path, opacity: path }}
-      />
-      {plan.map((p, i) => (
-        <PlanDot
-          key={i}
-          progress={progress}
-          a0={a0}
-          a1={a1}
-          sx={p.sx}
-          sy={p.sy}
-          tx={p.tx}
-          ty={p.ty}
-          fill={i % 2 === 0 ? "#2b5c91" : "#173b68"}
-        />
-      ))}
-    </svg>
-  );
-}
-
-/* --- 03 DESIGN — a clean interface wireframe assembles --- */
-function DesignVisual({ progress }: { progress: MotionValue<number> }) {
-  const fill = useTransform(progress, [2 / N + 0.08 / N, (2 + 0.8) / N], [0, 1]);
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      <motion.g style={{ opacity: fill }}>
-        {/* browser frame */}
-        <rect x="110" y="70" width="180" height="260" rx="10" fill="#070a0f" stroke="#273247" strokeWidth="1" />
-        <circle cx="125" cy="86" r="4" fill="#173b68" />
-        <circle cx="138" cy="86" r="4" fill="#2b5c91" />
-        <circle cx="151" cy="86" r="4" fill="#173b68" />
-        <rect x="110" y="104" width="180" height="8" rx="4" fill="#2b5c91" opacity="0.8" />
-        <rect x="122" y="132" width="60" height="60" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
-        <rect x="192" y="132" width="86" height="28" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
-        <rect x="192" y="168" width="60" height="24" rx="6" fill="#101722" stroke="#273247" strokeWidth="1" />
-        <rect x="122" y="210" width="156" height="8" rx="4" fill="#273247" />
-        <rect x="122" y="226" width="120" height="8" rx="4" fill="#273247" />
-        <rect x="122" y="242" width="140" height="8" rx="4" fill="#273247" />
-        <rect x="122" y="288" width="156" height="26" rx="8" fill="#2b5c91" opacity="0.9" />
-      </motion.g>
-    </svg>
-  );
-}
-
-/* --- 04 BUILD — stacked layers carry packets between them --- */
-function BuildVisual({ progress }: { progress: MotionValue<number> }) {
-  const fill = useTransform(progress, [3 / N + 0.06 / N, (3 + 0.8) / N], [0, 1]);
-  const p1 = useTransform(progress, [3.2 / N, (3.2 + 0.5) / N], [0, 1]);
-  const p2 = useTransform(progress, [3.5 / N, (3.5 + 0.5) / N], [0, 1]);
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      <motion.g style={{ opacity: fill }}>
-        {[70, 150, 230].map((y, i) => (
-          <g key={i}>
-            <rect x="130" y={y} width="140" height="58" rx="8" fill="#070a0f" stroke="#173b68" strokeWidth="1" opacity="0.8" />
-            <rect x="144" y={y + 12} width="60" height="6" rx="3" fill="#273247" />
-            <rect x="144" y={y + 26} width="90" height="6" rx="3" fill="#273247" />
-          </g>
-        ))}
-        {/* connecting packets */}
-        <g>
-          <motion.line x1="200" y1="130" x2="200" y2="150" stroke="#2b5c91" strokeWidth="2" style={{ opacity: p1 }} />
-          <motion.line x1="200" y1="210" x2="200" y2="230" stroke="#2b5c91" strokeWidth="2" style={{ opacity: p1 }} />
-        </g>
-      </motion.g>
-      {/* moving packet dots */}
-      <motion.circle
-        cx="200"
-        cy={useTransform(progress, [3.15 / N, 3.65 / N], [130, 230])}
-        r="4"
-        fill="#2b5c91"
-        style={{ opacity: p2 }}
-      />
-    </svg>
-  );
-}
-
-/* --- 05 LAUNCH — a beam rises through, then a live check --- */
-function LaunchVisual({ progress }: { progress: MotionValue<number> }) {
-  const rise = useTransform(progress, [4 / N + 0.1 / N, (4 + 0.7) / N], [330, 70]);
-  const beam = useTransform(progress, [4 / N, (4 + 0.4) / N], [0, 1]);
-  const live = useTransform(progress, [(4 + 0.55) / N, (4 + 0.8) / N], [0, 1]);
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      <motion.line x1="200" y1="360" x2="200" y2="40" stroke="#173b68" strokeWidth="1" style={{ opacity: beam }} />
-      <motion.g style={{ opacity: live }}>
-        <circle cx="200" cy="160" r="26" fill="none" stroke="#2b5c91" strokeWidth="2" />
-        <path
-          d="M 188 160 l 9 9 l 16 -18"
-          fill="none"
+      {/* Edges */}
+      {[
+        [6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5],
+        [0, 1], [2, 3], [4, 5],
+      ].map(([a, b], i) => (
+        <motion.line
+          key={`e-${i}`}
+          x1={nodePositions[a][0]}
+          y1={nodePositions[a][1]}
+          x2={nodePositions[b][0]}
+          y2={nodePositions[b][1]}
           stroke="#2b5c91"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </motion.g>
-      <motion.circle cx="200" cy={rise} r="6" fill="#2b5c91" style={{ opacity: useTransform(progress, [4 / N, (4 + 0.7) / N], [0, 1]) }} />
-    </svg>
-  );
-}
-
-/* --- 06 GROW — a curve climbs with rising bars --- */
-function GrowBar({
-  progress,
-  x,
-  h,
-  fill,
-}: {
-  progress: MotionValue<number>;
-  x: number;
-  h: number;
-  fill: string;
-}) {
-  const draw = useTransform(progress, [5 / N, (5 + 0.7) / N], [0, 1]);
-  const y = useTransform(progress, [5 / N, (5 + 0.7) / N], [320 - h, 320]);
-  return <motion.rect x={x} y={y} width="20" height={h} rx="4" fill={fill} style={{ opacity: draw }} />;
-}
-
-function GrowVisual({ progress }: { progress: MotionValue<number> }) {
-  const draw = useTransform(progress, [5 / N + 0.08 / N, (5 + 0.7) / N], [0, 1]);
-  const markerOpacity = useTransform(progress, [(5 + 0.6) / N, (5 + 0.8) / N], [0, 1]);
-  const bars = [150, 210, 240, 285, 320];
-  return (
-    <svg width="100%" height="100%" viewBox="0 0 400 400" className="max-h-[340px]">
-      {bars.map((h, i) => (
-        <GrowBar
-          key={i}
-          progress={progress}
-          x={110 + i * 38}
-          h={h}
-          fill={i % 2 === 0 ? "#173b68" : "#2b5c91"}
+          strokeWidth={active >= 3 ? 1.2 : 0.6}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: edgeOpacity }}
+          transition={{ duration: 0.5, delay: i * 0.04 }}
         />
       ))}
-      <motion.path
-        d="M 100 300 C 150 290 175 240 220 220 C 260 205 300 250 330 180"
-        fill="none"
-        stroke="#2b5c91"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        style={{ pathLength: draw, opacity: draw }}
-      />
-      <motion.circle cx="330" cy="180" r="5" fill="#173b68" style={{ opacity: markerOpacity }} />
-    </svg>
-  );
-}
 
-/* ---------------------------------------------------------------------------
- * Timeline rail — linked stages; active highlighted, click to navigate.
- * ------------------------------------------------------------------------- */
+      {/* Architecture boxes — appear in Build stage */}
+      {showArchitecture && (
+        <motion.g
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          transition={{ duration: 0.5 }}
+        >
+          <rect x="170" y="120" width="140" height="140" rx="8" fill="none" stroke="#173b68" strokeWidth="0.8" />
+          <rect x="190" y="140" width="50" height="30" rx="4" fill="#0b1d35" stroke="#1a2540" strokeWidth="0.5" />
+          <rect x="244" y="140" width="50" height="30" rx="4" fill="#0b1d35" stroke="#1a2540" strokeWidth="0.5" />
+          <rect x="190" y="178" width="104" height="20" rx="4" fill="#0b1d35" stroke="#1a2540" strokeWidth="0.5" />
+        </motion.g>
+      )}
 
-function Rail({
-  stages,
-  active,
-  onSelect,
-}: {
-  stages: Stage[];
-  active: number;
-  onSelect: (i: number) => void;
-}) {
-  return (
-    <ol className="relative flex flex-col gap-1">
-      <span aria-hidden className="absolute bottom-3 left-[13px] top-3 w-px bg-border-strong" />
-      {stages.map((s, i) => {
-        const isActive = i === active;
-        const isDone = i < active;
+      {/* Nodes */}
+      {nodePositions.map((pos, i) => {
+        const isCenter = i === 6;
         return (
-          <li key={s.id} className="relative">
-            <button
-              type="button"
-              onClick={() => onSelect(i)}
-              aria-current={isActive ? "step" : undefined}
-              className="group flex w-full items-center gap-4 rounded-lg px-1 py-2 text-left"
-            >
-              <span
-                aria-hidden
-                className={`relative z-10 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border text-[11px] font-medium transition-colors ${
-                  isActive
-                    ? "border-accent bg-accent text-background"
-                    : isDone
-                      ? "border-accent/50 text-accent"
-                      : "border-border-strong bg-surface text-muted"
-                }`}
-              >
-                {s.num}
-              </span>
-              <span className="flex flex-col">
-                <span
-                  className={`text-sm font-medium uppercase tracking-[0.14em] transition-colors ${
-                    isActive ? "text-foreground" : "text-muted"
-                  }`}
-                >
-                  {s.title}
-                </span>
-              </span>
-            </button>
-          </li>
+          <motion.g key={i}>
+            <motion.circle
+              cx={pos[0]}
+              cy={pos[1]}
+              r={isCenter ? nodeSize + 4 : nodeSize}
+              fill={isCenter ? "#0b1d35" : "#070a0f"}
+              stroke={isCenter ? "#2b5c91" : "#1a2540"}
+              strokeWidth={isCenter ? 1.5 : 1}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              style={{ transformOrigin: `${pos[0]}px ${pos[1]}px` }}
+            />
+            <motion.circle
+              cx={pos[0]}
+              cy={pos[1]}
+              r={isCenter ? 3 : 1.5}
+              fill="#2b5c91"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.2 + i * 0.06 }}
+            />
+          </motion.g>
         );
       })}
-    </ol>
+
+      {/* Growth rings — appear in Grow stage */}
+      {showGrowth && (
+        <motion.g
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.25 }}
+          transition={{ duration: 0.6 }}
+        >
+          <circle cx="240" cy="190" r="140" fill="none" stroke="#173b68" strokeWidth="0.5" strokeDasharray="4 4" />
+          <circle cx="240" cy="190" r="170" fill="none" stroke="#173b68" strokeWidth="0.3" strokeDasharray="6 6" />
+        </motion.g>
+      )}
+
+      {/* Launch check — appears in Launch stage */}
+      {showComplete && (
+        <motion.g
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.6, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          style={{ transformOrigin: "240px 190px" }}
+        >
+          <circle cx="240" cy="190" r="18" fill="none" stroke="#2b5c91" strokeWidth="1.5" />
+          <path
+            d="M231 190 l6 6 l12 -14"
+            fill="none"
+            stroke="#2b5c91"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </motion.g>
+      )}
+    </svg>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+ * Active panel — step details with WHAT WE DO / DELIVERABLES / TECH.
+ * ------------------------------------------------------------------------- */
+
+function ActivePanel({ stage }: { stage: Stage }) {
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={stage.id}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="flex flex-col"
+      >
+        {/* Step indicator */}
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-sm tracking-[0.15em] text-accent">
+            {stage.num} / 06
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="mt-3 text-3xl font-medium uppercase tracking-[-0.01em] text-foreground md:text-4xl">
+          {stage.title}
+        </h3>
+
+        {/* Description */}
+        <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-muted">
+          {stage.desc}
+        </p>
+
+        {/* WHAT WE DO + DELIVERABLES side by side */}
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+              What we do
+            </h4>
+            <ul className="mt-3 flex flex-col gap-1.5">
+              {stage.whatWeDo.map((item) => (
+                <li key={item} className="flex items-start gap-2 text-sm text-foreground-soft">
+                  <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent/60" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+              Deliverables
+            </h4>
+            <ul className="mt-3 flex flex-col gap-1.5">
+              {stage.deliverables.map((item) => (
+                <li key={item} className="flex items-start gap-2 text-sm text-foreground-soft">
+                  <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-more/60" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* TECHNOLOGIES (if any) */}
+        {stage.technologies.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+              Technologies
+            </h4>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {stage.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-md border border-border bg-white/[0.02] px-2.5 py-1 text-xs text-muted"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -408,134 +276,115 @@ function Rail({
  * ------------------------------------------------------------------------- */
 
 export function Process() {
-  const ref = useRef<HTMLElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
   const dict = useTranslations();
   const STAGES: Stage[] = dict.process.stages;
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
 
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const next = Math.max(0, Math.min(N - 1, Math.floor(v * N)));
-    setActive((prev) => (prev === next ? prev : next));
-  });
-
-  const goTo = (i: number) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const docTop = rect.top + window.scrollY;
-    const scrollable = Math.max(el.offsetHeight - window.innerHeight, 0);
-    window.scrollTo({ top: docTop + scrollable * ((i + 0.5) / N), behavior: "smooth" });
-  };
+  const goTo = useCallback((i: number) => {
+    setActive(i);
+  }, []);
 
   return (
     <section
-      ref={ref}
       id="process"
-      style={{ height: `${N * 100}vh` }}
-      className="relative"
-      aria-label="How we build — project process"
+      className="relative overflow-hidden bg-background"
+      aria-label="How we turn ideas into impact"
     >
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden bg-[#030405]">
-        {/* atmosphere */}
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_60%_40%,#0b1018_0%,#030405_70%)]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_70%_50%,rgba(43,92,145,0.08)_0%,transparent_70%)]"
-          aria-hidden
-        />
+      {/* Subtle atmosphere */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_70%_40%,rgba(11,29,53,0.3)_0%,transparent_70%)]"
+        aria-hidden
+      />
 
-        <div ref={containerRef} className="grid h-full items-center md:grid-cols-[15rem_1fr]">
-          {/* Left: headline + rail */}
-          <div className="flex h-full flex-col justify-center gap-6 px-6 py-6 md:justify-between md:px-10 md:py-14">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-                <span className="text-xs font-medium uppercase tracking-[0.18em] text-muted">
-                  {dict.process.label}
-                </span>
-              </div>
-              <h2 className="mt-4 text-3xl font-medium uppercase leading-[0.95] tracking-[-0.02em] text-foreground md:text-4xl">
-                {dict.process.heading1}
-                <br />
-                <span className="text-accent">{dict.process.heading2}</span>
-              </h2>
-            </div>
-
-            <div className="mt-6 hidden md:block">
-              <Rail stages={STAGES} active={active} onSelect={goTo} />
-            </div>
+      <Container className="relative z-10 py-20 md:py-28" size="xl">
+        {/* Section header */}
+        <div className="mb-12 md:mb-16">
+          <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+            <span>{dict.process.label}</span>
           </div>
-
-          {/* Right: the central evolving visual + active description */}
-          <div className="relative flex h-full flex-col justify-center gap-4 px-6 py-4 md:gap-6 md:px-10 md:py-14">
-            {/* central visual — crossfading stage scenes */}
-            <div className="relative mx-auto h-[200px] w-full max-w-[280px] sm:h-[240px] sm:max-w-[340px] md:h-[340px] md:max-w-[440px]">
-              <StageLayer progress={scrollYProgress} index={0}>
-                <DiscoverVisual progress={scrollYProgress} />
-              </StageLayer>
-              <StageLayer progress={scrollYProgress} index={1}>
-                <StrategizeVisual progress={scrollYProgress} />
-              </StageLayer>
-              <StageLayer progress={scrollYProgress} index={2}>
-                <DesignVisual progress={scrollYProgress} />
-              </StageLayer>
-              <StageLayer progress={scrollYProgress} index={3}>
-                <BuildVisual progress={scrollYProgress} />
-              </StageLayer>
-              <StageLayer progress={scrollYProgress} index={4}>
-                <LaunchVisual progress={scrollYProgress} />
-              </StageLayer>
-              <StageLayer progress={scrollYProgress} index={5}>
-                <GrowVisual progress={scrollYProgress} />
-              </StageLayer>
-            </div>
-
-            {/* active stage description */}
-            <div className="relative mx-auto w-full max-w-[440px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.28 }}
-                >
-                  <div className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                    {STAGES[active].num} / {N}
-                  </div>
-                  <div className="text-lg font-medium uppercase tracking-[0.08em] text-foreground">
-                    {STAGES[active].title}
-                  </div>
-                  <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">
-                    {STAGES[active].desc}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+          <h2 className="mt-4 text-[clamp(2rem,4.5vw,3.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.02em] text-foreground">
+            {dict.process.heading1}{" "}
+            <span className="text-accent">{dict.process.heading2}</span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+            {dict.process.subtitle}
+          </p>
         </div>
 
-        {/* bottom scroll hint + progress */}
-        <div className="absolute bottom-6 left-6 flex items-center gap-3 md:left-10">
-          <div className="h-px w-24 bg-border-strong">
-            <motion.div
-              className="h-px w-full origin-left bg-accent"
-              style={{ scaleX: scrollYProgress }}
-            />
+        {/* Two-column layout */}
+        <div className="grid gap-8 md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr]">
+          {/* LEFT — Sticky step navigation */}
+          <div className="md:sticky md:top-28 md:self-start">
+            <nav aria-label="Process steps">
+              <ol className="relative flex flex-col gap-0.5">
+                {/* Vertical progress line */}
+                <span
+                  aria-hidden
+                  className="absolute bottom-3 left-[11px] top-3 w-px bg-border-strong"
+                />
+                <motion.span
+                  aria-hidden
+                  className="absolute left-[11px] top-3 w-px bg-accent origin-top"
+                  animate={{
+                    height: `${(active / (N - 1)) * 100}%`,
+                  }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                  style={{ maxHeight: "calc(100% - 12px)" }}
+                />
+
+                {STAGES.map((s, i) => {
+                  const isActive = i === active;
+                  const isDone = i < active;
+                  return (
+                    <li key={s.id}>
+                      <button
+                        type="button"
+                        onClick={() => goTo(i)}
+                        aria-current={isActive ? "step" : undefined}
+                        className="group flex w-full items-center gap-3 rounded-lg px-1 py-2 text-left transition-colors"
+                      >
+                        <span
+                          aria-hidden
+                          className={`relative z-10 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border text-[10px] font-medium transition-colors ${
+                            isActive
+                              ? "border-accent bg-accent text-background"
+                              : isDone
+                                ? "border-accent/50 text-accent"
+                                : "border-border-strong bg-surface text-muted"
+                          }`}
+                        >
+                          {s.num}
+                        </span>
+                        <span
+                          className={`text-sm font-medium tracking-[0.06em] transition-colors ${
+                            isActive
+                              ? "text-foreground"
+                              : "text-muted group-hover:text-foreground-soft"
+                          }`}
+                        >
+                          {s.title}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            </nav>
           </div>
-          <span className="text-xs uppercase tracking-[0.18em] text-muted-more">{dict.common.scroll}</span>
+
+          {/* RIGHT — Active panel + visual */}
+          <div className="flex flex-col gap-8">
+            {/* Evolving visual */}
+            <div className="w-full max-w-[480px]">
+              <ProcessVisual active={active} />
+            </div>
+
+            {/* Active panel */}
+            <ActivePanel stage={STAGES[active]} />
+          </div>
         </div>
-        <div className="absolute bottom-6 right-6 font-mono text-xs uppercase tracking-[0.2em] text-muted-more md:right-10">
-          {STAGES[active].num} / 06
-        </div>
-      </div>
+      </Container>
     </section>
   );
 }
