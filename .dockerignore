@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env*
+!.env.example
+out
+build
+docker-compose*.yml
+Dockerfile
+.dockerignore
+README.md
+AGENTS.md
+CLAUDE.md
+.qa-audit-report.json
