@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { siteConfig } from "@/config/site";
 import {
   BUDGET_OPTIONS,
   BUILD_OPTIONS,
@@ -89,8 +91,57 @@ export async function POST(request: Request) {
     );
   }
 
-  // The request is valid. Delivery (email/CRM) is intentionally pluggable:
-  // no credentials live in this repository, so this endpoint validates the
-  // request end-to-end and returns success — wire delivery via env vars.
+  const apiKey = process.env.RESEND_API_KEY;
+  const toEmail = process.env.CONTACT_TO_EMAIL ?? siteConfig.email;
+
+  if (!apiKey) {
+    return NextResponse.json(
+      { ok: false, error: "server_misconfigured" },
+      { status: 500 }
+    );
+  }
+
+  const needs = (body.needs as string[]).join(", ");
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from: `Qodily Contact <onboarding@resend.dev>`,
+      to: [toEmail],
+      replyTo: contact?.email as string,
+      subject: `New project request — ${contact?.name as string}`,
+      text: [
+        `New project inquiry via qodily.dz`,
+        ``,
+        `What are you building: ${body.build as string}`,
+        `Objective: ${body.objective as string}`,
+        `Needs: ${needs}`,
+        `Budget: ${body.budget as string}`,
+        `Timeline: ${body.timeline as string}`,
+        ``,
+        `Name: ${contact?.name as string}`,
+        `Email: ${contact?.email as string}`,
+        contact?.company ? `Company: ${contact.company as string}` : null,
+        contact?.phone ? `Phone: ${contact.phone as string}` : null,
+        contact?.country ? `Country: ${contact.country as string}` : null,
+        contact?.message ? `Message: ${contact.message as string}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    });
+
+    if (error) {
+      return NextResponse.json(
+        { ok: false, error: "delivery_failed" },
+        { status: 500 }
+      );
+    }
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: "delivery_failed" },
+      { status: 500 }
+    );
+  }
+
   return NextResponse.json({ ok: true });
 }

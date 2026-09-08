@@ -307,7 +307,6 @@ export function ContactRequests() {
               {step === TOTAL_STEPS - 1 && (
                 <Button
                   type="submit"
-                  onClick={() => void handleNext()}
                   disabled={isSubmitting}
                   size="lg"
                 >
