@@ -87,7 +87,7 @@ export function WorkPreview() {
                   </div>
                 </Tilt>
                 <Link
-                  href={`/${locale}/work`}
+                  href={`/${locale}/work/${p.id}`}
                   className="absolute inset-0 z-10"
                   aria-label={title}
                 />

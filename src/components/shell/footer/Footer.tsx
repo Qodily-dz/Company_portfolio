@@ -21,7 +21,7 @@ export function Footer() {
         {/* Top: brand + tagline */}
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <Link href="/" className="inline-flex">
+            <Link href={`/${locale}`} className="inline-flex">
               <Logo />
             </Link>
             <p className="mt-4 text-sm font-medium uppercase tracking-[0.12em] text-muted">
@@ -99,7 +99,7 @@ export function Footer() {
           </p>
           <p className="text-xs uppercase tracking-[0.14em] text-muted-more">
             <ScrambleText
-              text={siteConfig.positioning}
+              text={`${Object.values(dict.pillars).join(". ")}.`}
               className="inline"
             />
           </p>

@@ -8,8 +8,6 @@ import { useTranslations } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const COMBINE = ["engineering", "design", "growth"];
-
 export function About() {
   const dict = useTranslations();
   const [open, setOpen] = useState<string | null>("precision");
@@ -55,14 +53,14 @@ export function About() {
               {dict.about.disciplinesIntro}
             </p>
             <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-xl font-medium uppercase tracking-[0.04em] text-foreground">
-              {COMBINE.map((c, i) => (
-                <span key={c} className="inline-flex items-baseline gap-3">
+              {Object.values(dict.pillars).map((pillar, i) => (
+                <span key={pillar} className="inline-flex items-baseline gap-3">
                   {i > 0 && (
                     <span aria-hidden className="text-accent">
                       +
                     </span>
                   )}
-                  <span>{c}</span>
+                  <span>{pillar}</span>
                 </span>
               ))}
             </div>

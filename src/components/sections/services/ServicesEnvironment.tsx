@@ -2,71 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { PILLARS, type PillarId } from "@/lib/services";
-import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-/** Per-pillar "environment" identity shown above the switcher. */
-const ENV: Record<PillarId, { code: string; meta: string }> = {
-  build: { code: "01 · SYSTEM ARCHITECTURE", meta: "nodes · connections · grids · APIs" },
-  design: { code: "02 · DIGITAL COMPOSITION", meta: "grid · type · panels · layout" },
-  grow: { code: "03 · DATA FLOW", meta: "attention · engagement · leads · growth" },
-};
-
-const HINT: Record<PillarId, string> = {
-  build: "Hover the network — drag a node.",
-  design: "Move your cursor — the composition rearranges.",
-  grow: "Move your cursor — the flow bends toward it.",
-};
-
-function matchPillar(tPillars: Dictionary["servicesData"]["pillars"], label: string) {
-  return tPillars.find(
-    (tp: { label: string }) => tp.label.toLowerCase() === label.toLowerCase()
-  );
-}
-
-/** An individual service rendered in its environment's idiom. */
-function ServiceChip({ text, tone = "node" }: { text: string; tone?: "node" | "block" | "stream" }) {
-  if (tone === "block") {
-    // DESIGN — composition block, varied in size by length.
-    const size =
-      text.length > 14 ? "md:col-span-2" : text.length > 8 ? "md:col-span-1" : "md:col-span-1";
-    return (
-      <motion.div
-        whileHover={{ y: -3 }}
-        className={cn(
-          "rounded-lg border border-border bg-surface/50 px-4 py-4 text-sm font-medium text-foreground-soft transition-colors hover:border-accent hover:text-foreground",
-          size
-        )}
-      >
-        {text}
-      </motion.div>
-    );
-  }
-  if (tone === "stream") {
-    // GROW — a flowing node with a leading pulse dot.
-    return (
-      <motion.span
-        whileHover={{ x: 4 }}
-        className="inline-flex items-center gap-2.5 rounded-full border border-border bg-white/[0.02] px-4 py-2 text-sm text-foreground-soft transition-colors hover:border-accent hover:text-foreground"
-      >
-        <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-        {text}
-      </motion.span>
-    );
-  }
-  // BUILD — architecture node (compact card with a pin).
-  return (
-    <motion.div
-      whileHover={{ y: -2 }}
-      className="flex items-center gap-2.5 rounded-md border border-border bg-surface/40 px-3.5 py-2.5 text-sm text-foreground-soft transition-colors hover:border-accent hover:text-foreground"
-    >
-      <span aria-hidden className="h-1.5 w-1.5 rounded-[2px] bg-accent" />
-      {text}
-    </motion.div>
-  );
-}
 
 type ServicesEnvironmentProps = {
   active: PillarId;
@@ -74,165 +12,85 @@ type ServicesEnvironmentProps = {
   dict: Dictionary;
 };
 
+function getPillar(dict: Dictionary, id: PillarId) {
+  const pillar = PILLARS.find((item) => item.id === id) ?? PILLARS[0];
+  return dict.servicesData.pillars.find((item) => item.label.toLowerCase() === pillar.label.toLowerCase()) ?? dict.servicesData.pillars[0];
+}
+
 /**
- * The three interactive environments (BUILD / DESIGN / GROW) rendered as a
- * premium switchable experience. The selected pillar is shown as a distinct
- * editorial environment — not a generic card — with its own metaphor for the
- * service list (architecture nodes, composition blocks, or a directional
- * data-flow funnel). The 3D background (morphed by `active`) lives in the
- * parent; the environment panel sits above it.
+ * Capability console — a deliberately asymmetric service interface. The three
+ * disciplines are not treated as generic cards; they are adjacent operating
+ * modes in one system, with the selected mode opening its own service matrix.
  */
 export function ServicesEnvironment({ active, onChange, dict }: ServicesEnvironmentProps) {
-  const tPillars = dict.servicesData.pillars;
+  const selected = getPillar(dict, active);
+  const selectedBase = PILLARS.find((item) => item.id === active) ?? PILLARS[0];
 
   return (
-    <div>
-      {/* Environment switcher — segmented, not button rectangles */}
-      <div className="flex flex-wrap items-center gap-2">
-        {PILLARS.map((p) => {
-          const on = p.id === active;
+    <div className="mx-auto max-w-6xl">
+      <div className="grid gap-2 md:grid-cols-3">
+        {PILLARS.map((pillar) => {
+          const isActive = pillar.id === active;
+          const copy = getPillar(dict, pillar.id);
           return (
             <button
-              key={p.id}
+              key={pillar.id}
               type="button"
-              onClick={() => onChange(p.id)}
-              aria-pressed={on}
-              className={cn(
-                "group inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium uppercase tracking-[0.1em] transition-colors",
-                on
-                  ? "border-accent text-foreground"
-                  : "border-border-strong text-muted hover:border-accent hover:text-foreground"
-              )}
+              onClick={() => onChange(pillar.id)}
+              onPointerEnter={() => onChange(pillar.id)}
+              aria-pressed={isActive}
+              className={"group relative min-h-32 overflow-hidden rounded-xl border p-5 text-left transition-all duration-500 " + (isActive ? "border-accent/70 bg-accent/10" : "border-border bg-background/30 hover:border-border-strong hover:bg-surface/40")}
             >
-              <span
-                aria-hidden
-                className={cn(
-                  "font-mono text-xs",
-                  on ? "text-accent" : "text-muted-more group-hover:text-accent"
-                )}
-              >
-                {p.index}
-              </span>
-              {p.label}
+              <span className={"absolute -right-1 -top-6 font-mono text-8xl font-semibold leading-none " + (isActive ? "text-accent/[0.12]" : "text-foreground/[0.035]")} aria-hidden>{pillar.index}</span>
+              <span className={"relative block font-mono text-[10px] uppercase tracking-[0.2em] " + (isActive ? "text-accent" : "text-muted-more")}>{copy.tagline}</span>
+              <span className={"relative mt-7 block text-2xl font-medium uppercase tracking-[-0.03em] " + (isActive ? "text-foreground" : "text-muted")}>{copy.label}</span>
+              <span className={"absolute bottom-5 right-5 text-lg transition-transform duration-300 " + (isActive ? "text-accent" : "text-muted-more group-hover:translate-x-0.5")} aria-hidden>{isActive ? "—" : "↗"}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Active environment */}
-      <div className="mt-10 border-t border-border">
+      <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-[linear-gradient(135deg,rgba(20,42,74,0.72),rgba(11,16,24,0.82)_46%,rgba(3,4,5,0.85))]">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.4, ease: EASE }}
-            className="pt-8"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.42, ease: EASE }}
+            className="grid lg:grid-cols-[0.9fr_1.1fr]"
           >
-            <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <div>
-                <div className="font-mono text-xs tracking-[0.2em] text-accent">
-                  {ENV[active].code}
-                </div>
-                <h2 className="mt-3 text-[clamp(2.6rem,7vw,5.5rem)] font-medium uppercase leading-[0.92] tracking-[-0.03em] text-foreground">
-                  {matchPillar(tPillars, PILLARS.find((p) => p.id === active)!.label)?.label ??
-                    PILLARS.find((p) => p.id === active)!.label}
-                </h2>
-                <p className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-accent-soft">
-                  {matchPillar(tPillars, PILLARS.find((p) => p.id === active)!.label)?.tagline ??
-                    ""}
-                </p>
-              </div>
-              <p className="max-w-xs text-right font-mono text-xs leading-relaxed text-muted-more">
-                {ENV[active].meta}
-              </p>
+            <div className="relative border-b border-border p-7 md:p-10 lg:border-b-0 lg:border-r">
+              <span className="font-mono text-xs tracking-[0.22em] text-accent">{selectedBase.index} / {dict.footer.capabilities}</span>
+              <h2 className="mt-5 text-[clamp(3.5rem,8vw,7rem)] font-medium uppercase leading-[0.82] tracking-[-0.06em] text-foreground">{selected.label}</h2>
+              <div className="mt-8 h-px w-16 bg-accent/70" aria-hidden />
+              <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">{selected.lede}</p>
+              <div className="mt-12 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-more"><span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent)]" />{selected.tagline}</div>
             </div>
 
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-              {matchPillar(tPillars, PILLARS.find((p) => p.id === active)!.label)?.lede ?? ""}
-            </p>
-
-            {/* Environment-specific body */}
-            {active === "grow" ? (
-              <div className="mt-9">
-                {/* Directional funnel: ATTENTION → … → GROWTH */}
-                <div className="inline-flex flex-col gap-2">
-                  {getGrowFunnel().map((stage, i) => {
-                    const t = PILLARS.find((p) => p.id === "grow");
-                    const label = t?.funnel?.[i] ?? stage;
-                    const last = i === (t?.funnel?.length ?? 1) - 1;
-                    return (
-                      <div key={label} className="flex items-center gap-3">
-                        <motion.span
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.05 * i, duration: 0.3, ease: EASE }}
-                          className={cn(
-                            "inline-flex items-center gap-3 rounded-full border px-4 py-1.5 text-sm font-medium",
-                            last
-                              ? "border-accent text-foreground"
-                              : "border-border bg-white/[0.02] text-muted"
-                          )}
-                        >
-                          {i + 1}.
-                          <span className={last ? "text-accent-soft" : ""}>{label}</span>
-                        </motion.span>
-                        {!last && (
-                          <span aria-hidden className="text-muted-more">
-                            ↓
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* GROW services — flowing stream */}
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {(matchPillar(tPillars, PILLARS.find((p) => p.id === "grow")!.label)
-                    ?.services ?? []
-                  ).map((s) => (
-                    <ServiceChip key={s} text={s} tone="stream" />
-                  ))}
-                </div>
+            <div className="p-5 md:p-7 lg:p-10">
+              <div className="flex items-center justify-between gap-4 border-b border-border pb-4">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-more">{dict.footer.capabilities}</span>
+                <span className="font-mono text-xs text-accent">{String(selected.services.length).padStart(2, "0")}</span>
               </div>
-            ) : (
-              <div className="mt-9">
-                <div
-                  className={cn(
-                    "grid gap-2.5",
-                    active === "design"
-                      ? "grid-cols-2 md:grid-cols-3"
-                      : "grid-cols-2 md:grid-cols-4 lg:grid-cols-4"
-                  )}
-                >
-                  {(matchPillar(tPillars, PILLARS.find((p) => p.id === active)!.label)
-                    ?.services ?? []
-                  ).map((s) => (
-                    <ServiceChip
-                      key={s}
-                      text={s}
-                      tone={active === "design" ? "block" : "node"}
-                    />
-                  ))}
-                </div>
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {selected.services.map((service, index) => (
+                  <motion.div
+                    key={service}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.035, ease: EASE }}
+                    className={"group rounded-lg border border-border bg-background/30 p-3.5 transition-colors hover:border-accent/60 hover:bg-accent/10 " + (index === 0 ? "sm:col-span-2" : "")}
+                  >
+                    <span className="font-mono text-[10px] text-accent/80">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="mt-5 block text-sm font-medium leading-tight text-foreground-soft transition-colors group-hover:text-foreground">{service}</span>
+                  </motion.div>
+                ))}
               </div>
-            )}
-
-            {/* Interaction hint */}
-            <p className="mt-9 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-more">
-              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-              {HINT[active]}
-            </p>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
     </div>
   );
-}
-
-/** Funnel labels (from services.ts, directive order). */
-function getGrowFunnel(): readonly string[] {
-  return PILLARS.find((p) => p.id === "grow")?.funnel ?? ["Attention", "Engagement", "Leads", "Customers", "Growth"];
 }

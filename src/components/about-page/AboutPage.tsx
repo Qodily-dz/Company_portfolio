@@ -4,8 +4,6 @@ import { Container } from "@/components/layout";
 import { SectionLabel } from "@/components/ui";
 import { useTranslations } from "@/lib/i18n";
 
-const COMBINE = ["engineering", "design", "growth"];
-
 /**
  * Dedicated /about page — editorial and human, deliberately free of heavy
  * WebGL. Vision, mission, values, story and approach read as a long-form
@@ -30,14 +28,14 @@ export function AboutPage() {
             {dict.pages.about.intro}
           </p>
           <div className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-xl font-medium uppercase tracking-[0.04em] text-foreground">
-            {COMBINE.map((c, i) => (
-              <span key={c} className="inline-flex items-baseline gap-3">
+            {Object.values(dict.pillars).map((pillar, i) => (
+              <span key={pillar} className="inline-flex items-baseline gap-3">
                 {i > 0 && (
                   <span aria-hidden className="text-accent">
                     +
                   </span>
                 )}
-                <span>{c}</span>
+                <span>{pillar}</span>
               </span>
             ))}
           </div>
@@ -64,19 +62,25 @@ export function AboutPage() {
       <section className="border-t border-border py-20 md:py-28">
         <Container>
           <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-            <div className="border-l-2 border-accent pl-6 md:pl-8">
-              <div className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-                + 02 · {dict.about.vision}
+            <div className="group relative overflow-hidden rounded-2xl border border-accent/30 bg-[linear-gradient(135deg,rgba(43,108,181,0.13),rgba(11,16,24,0.25)_55%,rgba(3,4,5,0.7))] p-7 md:p-9">
+              <span className="pointer-events-none absolute -right-2 -top-7 font-mono text-[9rem] font-medium leading-none text-accent/[0.07] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden>
+                02
+              </span>
+              <div className="relative text-xs font-medium uppercase tracking-[0.2em] text-accent">
+                02 / {dict.about.vision}
               </div>
-              <p className="mt-5 text-[clamp(1.3rem,2.6vw,2rem)] font-light leading-relaxed tracking-[-0.01em] text-foreground">
+              <p className="relative mt-12 max-w-md text-[clamp(1.3rem,2.6vw,2rem)] font-light leading-relaxed tracking-[-0.01em] text-foreground">
                 {dict.about.visionText}
               </p>
             </div>
-            <div className="border-l-2 border-border-strong pl-6 md:pl-8">
-              <div className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
-                + 03 · {dict.about.mission}
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-surface/45 p-7 md:p-9">
+              <span className="pointer-events-none absolute -right-2 -top-7 font-mono text-[9rem] font-medium leading-none text-foreground/[0.035] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden>
+                03
+              </span>
+              <div className="relative text-xs font-medium uppercase tracking-[0.2em] text-muted">
+                03 / {dict.about.mission}
               </div>
-              <p className="mt-5 text-[clamp(1.3rem,2.6vw,2rem)] font-light leading-relaxed tracking-[-0.01em] text-muted">
+              <p className="relative mt-12 max-w-md text-[clamp(1.3rem,2.6vw,2rem)] font-light leading-relaxed tracking-[-0.01em] text-muted">
                 {dict.about.missionText}
               </p>
             </div>
@@ -93,13 +97,14 @@ export function AboutPage() {
           <h2 className="mt-4 max-w-3xl text-[clamp(2.2rem,6vw,4rem)] font-medium uppercase leading-[0.95] tracking-[-0.03em] text-foreground">
             {dict.pages.about.approachHeading}
           </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
             {dict.pages.about.approach.map((a, i) => (
-              <div key={i} className="border-t border-border pt-5">
+              <div key={i} className="group rounded-xl border border-border bg-surface/30 p-6 transition-colors duration-300 hover:border-accent/50 hover:bg-surface/60">
                 <div className="font-mono text-sm text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </div>
-                <p className="mt-4 text-[15px] leading-relaxed text-muted">{a}</p>
+                <div className="mt-8 h-px w-8 bg-border-strong transition-all duration-300 group-hover:w-full group-hover:bg-accent/70" aria-hidden />
+                <p className="mt-5 text-[15px] leading-relaxed text-muted">{a}</p>
               </div>
             ))}
           </div>
