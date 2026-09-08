@@ -22,10 +22,32 @@ export type TrackEvent =
 
 export type TrackProperties = Record<string, unknown>;
 
-const ENABLE_DEBUG = false;
+const ENABLE_DEBUG = process.env.NODE_ENV === "development" && false;
+
+type PlausibleFn = (event: string, props?: Record<string, unknown>) => void;
+
+declare global {
+  interface Window {
+    plausible?: PlausibleFn;
+  }
+}
 
 /** Register providers here (e.g. window.dataLayer, gtag, posthog, ...). */
 const trackProviders: ((event: TrackEvent, props?: TrackProperties) => void)[] = [];
+
+/**
+ * Provider that forwards tracked events to Plausible as tagged custom events.
+ * Uses `plausible('event', { props })` with automatic custom props (the
+ * script.tagged-events build is loaded in the root layout).
+ */
+trackProviders.push((event, props) => {
+  if (typeof window === "undefined" || !window.plausible) return;
+  try {
+    window.plausible(event, { props: props ?? {} });
+  } catch {
+    /* ignore */
+  }
+});
 
 /**
  * Fires a tracked event to all registered providers.
