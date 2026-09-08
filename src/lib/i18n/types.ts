@@ -85,6 +85,9 @@ export type Dictionary = {
     label: string;
     heading1: string;
     heading2: string;
+    whatWeDo: string;
+    deliverables: string;
+    technologies: string;
     subtitle: string;
     stages: {
       id: string;

@@ -100,6 +100,9 @@ export const en: Dictionary = {
     label: "Process",
     heading1: "How we turn",
     heading2: "ideas into impact.",
+    whatWeDo: "What we do",
+    deliverables: "Deliverables",
+    technologies: "Technologies",
     subtitle:
       "A clear six-stage process designed to move from uncertainty to a working digital product and long-term growth.",
     stages: [

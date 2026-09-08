@@ -100,6 +100,9 @@ export const ar: Dictionary = {
     label: "منهجية",
     heading1: "كيف نحوّل",
     heading2: "الأفكار إلى تأثير.",
+    whatWeDo: "ما نقوم به",
+    deliverables: "المخرجات",
+    technologies: "التقنيات",
     subtitle:
       "منهجية واضحة من ست مراحل مصممة للانتقال من عدم اليقين إلى منتج رقمي يعمل ونمو طويل الأمد.",
     stages: [

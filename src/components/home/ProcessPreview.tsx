@@ -51,7 +51,7 @@ export function ProcessPreview() {
             </Link>
           </div>
 
-          <ol className="flex flex-col justify-center">
+          <ol className="grid grid-cols-2 gap-2 self-end">
             {stages.map((s, i) => (
               <motion.li
                 key={s.id}
@@ -59,15 +59,13 @@ export function ProcessPreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.05 }}
-                className="flex items-baseline gap-5 border-b border-border py-4"
+                className="group relative min-h-28 overflow-hidden rounded-xl border border-border bg-surface/35 p-4 transition-colors duration-300 hover:border-accent/50 hover:bg-surface/70"
               >
-                <span className="font-mono text-sm text-accent">{s.num}</span>
-                <span className="flex-1 text-xl font-medium uppercase tracking-[0.04em] text-foreground md:text-2xl">
+                <span className="font-mono text-xs text-accent">{s.num}</span>
+                <span className="mt-6 block text-lg font-medium uppercase tracking-[-0.02em] text-foreground md:text-xl">
                   {s.title}
                 </span>
-                <span aria-hidden className="text-muted-more">
-                  →
-                </span>
+                <span aria-hidden className="absolute bottom-4 right-4 text-muted-more transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-accent">↗</span>
               </motion.li>
             ))}
           </ol>
