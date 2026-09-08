@@ -31,11 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: siteConfig.name,
       type: "website",
       locale: dict.meta.ogLocale,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${dict.pages.contact.title} — ${siteConfig.name}`,
       description: dict.pages.contact.description,
+      images: [siteConfig.ogImage],
     },
     alternates: {
       canonical: `/${locale}/contact`,

@@ -13,6 +13,7 @@ import { defaultLocale, locales, toLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { siteConfig } from "@/config/site";
 import {
+  localBusinessSchema,
   organizationSchema,
   websiteSchema,
   servicesSchema,
@@ -29,7 +30,10 @@ export async function generateMetadata({
 }): Promise<import("next").Metadata> {
   const { locale: localeValue } = await params;
   const locale = toLocale(localeValue);
-  const languages: Record<string, string> = { "x-default": "/" };
+  const dict = getDictionary(locale);
+  const languages: Record<string, string> = {
+    "x-default": "/",
+  };
   for (const l of locales) {
     languages[l] = l === defaultLocale ? "/" : `/${l}`;
   }
@@ -37,6 +41,21 @@ export async function generateMetadata({
     alternates: {
       canonical: locale === defaultLocale ? "/" : `/${locale}`,
       languages,
+    },
+    openGraph: {
+      title: dict.meta.title,
+      description: dict.meta.description,
+      url: `${siteConfig.url}/${locale}`,
+      siteName: siteConfig.name,
+      type: "website",
+      locale: dict.meta.ogLocale,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: [siteConfig.ogImage],
     },
   };
 }
@@ -54,6 +73,7 @@ export default async function LocaleHome({
     organizationSchema(dict),
     websiteSchema(dict, locale, url),
     ...servicesSchema(dict, url),
+    localBusinessSchema(dict),
   ];
 
   return (

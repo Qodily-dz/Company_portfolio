@@ -21,6 +21,10 @@ export function organizationSchema(dict: Dictionary): JsonLdItem {
     name: siteConfig.legalName,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteConfig.url}${siteConfig.ogImage}`,
+    },
     email: siteConfig.email,
     telephone: siteConfig.phone,
     description: dict.structuredData.organizationDescription,
@@ -36,6 +40,57 @@ export function organizationSchema(dict: Dictionary): JsonLdItem {
       siteConfig.social.instagram,
       siteConfig.social.dribbble,
       siteConfig.social.behance,
+    ],
+  };
+}
+
+export function localBusinessSchema(dict: Dictionary): JsonLdItem {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${siteConfig.url}/#local-business`,
+    name: siteConfig.legalName,
+    url: siteConfig.url,
+    email: siteConfig.email,
+    telephone: siteConfig.phone,
+    image: `${siteConfig.url}${siteConfig.ogImage}`,
+    priceRange: "$$",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: siteConfig.address.city,
+      addressCountry: "DZ",
+    },
+    areaServed: { "@type": "Country", name: "DZ" },
+    description: dict.structuredData.organizationDescription,
+    makesOffer: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: dict.structuredData.serviceDescriptions[0] ?? "Custom software development",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: dict.structuredData.serviceDescriptions[1] ?? "Web and mobile application development",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: dict.structuredData.serviceDescriptions[2] ?? "UI/UX and product design",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: dict.structuredData.serviceDescriptions[3] ?? "Digital marketing and growth strategy",
+        },
+      },
     ],
   };
 }

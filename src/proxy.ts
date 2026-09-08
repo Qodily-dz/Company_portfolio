@@ -19,7 +19,16 @@ function stripLocale(pathname: string): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/_next") || pathname.startsWith("/api") || pathname.includes(".")) {
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api") ||
+    pathname.includes(".") ||
+    pathname.startsWith("/opengraph-image") ||
+    pathname.startsWith("/twitter-image") ||
+    pathname === "/icon" ||
+    pathname === "/apple-icon" ||
+    pathname === "/manifest.webmanifest"
+  ) {
     return NextResponse.next();
   }
 
@@ -55,5 +64,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|.*\\..*).*)"],
+  matcher: [
+    "/((?!_next|api|favicon.ico|opengraph-image|twitter-image|icon|apple-icon|manifest.webmanifest|.*\\..*).*)",
+  ],
 };

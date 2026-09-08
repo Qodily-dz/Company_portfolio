@@ -6,6 +6,7 @@ export const siteConfig = {
   description:
     "Qodily-dz is a digital solutions partner based in Algiers, Algeria, transforming ideas and business problems into practical digital products through software engineering, design, and digital growth.",
   url: "https://qodily.dz",
+  ogImage: "/opengraph-image",
   email: "hello@qodily.dz",
   phone: "+213 555 000 000",
   whatsapp: "https://wa.me/213555000000",

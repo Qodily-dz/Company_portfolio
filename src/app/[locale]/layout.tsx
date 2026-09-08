@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { notoSansArabic } from "./fonts";
 import { siteConfig } from "@/config/site";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 import { I18nProvider } from "./i18n-provider";
+import { Plausible } from "@/components/analytics/Plausible";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { isRtl, ogLocales, toLocale } from "@/lib/i18n/config";
 import "../globals.css";
@@ -23,6 +24,12 @@ const geistMono = Geist_Mono({
 
 type LayoutMetaProps = {
   params: Promise<{ locale: string }>;
+};
+
+export const viewport: Viewport = {
+  themeColor: "#030405",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export async function generateMetadata({ params }: LayoutMetaProps): Promise<Metadata> {
@@ -47,11 +54,13 @@ export async function generateMetadata({ params }: LayoutMetaProps): Promise<Met
       siteName: siteConfig.name,
       title: dict.meta.title,
       description: dict.meta.description,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     },
     twitter: {
       card: "summary_large_image",
       title: dict.meta.title,
       description: dict.meta.description,
+      images: [siteConfig.ogImage],
     },
     robots: {
       index: true,
@@ -76,6 +85,9 @@ export default async function LocaleLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoSansArabic} scrollbar-thin antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {process.env.NODE_ENV === "production" && <Plausible />}
+      </head>
       <body className="min-h-full bg-background text-foreground" suppressHydrationWarning>
         <MotionConfig reducedMotion="user">
           <TooltipProvider>

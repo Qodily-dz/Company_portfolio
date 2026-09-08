@@ -56,11 +56,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: article.date,
       authors: [siteConfig.author],
       locale: dict.meta.ogLocale,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: summary,
+      images: [siteConfig.ogImage],
     },
     alternates: {
       canonical: `/${locale}/insights/${slug}`,

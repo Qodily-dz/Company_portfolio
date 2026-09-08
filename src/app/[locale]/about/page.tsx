@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { locales, toLocale } from "@/lib/i18n/config";
-import { breadcrumbSchema, organizationSchema, websiteSchema } from "@/lib/seo";
+import { breadcrumbSchema, localBusinessSchema, organizationSchema, websiteSchema } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -31,11 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: siteConfig.name,
       type: "website",
       locale: dict.meta.ogLocale,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${dict.pages.about.title} — ${siteConfig.name}`,
       description: dict.pages.about.description,
+      images: [siteConfig.ogImage],
     },
     alternates: {
       canonical: `/${locale}/about`,
@@ -58,6 +60,7 @@ export default async function AboutRoute({ params }: Props) {
         ])}
       />
       <JsonLd data={organizationSchema(dict)} />
+      <JsonLd data={localBusinessSchema(dict)} />
       <JsonLd data={websiteSchema(dict, locale, url)} />
       <AboutPage />
     </SiteShell>
