@@ -78,6 +78,7 @@ export const fr: Dictionary = {
     solution: "La solution",
     architecture: "L'architecture",
     result: "Le résultat",
+    gallery: "Dans le produit",
     nextProject: "Projet suivant",
     prevProject: "Projet précédent",
     openCase: "Ouvrir l'étude de cas",
@@ -190,6 +191,14 @@ export const fr: Dictionary = {
     chooseCapability: "Choisissez une compétence",
     footnote:
       "Ingénierie, conception et croissance — une équipe, un système, adapté à la façon dont votre entreprise fonctionne réellement.",
+    packsLabel: "Packs de services",
+    packsIntro:
+      "Des formules transparentes à prix fixe. Choisissez un pack adapté à votre situation — ou décrivez-nous votre besoin et nous l'évaluerons ensemble.",
+    packsNote:
+      "Les tarifs sont indicatifs. Chaque projet débute par un appel de cadrage avant de s'engager sur des chiffres.",
+    fromLabel: "À partir de",
+    customLabel: "Sur devis",
+    choosePack: "Choisir ce pack",
   },
   insights: {
     label: "Perspectives",

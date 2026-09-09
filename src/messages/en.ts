@@ -78,6 +78,7 @@ export const en: Dictionary = {
     solution: "The Solution",
     architecture: "The Architecture",
     result: "The Result",
+    gallery: "In the product",
     nextProject: "Next project",
     prevProject: "Previous project",
     openCase: "Open case study",
@@ -190,6 +191,14 @@ export const en: Dictionary = {
     chooseCapability: "Choose a capability",
     footnote:
       "Engineering, design and growth — one team, one system, tuned to how your business actually moves.",
+    packsLabel: "Service packs",
+    packsIntro:
+      "Transparent, fixed-price plans. Pick a pack that fits where you are — or tell us what you need and we'll scope it together.",
+    packsNote:
+      "Pricing is indicative. Every project gets a dedicated discovery call before we commit to numbers.",
+    fromLabel: "From",
+    customLabel: "Custom",
+    choosePack: "Choose this pack",
   },
   insights: {
     label: "Insights",

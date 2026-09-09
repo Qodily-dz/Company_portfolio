@@ -64,6 +64,7 @@ export type Dictionary = {
     design: string;
     technology: string;
     result: string;
+    gallery: string;
     nextProject: string;
     prevProject: string;
     openCase: string;
@@ -125,6 +126,12 @@ export type Dictionary = {
     heading2Rest: string;
     chooseCapability: string;
     footnote: string;
+    packsLabel: string;
+    packsIntro: string;
+    packsNote: string;
+    fromLabel: string;
+    customLabel: string;
+    choosePack: string;
   };
   insights: {
     label: string;
@@ -285,6 +292,7 @@ export type Dictionary = {
       problem: string;
       solution: string;
       approach: string;
+      architecture?: string;
       design: string;
       product: string;
       outcome: string;

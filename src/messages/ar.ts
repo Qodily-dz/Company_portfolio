@@ -78,6 +78,7 @@ export const ar: Dictionary = {
     solution: "الحل",
     architecture: "البنية",
     result: "النتيجة",
+    gallery: "داخل المنتج",
     nextProject: "المشروع التالي",
     prevProject: "المشروع السابق",
     openCase: "فتح دراسة الحالة",
@@ -190,6 +191,14 @@ export const ar: Dictionary = {
     chooseCapability: "اختر القدرة",
     footnote:
       "الهندسة والتصميم والنمو — فريق واحد، نظام واحد، مُعاير مع طريقة عمل شركتك الفعلية.",
+    packsLabel: "باقات الخدمات",
+    packsIntro:
+      "باقات شفافة بأسعار ثابتة. اختر باقة تناسب مرحلتك — أو أخبرنا بما تحتاجه وسنقوم بتقييمه معًا.",
+    packsNote:
+      "الأسعار استرشادية. يبدأ كل مشروع بمكالمة استكشافية قبل الالتزام بالأرقام.",
+    fromLabel: "ابتداءً من",
+    customLabel: "مخصص",
+    choosePack: "اختر هذه الباقة",
   },
   insights: {
     label: "رؤى",

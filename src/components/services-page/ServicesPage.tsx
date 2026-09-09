@@ -11,6 +11,7 @@ import { supportsWebGL } from "@/lib/webgl";
 import type { PillarId } from "@/lib/services";
 import { ServicesEnvironment } from "@/components/sections/services/ServicesEnvironment";
 import { useTranslations, useLocale } from "@/lib/i18n";
+import { ServicePacks } from "@/components/services-page/ServicePacks";
 
 /**
  * Dedicated /services page — BUILD / DESIGN / GROW, each with its own visual
@@ -99,6 +100,9 @@ export function ServicesPage() {
           </div>
         </Container>
       </section>
+
+      {/* Service packs — live from the backend catalogue */}
+      <ServicePacks />
     </div>
   );
 }
