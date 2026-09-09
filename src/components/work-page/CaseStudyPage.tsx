@@ -59,8 +59,11 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
   const problem = tp?.problem ?? project.problem;
   const solution = tp?.solution ?? project.solution;
   const approach = tp?.approach ?? project.approach;
+  const architecture = tp?.architecture ? tp.architecture : approach;
   const design = tp?.design ?? project.design;
+  const product = tp?.product ?? project.product;
   const outcome = tp?.outcome ?? project.outcome;
+  const gallery = project.gallery ?? [];
 
   const idx = ["restaurant-management", "e-commerce", "business-crm", "medical-appointments", "school-management", "saas-dashboard"].indexOf(project.id);
   const seed = Math.max(idx, 0) + 1;
@@ -131,9 +134,12 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
                 {design}
               </Section>
               <Section n="04" label={dict.work.architecture}>
-                {approach}
+                {architecture}
               </Section>
-              <Section n="05" label={dict.work.result}>
+              <Section n="05" label={dict.work.project}>
+                {product}
+              </Section>
+              <Section n="06" label={dict.work.result}>
                 {outcome}
               </Section>
             </motion.div>
@@ -174,6 +180,38 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
           </div>
         </Container>
       </section>
+
+      {/* Product gallery */}
+      {gallery.length > 0 && (
+        <section className="border-t border-border py-20 md:py-24">
+          <Container>
+            <div className="mb-8 grid gap-4 md:grid-cols-[auto_1fr] md:gap-8">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">GG</span>
+              <div>
+                <h2 className="text-sm font-medium uppercase tracking-[0.16em] text-muted">
+                  {dict.work.gallery}
+                </h2>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((img, i) => (
+                <figure
+                  key={`${img.url}-${i}`}
+                  className="overflow-hidden rounded-xl border border-border bg-surface/40"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={img.url}
+                    alt={img.alt || `${title} — ${i + 1}`}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Prev / Next project navigation */}
       <section className="border-t border-border">

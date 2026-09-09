@@ -23,6 +23,8 @@ export type Project = {
   /** Accent for the procedural preview & tile accents (kept in brand family). */
   accent: { a: string; b: string };
   span: string;
+  /** Optional product footage — screenshots/photos shown on the case study. */
+  gallery?: { url: string; alt?: string }[];
 };
 
 export const WORK_LABEL = "Qodily Lab";
