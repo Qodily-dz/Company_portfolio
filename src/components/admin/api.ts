@@ -1,5 +1,7 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 export type AdminUser = {
   id: string;
   name: string;
@@ -112,6 +114,7 @@ export type DashboardData = {
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
 const TOKEN_KEY = "qodily-admin:token";
 const USER_KEY = "qodily-admin:user";
 
@@ -136,6 +139,36 @@ export function storeSession(token: string | null, user: AdminUser | null) {
   else window.localStorage.removeItem(TOKEN_KEY);
   if (user) window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   else window.localStorage.removeItem(USER_KEY);
+  window.dispatchEvent(new Event("qodily:auth-change"));
+}
+
+function subscribeAuth(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", onStoreChange);
+  window.addEventListener("qodily:auth-change", onStoreChange);
+  return () => {
+    window.removeEventListener("storage", onStoreChange);
+    window.removeEventListener("qodily:auth-change", onStoreChange);
+  };
+}
+
+function getAuthSnapshot(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(USER_KEY);
+}
+
+function getAuthServerSnapshot(): string | null {
+  return null;
+}
+
+export function useAdminUser(): AdminUser | null {
+  const raw = useSyncExternalStore(subscribeAuth, getAuthSnapshot, getAuthServerSnapshot);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as AdminUser;
+  } catch {
+    return null;
+  }
 }
 
 export class ApiError extends Error {}
