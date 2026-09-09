@@ -22,6 +22,7 @@ export function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
+    pathname.startsWith("/admin") ||
     pathname.includes(".") ||
     pathname.startsWith("/opengraph-image") ||
     pathname.startsWith("/twitter-image") ||
@@ -65,6 +66,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next|api|favicon.ico|opengraph-image|twitter-image|icon|apple-icon|manifest.webmanifest|.*\\..*).*)",
+    "/((?!_next|api|admin|favicon.ico|opengraph-image|twitter-image|icon|apple-icon|manifest.webmanifest|.*\\..*).*)",
   ],
 };
