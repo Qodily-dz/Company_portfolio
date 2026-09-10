@@ -26,16 +26,13 @@ export function Logo({
       )}
     >
       <span
-        className={cn(
-          "inline-flex shrink-0 text-foreground",
-          markClassName
-        )}
+        className="inline-flex shrink-0 text-foreground"
         aria-hidden
       >
         <svg
           viewBox="0 0 373 399"
           fill="none"
-          className="h-6 w-auto md:h-7"
+          className={cn("h-6 w-auto md:h-7", markClassName)}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

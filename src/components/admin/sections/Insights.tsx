@@ -170,7 +170,7 @@ export default function Insights() {
                 </td>
                 <td className="px-[19px] py-3 text-right">
                   <button
-                    className="border-0 bg-transparent p-1 text-muted hover:text-error"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error"
                     onClick={() => remove(a)}
                     aria-label="Delete"
                   >

@@ -312,7 +312,7 @@ export default function Services() {
                       </div>
                     </div>
                     <button
-                      className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white"
                       onClick={() => previewPack()}
                       aria-label="Preview"
                       title="Open the services page"
@@ -320,7 +320,7 @@ export default function Services() {
                       <Icon name="eye" className="h-4 w-4" />
                     </button>
                     <button
-                      className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white"
                       onClick={() => {
                         setPackId(p.id);
                         setPackDraft(toPackDraft(p));
@@ -329,7 +329,7 @@ export default function Services() {
                     >
                       <Icon name="settings" className="h-4 w-4" />
                     </button>
-                    <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removePack(p)} aria-label="Delete">
+                    <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error" onClick={() => removePack(p)} aria-label="Delete">
                       <Icon name="close" className="h-4 w-4" />
                     </button>
                   </div>
@@ -441,7 +441,7 @@ export default function Services() {
                   action={
                     <span className="flex items-center gap-2">
                       <span className="text-[10px] text-muted-more">{services.length} services</span>
-                      <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removePillar(p)} aria-label="Delete pillar">
+                      <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error" onClick={() => removePillar(p)} aria-label="Delete pillar">
                         <Icon name="close" className="h-3.5 w-3.5" />
                       </button>
                     </span>
@@ -453,10 +453,10 @@ export default function Services() {
                       <div key={s.id} className="flex items-center justify-between border-b border-border/60 px-[19px] py-3 last:border-0">
                         <span className="text-[12px] text-foreground">{s.translations?.en?.name || s.name}</span>
                         <div className="flex gap-1">
-                          <button className="border-0 bg-transparent p-1 text-muted hover:text-white" onClick={() => renameService(s.id, s.translations?.en?.name || s.name)} aria-label="Rename">
+                          <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white" onClick={() => renameService(s.id, s.translations?.en?.name || s.name)} aria-label="Rename">
                             <Icon name="settings" className="h-3.5 w-3.5" />
                           </button>
-                          <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removeService(s.id)} aria-label="Remove">
+                          <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error" onClick={() => removeService(s.id)} aria-label="Remove">
                             <Icon name="close" className="h-3.5 w-3.5" />
                           </button>
                         </div>

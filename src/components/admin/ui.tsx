@@ -40,7 +40,7 @@ export function Icon({ name, className }: { name: string; className?: string }) 
       strokeLinejoin="round"
       aria-hidden
     >
-      {paths[name] ?? paths.grid}
+      <path d={paths[name] ?? paths.grid} />
     </svg>
   );
 }

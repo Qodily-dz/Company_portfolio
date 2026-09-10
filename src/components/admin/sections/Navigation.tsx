@@ -132,7 +132,7 @@ export default function Navigation() {
                   <span className="block text-[10px] text-muted-more">{n.href}</span>
                 </div>
                 <Toggle checked={n.visible} onChange={(v) => toggle(n, v)} label={`Toggle ${n.label}`} />
-                <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => remove(n)} aria-label="Remove">
+                <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error" onClick={() => remove(n)} aria-label="Remove">
                   <Icon name="close" className="h-3.5 w-3.5" />
                 </button>
               </div>

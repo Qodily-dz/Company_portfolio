@@ -284,7 +284,7 @@ export default function Projects({ mode }: { mode: "projects" | "case-studies" }
                   <td className="px-[19px] py-3">
                     <div className="flex gap-1">
                       <button
-                        className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white"
                         onClick={() => preview(p)}
                         aria-label="Preview"
                         title="Open on the public site"
@@ -292,14 +292,14 @@ export default function Projects({ mode }: { mode: "projects" | "case-studies" }
                         <Icon name="eye" className="h-3.5 w-3.5" />
                       </button>
                       <button
-                        className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white"
                         onClick={() => openEdit(p)}
                         aria-label="Edit"
                       >
                         <Icon name="settings" className="h-3.5 w-3.5" />
                       </button>
                       <button
-                        className="border-0 bg-transparent p-1 text-muted hover:text-error"
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error"
                         onClick={() => remove(p)}
                         aria-label="Delete"
                       >
@@ -503,7 +503,7 @@ function ProjectForm({
                 </div>
               </div>
               <button
-                className="border-0 bg-transparent p-1 text-muted hover:text-error"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error"
                 onClick={() => setDraft((d) => ({ ...d, gallery: d.gallery.filter((_, idx) => idx !== i) }))}
                 aria-label="Remove image"
               >

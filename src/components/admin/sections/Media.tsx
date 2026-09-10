@@ -143,10 +143,10 @@ export default function Media() {
                       {m.type} · {formatBytes(m.size)} · {new Date(m.created_at).toLocaleDateString("en-GB")}
                     </span>
                   </div>
-                  <button className="border-0 bg-transparent p-1 text-muted hover:text-white" onClick={() => copyUrl(m)} aria-label="Copy URL" title="Copy URL">
+                  <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-accent/60 hover:bg-accent/10 hover:text-white" onClick={() => copyUrl(m)} aria-label="Copy URL" title="Copy URL">
                     {copied === m.id ? <Icon name="check" className="h-3.5 w-3.5 text-success" /> : <Icon name="link" className="h-3.5 w-3.5" />}
                   </button>
-                  <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => remove(m)} aria-label="Delete" title="Delete">
+                  <button className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/70 bg-surface-elevated/40 text-foreground-soft transition-colors hover:border-error/50 hover:bg-error/10 hover:text-error" onClick={() => remove(m)} aria-label="Delete" title="Delete">
                     <Icon name="close" className="h-3.5 w-3.5" />
                   </button>
                 </div>
