@@ -577,6 +577,87 @@ export const en: Dictionary = {
     },
   },
   projects: {
+    "geststock-simple": {
+      title:
+        "GestStock Simple",
+      category:
+        "Operations · Software",
+      short:
+        "The same stock-and-till core, trimmed for a single counter.",
+      summary:
+        "A lighter edition of GestStock for a small store: the same purchase-to-cash spine, without the returns desk and per-shop configuration a larger operation needs.",
+      problem:
+        "A small counter needs the stock and cash discipline of a full back office, but every extra screen it will never use is training time and a place to make mistakes.",
+      solution:
+        "The same core — products, stock, suppliers, sales, payments, client accounts, expenses and cash closing — with the heavier modules left out rather than hidden.",
+      approach:
+        "Share the domain with the detailed edition and cut at the seam: drop sale returns and shop settings, keep every path that touches stock or money identical.",
+      design:
+        "The same dense back office with a shorter menu, so an operator moving up finds the screens where they left them.",
+      product:
+        "Products and stock, suppliers with purchase invoices, sales with line items, client accounts and payments, expenses, and end-of-day cash closing.",
+      capabilities: [
+        "Stock, suppliers and purchase invoices",
+        "Sales, payments and client accounts",
+        "Expenses and end-of-day cash closing",
+      ],
+      outcome:
+        "The entry tier of a two-edition product line: a small store runs the simple build and moves to the detailed one without relearning the system.",
+    },
+    "geststock": {
+      title:
+        "GestStock",
+      category:
+        "Operations · Software",
+      short:
+        "Stock, sales and cash for a medical store, in one back office.",
+      summary:
+        "Running a medical store from purchase invoice to cash closing without the stock ledger, the till and the supplier account ever disagreeing.",
+      problem:
+        "Stock, sales and money were tracked in separate places. Nobody could say what was really in the store, what a client still owed, or whether the till matched the day's sales.",
+      solution:
+        "One back office where every movement is recorded once: purchases raise stock, sales lower it, payments and returns adjust the balance, and the day closes against a single figure.",
+      approach:
+        "Model the money trail first — sale, payment, return, cash closing — then hang products, stock and suppliers off it.",
+      design:
+        "A dense, keyboard-friendly back office with fast product lookup and a cash-closing screen that shows expected beside counted.",
+      product:
+        "Products and stock levels, suppliers with purchase invoices, sales with line items, client accounts, payments and returns, expenses, and an end-of-day cash closing.",
+      capabilities: [
+        "Stock levels, suppliers and purchase invoices",
+        "Sales with payments, returns and client accounts",
+        "Expenses and end-of-day cash closing",
+      ],
+      outcome:
+        "A complete stock-and-till system for medical retail: the full edition, adding a returns desk and per-shop configuration on top of the shared core.",
+    },
+    "ecommerce-suite": {
+      title:
+        "E-Commerce Suite",
+      category:
+        "Commerce · Product",
+      short:
+        "One Laravel back office behind several branded storefronts.",
+      summary:
+        "A single catalogue and order back office serving several branded storefronts, so a new shop is a front end rather than a new system.",
+      problem:
+        "Every new shop meant rebuilding the same catalogue, product pages and order handling from scratch, with a different codebase per brand.",
+      solution:
+        "One backend owning categories, products, images and orders, with storefronts built as separate front ends against the same API.",
+      approach:
+        "Keep the shared domain in one place and let each storefront own only its look and copy.",
+      design:
+        "Catalogue-first storefronts with clear category browsing and a short order form instead of a multi-step checkout.",
+      product:
+        "Category and product catalogue with images, product detail pages, a quick order form, an order inbox and contact handling.",
+      capabilities: [
+        "Shared catalogue: categories, products and images",
+        "Quick order form with an order inbox",
+        "Multiple branded storefronts on one backend",
+      ],
+      outcome:
+        "Three storefront templates running on one backend, turning each additional shop into front-end work instead of another full build.",
+    },
     "fedelo": {
       title: "Fedelo",
       category: "SaaS · Loyalty & Smart Booking",

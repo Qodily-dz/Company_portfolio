@@ -47,17 +47,28 @@ export function ProjectCard({
       className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-surface/60 transition-[border-color,box-shadow,transform] duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:border-accent/50 hover:shadow-[0_24px_60px_-20px_rgba(43,92,145,0.45)] motion-safe:hover:-translate-y-1"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-background">
+        {/* Browser chrome. A bare screenshot bleeding to the card edge reads as
+            stock art; framing it says "this is a running product" and gives the
+            shot a deliberate edge instead of an arbitrary crop. */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 z-10 flex h-7 items-center gap-1.5 border-b border-border/70 bg-background/95 px-3 backdrop-blur"
+        >
+          <span className="size-2 rounded-full bg-[#ff5f57]/70" />
+          <span className="size-2 rounded-full bg-[#febc2e]/70" />
+          <span className="size-2 rounded-full bg-[#28c840]/70" />
+        </div>
         <Image
           src={`/work/${project.id}.png`}
           alt=""
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={priority}
-          className="object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
+          className="object-cover object-top pt-7 transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
         />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-surface/90 to-transparent" />
         <span
-          className={`absolute start-4 top-4 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] backdrop-blur ${
+          className={`absolute start-3 top-10 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] backdrop-blur ${
             project.isProduction
               ? "border-accent/50 bg-background/90 text-accent font-semibold shadow-[0_0_12px_rgba(43,92,145,0.3)]"
               : "border-border-strong bg-background/80 text-muted"

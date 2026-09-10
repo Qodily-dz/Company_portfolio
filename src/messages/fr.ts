@@ -577,6 +577,87 @@ export const fr: Dictionary = {
     },
   },
   projects: {
+    "geststock-simple": {
+      title:
+        "GestStock Simple",
+      category:
+        "Opérations · Logiciel",
+      short:
+        "Le même noyau stock et caisse, taillé pour un seul comptoir.",
+      summary:
+        "Une édition allégée de GestStock pour un petit magasin : la même chaîne de l'achat à la caisse, sans le poste de retours ni la configuration par magasin.",
+      problem:
+        "Un petit comptoir a besoin de la même rigueur sur le stock et la caisse, mais chaque écran inutile coûte du temps de formation et crée des occasions d'erreur.",
+      solution:
+        "Le même noyau — produits, stock, fournisseurs, ventes, paiements, comptes clients, dépenses et clôture — les modules lourds retirés plutôt que masqués.",
+      approach:
+        "Partager le domaine avec l'édition détaillée et couper à la jointure : retirer les retours et les paramètres de magasin, garder identique tout ce qui touche au stock ou à l'argent.",
+      design:
+        "Le même back-office dense avec un menu plus court, pour qu'un opérateur qui passe à l'édition détaillée retrouve ses écrans.",
+      product:
+        "Produits et stock, fournisseurs et factures d'achat, ventes détaillées, comptes clients et paiements, dépenses, et clôture de caisse.",
+      capabilities: [
+        "Stock, fournisseurs et factures d'achat",
+        "Ventes, paiements et comptes clients",
+        "Dépenses et clôture de caisse",
+      ],
+      outcome:
+        "Le premier niveau d'une gamme à deux éditions : un petit magasin utilise la version simple et passe à la détaillée sans réapprendre le système.",
+    },
+    "geststock": {
+      title:
+        "GestStock",
+      category:
+        "Opérations · Logiciel",
+      short:
+        "Stock, ventes et caisse d'un magasin médical dans un seul back-office.",
+      summary:
+        "Gérer un magasin médical de la facture d'achat à la clôture de caisse sans que le stock, la caisse et le compte fournisseur ne se contredisent.",
+      problem:
+        "Le stock, les ventes et l'argent étaient suivis séparément. Personne ne pouvait dire ce qu'il y avait réellement en magasin, ce qu'un client devait encore, ni si la caisse correspondait aux ventes du jour.",
+      solution:
+        "Un back-office où chaque mouvement est enregistré une seule fois : les achats augmentent le stock, les ventes le diminuent, paiements et retours ajustent le solde, et la journée se clôture sur un chiffre unique.",
+      approach:
+        "Modéliser d'abord le parcours de l'argent — vente, paiement, retour, clôture — puis y rattacher produits, stock et fournisseurs.",
+      design:
+        "Un back-office dense et pilotable au clavier, avec recherche produit rapide et un écran de clôture affichant l'attendu à côté du compté.",
+      product:
+        "Produits et niveaux de stock, fournisseurs et factures d'achat, ventes détaillées, comptes clients, paiements et retours, dépenses, et clôture de caisse.",
+      capabilities: [
+        "Stock, fournisseurs et factures d'achat",
+        "Ventes, paiements, retours et comptes clients",
+        "Dépenses et clôture de caisse",
+      ],
+      outcome:
+        "Un système complet de stock et de caisse pour le commerce médical, décliné en deux niveaux pour un petit comptoir comme pour un magasin plus large.",
+    },
+    "ecommerce-suite": {
+      title:
+        "Suite E-Commerce",
+      category:
+        "Commerce · Produit",
+      short:
+        "Un back-office Laravel derrière plusieurs boutiques de marque.",
+      summary:
+        "Un seul catalogue et back-office de commandes au service de plusieurs boutiques de marque : une nouvelle boutique devient un front, pas un nouveau système.",
+      problem:
+        "Chaque nouvelle boutique imposait de reconstruire le même catalogue, les mêmes fiches produit et la même gestion des commandes, avec un code différent à maintenir par marque.",
+      solution:
+        "Un backend unique portant catégories, produits, images et commandes, avec des boutiques construites comme des fronts séparés sur la même API.",
+      approach:
+        "Garder le domaine partagé au même endroit et ne laisser à chaque boutique que son apparence et son discours.",
+      design:
+        "Des boutiques orientées catalogue : navigation claire par catégorie et formulaire de commande court plutôt qu'un paiement en plusieurs étapes.",
+      product:
+        "Catalogue de catégories et produits avec images, fiches produit, formulaire de commande rapide, boîte de réception des commandes et gestion des contacts.",
+      capabilities: [
+        "Catalogue partagé : catégories, produits et images",
+        "Formulaire de commande rapide et boîte de réception",
+        "Plusieurs boutiques de marque sur un seul backend",
+      ],
+      outcome:
+        "Trois modèles de boutique sur un seul backend, ce qui réduit chaque boutique supplémentaire à du travail de front-end.",
+    },
     "fedelo": {
       title: "Fedelo",
       category: "SaaS · Fidélité & Prise de Rendez-vous",

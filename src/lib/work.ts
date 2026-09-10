@@ -37,6 +37,84 @@ export const WORK_NOTE =
 
 export const PROJECTS: Project[] = [
   {
+    id: "geststock-simple",
+    title: "GestStock Simple",
+    category: "Operations \u00b7 Software",
+    short:
+      "The same stock-and-till core, trimmed for a single counter.",
+    summary:
+      "A lighter edition of GestStock for a small store: the same purchase-to-cash spine, without the returns desk and per-shop configuration a larger operation needs.",
+    problem:
+      "A small counter needs the stock and cash discipline of a full back office, but every extra screen it will never use is training time and a place to make mistakes.",
+    solution:
+      "The same core \u2014 products, stock, suppliers, sales, payments, client accounts, expenses and cash closing \u2014 with the heavier modules left out rather than hidden.",
+    approach:
+      "Share the domain with the detailed edition and cut at the seam: drop sale returns and shop settings, keep every path that touches stock or money identical.",
+    design:
+      "The same dense back office with a shorter menu, so an operator moving up to the detailed edition finds the screens where they left them.",
+    product:
+      "Products and stock, suppliers with purchase invoices, sales with line items, client accounts and payments, expenses, and end-of-day cash closing.",
+    technology: ["React 19", "TypeScript", "Laravel", "MySQL", "TanStack Query"],
+    outcome:
+      "The entry tier of a two-edition product line: a small store runs the simple build and moves to the detailed one without relearning the system.",
+    accent: { a: "#4a8fd8", b: "#2b6cb5" },
+    span: "md:col-span-6",
+    badge: "Produit",
+    isProduction: true,
+  },
+  {
+    id: "geststock",
+    title: "GestStock",
+    category: "Operations \u00b7 Software",
+    short:
+      "Stock, sales and cash for a medical store, in one back office.",
+    summary:
+      "Running a medical store from purchase invoice to cash closing without the stock ledger, the till and the supplier account ever disagreeing.",
+    problem:
+      "Stock, sales and money were tracked in separate places. Nobody could say what was really in the store, what a client still owed, or whether the till matched the day's sales.",
+    solution:
+      "One back office where every movement is recorded once: purchases raise stock, sales lower it, payments and returns adjust the balance, and the day closes against a single figure.",
+    approach:
+      "Model the money trail first \u2014 sale, payment, return, cash closing \u2014 then hang products, stock and suppliers off it, so the numbers reconcile by construction rather than by end-of-day arithmetic.",
+    design:
+      "A dense, keyboard-friendly back office: fast product lookup, running totals always visible, and a cash-closing screen that shows the expected figure beside the counted one.",
+    product:
+      "Products and stock levels, suppliers with purchase invoices, sales with line items, client accounts, payments and returns, expenses, and an end-of-day cash closing.",
+    technology: ["React 19", "TypeScript", "Laravel", "MySQL", "TanStack Query"],
+    outcome:
+      "A complete stock-and-till system for medical retail: the full edition, adding a returns desk and per-shop configuration on top of the shared core.",
+    accent: { a: "#2b6cb5", b: "#4a8fd8" },
+    span: "md:col-span-6",
+    badge: "Produit",
+    isProduction: true,
+  },
+  {
+    id: "ecommerce-suite",
+    title: "E-Commerce Suite",
+    category: "Commerce \u00b7 Product",
+    short:
+      "One Laravel back office behind several branded storefronts.",
+    summary:
+      "A single catalogue and order back office serving several branded storefronts, so a new shop is a front end rather than a new system.",
+    problem:
+      "Every new shop meant rebuilding the same catalogue, product pages and order handling from scratch, with a different codebase to maintain for each brand.",
+    solution:
+      "One backend owning categories, products, images and orders, with storefronts built as separate front ends against the same API \u2014 parapharmacy, fashion and perfume among them.",
+    approach:
+      "Keep the shared domain in one place and let each storefront own only its look and copy, so a new brand is a theme and a deployment rather than a fork.",
+    design:
+      "Catalogue-first storefronts: clear category browsing, product pages that let images and price breathe, and a short order form instead of a multi-step checkout.",
+    product:
+      "Category and product catalogue with images, product detail pages, a quick order form, an order inbox and contact handling in the back office.",
+    technology: ["Laravel", "PHP", "React", "TypeScript", "TailwindCSS"],
+    outcome:
+      "Three storefront templates running on one backend, which turns each additional shop into front-end work instead of another full build.",
+    accent: { a: "#3f8f7a", b: "#5fb8a0" },
+    span: "md:col-span-6",
+    badge: "Produit",
+    isProduction: true,
+  },
+  {
     id: "fedelo",
     title: "Fedelo",
     category: "SaaS · Loyalty & Queue Management",

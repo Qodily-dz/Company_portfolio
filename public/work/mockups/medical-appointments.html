@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Praxia — Agenda</title>
+<style>
+  :root{
+    --bg:#030405; --chrome:#070a0f; --panel:#0b1018; --raised:#141e2e; --navy:#0b1d35;
+    --bd:#1c2638; --bd2:#2c3a52;
+    --tx:#ffffff; --soft:#e0e4ea; --mut:#8c96a6; --dim:#6b7686;
+    --blue:#2b6cb5; --blue2:#4a8fd8; --hl:#5fa3e0;
+    --grn:#3d9a6e; --amb:#fbbf24; --red:#f87171;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;width:1600px;height:1000px;overflow:hidden;}
+  body{background:var(--bg);color:var(--soft);font-family:var(--sans);font-size:13px;
+       -webkit-font-smoothing:antialiased;}
+  svg{display:block;}
+
+  /* ---------- TOP BAR ---------- */
+  .top{height:52px;background:var(--chrome);border-bottom:1px solid var(--bd);
+       display:flex;align-items:center;padding:0 16px;gap:14px;}
+  .brand{display:flex;align-items:center;gap:9px;}
+  .logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(155deg,#2b6cb5,#173f6d);
+        display:flex;align-items:center;justify-content:center;
+        box-shadow:0 0 0 1px #35558a inset,0 2px 8px rgba(43,108,181,.35);}
+  .bname{font-size:15px;font-weight:650;color:#fff;letter-spacing:.2px;}
+  .clinic{display:flex;align-items:center;gap:7px;margin-left:6px;padding:5px 9px;border-radius:6px;
+          background:#0d1219;border:1px solid var(--bd);font-size:12px;color:var(--mut);}
+  .clinic b{color:var(--soft);font-weight:550;}
+  .search{flex:1;max-width:392px;margin-left:14px;height:32px;border-radius:7px;background:#0d1219;
+          border:1px solid var(--bd2);display:flex;align-items:center;gap:8px;padding:0 9px;}
+  .search .q{font-size:12.5px;color:var(--soft);}
+  .search .car{width:1px;height:14px;background:var(--hl);}
+  .kbd{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);
+       border:1px solid var(--bd2);border-radius:4px;padding:1px 5px;}
+  .tspacer{flex:1;}
+  .tclock{font-family:var(--mono);font-size:12.5px;color:var(--soft);letter-spacing:.4px;}
+  .tclock span{color:var(--dim);}
+  .ticon{width:30px;height:30px;border-radius:7px;border:1px solid var(--bd);background:#0d1219;
+         display:flex;align-items:center;justify-content:center;color:var(--mut);position:relative;}
+  .badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;border-radius:8px;background:var(--red);
+         color:#1a0708;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+         padding:0 4px;border:2px solid var(--chrome);}
+  .waitpill{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px;border-radius:7px;
+            background:rgba(61,154,110,.1);border:1px solid rgba(61,154,110,.35);color:#7fd0aa;font-size:12px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--grn);}
+  .me{display:flex;align-items:center;gap:9px;padding-left:13px;margin-left:3px;border-left:1px solid var(--bd);}
+  .av{width:29px;height:29px;border-radius:50%;background:linear-gradient(150deg,#2f6fb8,#1b3f6b);color:#fff;
+      font-size:11.5px;font-weight:650;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 0 0 1px #3c5f92 inset;}
+  .me .n{font-size:12.5px;color:var(--soft);font-weight:550;line-height:1.25;}
+  .me .r{font-size:10.5px;color:var(--dim);line-height:1.25;}
+
+  /* ---------- SHELL ---------- */
+  .shell{display:flex;height:948px;}
+
+  /* ---------- SIDEBAR ---------- */
+  .side{width:214px;background:var(--chrome);border-right:1px solid var(--bd);
+        display:flex;flex-direction:column;padding:12px 10px;}
+  .slab{font-size:10px;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
+        padding:6px 8px 7px;font-weight:600;}
+  .nav a{display:flex;align-items:center;gap:10px;height:34px;padding:0 9px;border-radius:7px;
+         color:var(--mut);text-decoration:none;font-size:13px;margin-bottom:2px;}
+  .nav a.on{background:var(--navy);color:#fff;box-shadow:0 0 0 1px #1d4675 inset;font-weight:550;}
+  .nav a.on svg{color:var(--hl);}
+  .nav .cnt{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--dim);}
+  .nav a.on .cnt{color:var(--blue2);}
+  .nav .pill{margin-left:auto;font-size:10px;font-weight:700;background:rgba(251,191,36,.16);color:var(--amb);
+             border-radius:9px;padding:2px 6px;}
+  .sep{height:1px;background:var(--bd);margin:11px 6px;}
+  .prac{padding:0 8px;}
+  .prow{display:flex;align-items:center;gap:8px;height:27px;font-size:12px;color:var(--mut);}
+  .sw{width:8px;height:8px;border-radius:2px;flex:none;}
+  .prow .st{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);}
+  .sfoot{margin-top:auto;border:1px solid var(--bd);border-radius:9px;background:#0a0e15;padding:9px 10px;}
+  .sfoot .l1{font-size:11.5px;color:var(--soft);display:flex;align-items:center;gap:7px;}
+  .sfoot .l2{font-size:10.5px;color:var(--dim);margin-top:4px;font-family:var(--mono);}
+
+  /* ---------- MAIN ---------- */
+  .main{flex:1;padding:14px;display:flex;flex-direction:column;min-width:0;}
+  .kpis{height:80px;display:flex;gap:10px;}
+  .kpi{flex:1;background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:9px 11px;
+       display:flex;flex-direction:column;justify-content:space-between;min-width:0;position:relative;overflow:hidden;}
+  .kpi .kl{font-size:10.5px;color:var(--mut);letter-spacing:.25px;white-space:nowrap;}
+  .kbot{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;}
+  .kv{font-size:21px;font-weight:650;color:#fff;line-height:1;letter-spacing:-.3px;font-variant-numeric:tabular-nums;}
+  .kv small{font-size:12px;color:var(--mut);font-weight:500;margin-left:2px;}
+  .kd{font-size:10.5px;margin-top:5px;color:var(--dim);}
+  .up{color:#6cc39b;} .down{color:#e79b9b;}
+
+  .tools{height:38px;margin-top:10px;display:flex;align-items:center;gap:8px;}
+  .btn{height:30px;border-radius:6px;border:1px solid var(--bd2);background:#0d1219;color:var(--soft);
+       display:flex;align-items:center;gap:6px;padding:0 10px;font-size:12px;}
+  .btn.sq{width:30px;padding:0;justify-content:center;color:var(--mut);}
+  .today{color:var(--soft);}
+  .dstr{font-size:14px;font-weight:600;color:#fff;margin:0 4px 0 6px;}
+  .dstr span{font-weight:450;color:var(--dim);font-size:12px;margin-left:6px;font-family:var(--mono);}
+  .seg{display:flex;height:30px;border:1px solid var(--bd2);border-radius:6px;overflow:hidden;}
+  .seg div{padding:0 12px;display:flex;align-items:center;font-size:12px;color:var(--mut);border-right:1px solid var(--bd);}
+  .seg div:last-child{border-right:0;}
+  .seg div.on{background:var(--blue);color:#fff;font-weight:550;}
+  .chip{height:26px;border-radius:6px;padding:0 8px;display:flex;align-items:center;gap:6px;font-size:11.5px;
+        border:1px solid var(--bd);background:#0d1219;color:var(--mut);}
+  .chip.act{border-color:#2f5f96;background:rgba(43,108,181,.18);color:#cfe2f6;}
+  .chip .x{color:var(--blue2);font-size:13px;line-height:1;}
+  .prim{height:30px;border-radius:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:550;
+        display:flex;align-items:center;gap:6px;padding:0 12px;border:1px solid #3a7ec7;
+        box-shadow:0 2px 10px rgba(43,108,181,.3);}
+
+  /* ---------- CALENDAR ---------- */
+  .cal{margin-top:10px;flex:1;background:var(--panel);border:1px solid var(--bd);border-radius:12px;
+       display:flex;flex-direction:column;overflow:hidden;}
+  .chead{height:38px;display:flex;border-bottom:1px solid var(--bd);background:#0a0f17;flex:none;}
+  .chead .tcell{width:62px;flex:none;border-right:1px solid var(--bd);display:flex;align-items:center;
+                justify-content:center;font-size:9.5px;color:var(--dim);letter-spacing:.6px;}
+  .dcol{flex:1;border-right:1px solid var(--bd);padding:0 9px;display:flex;align-items:center;gap:8px;min-width:0;}
+  .dcol:last-child{border-right:0;}
+  .pav{width:22px;height:22px;border-radius:50%;font-size:9.5px;font-weight:700;color:#08111c;
+       display:flex;align-items:center;justify-content:center;flex:none;}
+  .dcol .nm{font-size:12px;color:#fff;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dcol .sp{font-size:10px;color:var(--dim);line-height:1.2;white-space:nowrap;}
+  .dcol .num{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--mut);
+             background:#0f1622;border:1px solid var(--bd);border-radius:5px;padding:2px 5px;flex:none;}
+
+  .cbody{height:720px;display:flex;position:relative;flex:none;}
+  .tcol{width:62px;flex:none;border-right:1px solid var(--bd);position:relative;background:#090d14;}
+  .tlab{position:absolute;right:8px;font-family:var(--mono);font-size:10.5px;color:var(--mut);
+         transform:translateY(-6px);letter-spacing:.3px;}
+  .tlab.h{color:var(--soft);font-size:11px;}
+  .tlab.m{color:#4e5768;font-size:9.5px;}
+  .grid{flex:1;position:relative;display:flex;
+        background-image:
+          repeating-linear-gradient(to bottom,rgba(28,38,56,.5) 0 1px,transparent 1px 36px),
+          repeating-linear-gradient(to bottom,rgba(44,58,82,.85) 0 1px,transparent 1px 72px);}
+  .col{flex:1;position:relative;border-right:1px solid var(--bd);min-width:0;}
+  .col:last-child{border-right:0;}
+
+  .ap{position:absolute;left:3px;right:3px;top:calc(var(--s)*1.2px);height:calc(var(--d)*1.2px - 3px);
+      border-radius:6px;padding:3px 6px 3px 7px;overflow:hidden;}
+  .ap .r1{display:flex;align-items:baseline;gap:6px;}
+  .ap .t{font-family:var(--mono);font-size:10px;color:var(--mut);letter-spacing:.2px;flex:none;}
+  .ap .pi{font-size:11.5px;font-weight:650;color:#fff;letter-spacing:.3px;}
+  .ap .mo{font-size:10.5px;color:var(--mut);line-height:1.25;margin-top:1px;
+          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ap .mi{margin-top:3px;display:flex;align-items:center;gap:5px;font-size:9.5px;color:var(--dim);}
+  .ok{background:#0d1d19;border:1px solid #1d3b30;border-left:3px solid var(--grn);}
+  .ok .t{color:#5aa585;}
+  .wait{background:#1b1811;border:1px solid #3a3018;border-left:3px solid var(--amb);}
+  .wait .t{color:#b78f30;}
+  .miss{background:#1c1215;border:1px solid #3b2126;border-left:3px solid var(--red);}
+  .miss .pi{color:#e7c2c2;} .miss .mo{color:#8a6f72;} .miss .t{color:#a86a6a;text-decoration:line-through;}
+  .live{background:linear-gradient(180deg,#0e2745,#0b1d35);border:1px solid #2f6099;border-left:3px solid var(--hl);}
+  .live .t{color:#7db6e6;}
+  .blk{background:repeating-linear-gradient(135deg,#0c111a 0 5px,#111926 5px 10px);
+       border:1px dashed var(--bd2);display:flex;align-items:center;justify-content:center;}
+  .blk .lbl{font-size:10.5px;color:#5b6577;letter-spacing:.3px;text-align:center;line-height:1.3;}
+  .sel{outline:2px solid var(--hl);outline-offset:-1px;
+       box-shadow:0 0 0 3px rgba(95,163,224,.16),0 10px 26px rgba(0,0,0,.55);z-index:6;}
+  .tag{font-size:9px;font-weight:700;letter-spacing:.3px;border-radius:3px;padding:1px 4px;}
+  .tg-ok{background:rgba(61,154,110,.2);color:#74c6a0;}
+  .tg-w{background:rgba(251,191,36,.16);color:#d9a83b;}
+  .tg-b{background:rgba(95,163,224,.2);color:#9cc9ee;}
+
+  .nowl{position:absolute;left:0;right:0;top:242.4px;height:1px;background:var(--red);z-index:7;
+        box-shadow:0 0 8px rgba(248,113,113,.5);}
+  .nowl::before{content:"";position:absolute;left:-4px;top:-3.5px;width:8px;height:8px;border-radius:50%;
+                background:var(--red);}
+  .nowt{position:absolute;top:236px;left:-62px;width:56px;text-align:center;font-family:var(--mono);font-size:10px;
+        color:#1a0709;background:var(--red);border-radius:4px;padding:1px 0;z-index:8;font-weight:700;}
+
+  /* popover */
+  .pop{position:absolute;left:646px;top:172px;width:270px;background:var(--raised);border:1px solid var(--bd2);
+       border-radius:10px;box-shadow:0 18px 44px rgba(0,0,0,.6);z-index:20;overflow:hidden;}
+  .pop::before{content:"";position:absolute;left:-6px;top:22px;width:10px;height:10px;background:var(--raised);
+               border-left:1px solid var(--bd2);border-bottom:1px solid var(--bd2);transform:rotate(45deg);}
+  .ph{padding:9px 11px 8px;border-bottom:1px solid var(--bd);}
+  .ph .h1{display:flex;align-items:center;gap:7px;}
+  .ph .tm{font-family:var(--mono);font-size:12px;color:#fff;}
+  .ph .dur{font-size:10.5px;color:var(--dim);}
+  .ph .pi2{margin-top:6px;font-size:15px;font-weight:650;color:#fff;letter-spacing:.6px;}
+  .ph .meta{font-size:10.5px;color:var(--dim);margin-top:2px;}
+  .pb{padding:8px 11px;}
+  .prow2{display:flex;justify-content:space-between;font-size:11.5px;padding:3px 0;}
+  .prow2 .k{color:var(--dim);} .prow2 .v{color:var(--soft);}
+  .prow2 .v.mono{font-family:var(--mono);}
+  .pf{display:flex;gap:6px;padding:8px 11px 10px;border-top:1px solid var(--bd);}
+  .pf .b{flex:1;height:27px;border-radius:6px;font-size:11.5px;display:flex;align-items:center;
+         justify-content:center;border:1px solid var(--bd2);color:var(--soft);background:#101724;}
+  .pf .b.p{background:var(--blue);border-color:#3a7ec7;color:#fff;font-weight:550;}
+
+  .cfoot{height:22px;flex:none;border-top:1px solid var(--bd);background:#0a0f17;display:flex;
+         align-items:center;padding:0 11px;gap:14px;}
+  .lg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim);}
+  .lg i{width:8px;height:8px;border-radius:2px;display:block;}
+  .cfoot .rt{margin-left:auto;font-family:var(--mono);font-size:10px;color:#4e5768;}
+
+  /* ---------- RIGHT PANEL ---------- */
+  .right{width:322px;flex:none;background:var(--chrome);border-left:1px solid var(--bd);
+         padding:13px 13px 12px;display:flex;flex-direction:column;min-height:0;}
+  .rh{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .rh h2{margin:0;font-size:14px;color:#fff;font-weight:600;}
+  .rh .cb{font-family:var(--mono);font-size:10.5px;color:var(--blue2);background:rgba(43,108,181,.16);
+          border:1px solid #24507f;border-radius:5px;padding:2px 6px;}
+  .rh .rr{margin-left:auto;font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px;}
+
+  .card{background:var(--panel);border:1px solid var(--bd);border-radius:10px;}
+  .cur{padding:10px 11px;border-color:#2b5versus;}
+  .cur{border:1px solid #24507f;background:linear-gradient(180deg,#0d2340,#0a1626);}
+  .cur .l1{display:flex;align-items:center;gap:7px;}
+  .cur .lv{font-size:9.5px;font-weight:700;letter-spacing:.5px;color:#8fc4ee;background:rgba(95,163,224,.16);
+           border-radius:4px;padding:2px 6px;display:flex;align-items:center;gap:5px;}
+  .cur .lv i{width:5px;height:5px;border-radius:50%;background:var(--hl);display:block;}
+  .cur .tm{margin-left:auto;font-family:var(--mono);font-size:11px;color:#a9c6e2;}
+  .cur .l2{display:flex;align-items:center;gap:9px;margin-top:8px;}
+  .ini{width:30px;height:30px;border-radius:8px;background:#12253d;border:1px solid #2c4f7d;color:#cfe2f6;
+       font-size:11px;font-weight:700;letter-spacing:.4px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .cur .nm{font-size:12.5px;color:#fff;font-weight:600;}
+  .cur .sub{font-size:10.5px;color:#7e93ac;margin-top:1px;}
+  .bar{height:4px;border-radius:2px;background:#10263f;margin-top:9px;overflow:hidden;}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#2b6cb5,#5fa3e0);}
+  .cur .l3{display:flex;justify-content:space-between;font-size:10px;color:#6f87a2;margin-top:5px;font-family:var(--mono);}
+
+  .stitle{display:flex;align-items:center;margin:12px 2px 7px;}
+  .stitle b{font-size:11px;color:var(--mut);font-weight:600;letter-spacing:.4px;text-transform:uppercase;}
+  .stitle .a{margin-left:auto;font-size:10.5px;color:var(--blue2);}
+  .queue{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:6px;}
+  .q{background:var(--panel);border:1px solid var(--bd);border-radius:9px;padding:7px 9px;display:flex;gap:9px;flex:none;}
+  .q.hot{border-color:#2f5f96;background:#0b1524;}
+  .qt{font-family:var(--mono);font-size:11px;color:var(--soft);width:38px;flex:none;padding-top:2px;}
+  .qt b{display:block;font-weight:600;}
+  .qt s{display:block;font-size:9px;color:var(--dim);text-decoration:none;margin-top:2px;}
+  .qi{width:28px;height:28px;border-radius:7px;background:#141e2e;border:1px solid var(--bd2);color:var(--soft);
+      font-size:10.5px;font-weight:700;letter-spacing:.4px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .qc{flex:1;min-width:0;}
+  .qc .m{font-size:12px;color:#fff;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .qc .d{font-size:10.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .qc .s{margin-top:5px;display:flex;align-items:center;gap:5px;}
+  .sm{font-size:9.5px;border-radius:4px;padding:2px 5px;display:inline-flex;align-items:center;gap:4px;}
+  .sm-ok{background:rgba(61,154,110,.14);color:#6fc09a;}
+  .sm-w{background:rgba(251,191,36,.13);color:#d5a63c;}
+  .sm-r{background:rgba(248,113,113,.13);color:#e08e8e;}
+  .sm-b{background:rgba(95,163,224,.14);color:#93c3ea;}
+  .qp{font-family:var(--mono);font-size:10.5px;color:var(--mut);text-align:right;flex:none;padding-top:2px;}
+
+  .rem{margin-top:10px;padding:10px 11px;}
+  .rline{display:flex;align-items:center;gap:8px;margin-top:7px;}
+  .rline .lb{font-size:10.5px;color:var(--mut);width:86px;flex:none;}
+  .rline .tr{flex:1;height:6px;border-radius:3px;background:#101724;overflow:hidden;}
+  .rline .tr i{display:block;height:100%;border-radius:3px;}
+  .rline .vn{font-family:var(--mono);font-size:10.5px;color:var(--soft);width:22px;text-align:right;flex:none;}
+  .rfoot{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:9px;border-top:1px solid var(--bd);
+         font-size:10.5px;color:var(--dim);}
+  .sync{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:10px;color:#4e5768;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="top">
+  <div class="brand">
+    <div class="logo">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
+        <path d="M12 6v12M6 12h12"/>
+      </svg>
+    </div>
+    <div class="bname">Praxia</div>
+  </div>
+  <div class="clinic">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c96a6" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5"/></svg>
+    <b>Clinique El Feth</b> · Alger
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="search">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="q">dossier 4172</span><span class="car"></span>
+    <span class="kbd">Ctrl K</span>
+  </div>
+  <div class="tspacer"></div>
+  <div class="tclock">11:22 <span>· mer. 09/09</span></div>
+  <div class="waitpill"><span class="dot"></span> Salle d'attente · 7</div>
+  <div class="ticon">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 8a6 6 0 10-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 20a2 2 0 01-3.4 0"/></svg>
+    <span class="badge">3</span>
+  </div>
+  <div class="ticon">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1V21a2 2 0 11-4 0v-.1A1.6 1.6 0 006.9 19.4l-.1.1A2 2 0 114 16.7l.1-.1a1.6 1.6 0 00-1.1-2.7H3a2 2 0 110-4h.1A1.6 1.6 0 004.6 6.9l-.1-.1A2 2 0 117.3 4l.1.1a1.6 1.6 0 001.8.3H9.3A1.6 1.6 0 0010.4 3V3a2 2 0 114 0v.1a1.6 1.6 0 002.7 1.1l.1-.1A2 2 0 1120 6.9l-.1.1a1.6 1.6 0 00-.3 1.8v.1a1.6 1.6 0 001.4 1h.1a2 2 0 110 4H21a1.6 1.6 0 00-1.5 1z"/></svg>
+  </div>
+  <div class="me">
+    <div class="av">SB</div>
+    <div>
+      <div class="n">S. Bouzid</div>
+      <div class="r">Secrétariat médical</div>
+    </div>
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <div class="side">
+    <div class="slab">Pilotage</div>
+    <div class="nav">
+      <a class="on">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        Agenda <span class="cnt">68</span>
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.9-3.7 3.9-5.6 7.5-5.6s6.6 1.9 7.5 5.6"/></svg>
+        Patients <span class="cnt">4 128</span>
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 8a6 6 0 10-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 20a2 2 0 01-3.4 0"/></svg>
+        Rappels <span class="pill">18</span>
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v6a6 6 0 0012 0V3M9 3H5M15 3h4M12 15v2a4 4 0 008 0v-1"/><circle cx="20" cy="12" r="1.8"/></svg>
+        Praticiens <span class="cnt">9</span>
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        Rapports
+      </a>
+    </div>
+    <div class="sep"></div>
+    <div class="slab">Cabinet</div>
+    <div class="nav">
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M3 12h6"/></svg>
+        Salles &amp; ressources
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M2.5 10h19M6 14.5h4"/></svg>
+        Facturation <span class="cnt">7</span>
+      </a>
+      <a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7.5 3.5v5c0 4.6-3.1 8.5-7.5 9.5-4.4-1-7.5-4.9-7.5-9.5v-5z"/><path d="M9.5 12l1.8 1.8 3.4-3.6"/></svg>
+        Droits &amp; accès
+      </a>
+    </div>
+    <div class="sep"></div>
+    <div class="slab">Praticiens affichés</div>
+    <div class="prac">
+      <div class="prow"><span class="sw" style="background:#5fa3e0"></span> Dr. A. Belkacem <span class="st">14</span></div>
+      <div class="prow"><span class="sw" style="background:#3d9a6e"></span> Dr. N. Cherifi <span class="st">15</span></div>
+      <div class="prow"><span class="sw" style="background:#c084fc"></span> Dr. K. Hamadi <span class="st">14</span></div>
+      <div class="prow"><span class="sw" style="background:#fbbf24"></span> Dr. S. Benali <span class="st">13</span></div>
+      <div class="prow"><span class="sw" style="background:#38bdf8"></span> Dr. Y. Meziane <span class="st">12</span></div>
+      <div class="prow" style="color:#4e5768"><span class="sw" style="background:#2c3a52"></span> 4 praticiens masqués</div>
+    </div>
+    <div class="sfoot">
+      <div class="l1"><span class="dot"></span> Serveur cabinet · en ligne</div>
+      <div class="l2">Sauvegarde 11:15 · 3,4 Go</div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN ================= -->
+  <div class="main">
+
+    <!-- KPI STRIP -->
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kl">Rendez-vous du jour</div>
+        <div class="kbot">
+          <div><div class="kv">68</div><div class="kd"><span class="up">+6</span> vs mardi</div></div>
+          <svg width="74" height="30" viewBox="0 0 74 30">
+            <polyline points="0,21 12,18 24,22 36,13 48,15 60,8 72,6" fill="none" stroke="#4a8fd8" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="72" cy="6" r="2.4" fill="#5fa3e0"/>
+          </svg>
+        </div>
+      </div>
+      <div class="kpi">
+        <div class="kl">Taux de présence</div>
+        <div class="kbot">
+          <div><div class="kv">91,2<small>%</small></div><div class="kd"><span class="down">−1,4 pt</span> sur 7 j</div></div>
+          <svg width="74" height="30" viewBox="0 0 74 30">
+            <path d="M0,9 L12,7 L24,12 L36,10 L48,14 L60,13 L72,17 L72,30 L0,30 Z" fill="rgba(61,154,110,.14)"/>
+            <polyline points="0,9 12,7 24,12 36,10 48,14 60,13 72,17" fill="none" stroke="#3d9a6e" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="72" cy="17" r="2.4" fill="#3d9a6e"/>
+          </svg>
+        </div>
+      </div>
+      <div class="kpi">
+        <div class="kl">Créneaux libres</div>
+        <div class="kbot">
+          <div><div class="kv">12</div><div class="kd">dont <span class="up">5</span> avant 14:00</div></div>
+          <svg width="74" height="30" viewBox="0 0 74 30">
+            <rect x="2" y="16" width="8" height="14" rx="2" fill="#1f3350"/><rect x="14" y="11" width="8" height="19" rx="2" fill="#1f3350"/>
+            <rect x="26" y="19" width="8" height="11" rx="2" fill="#1f3350"/><rect x="38" y="7" width="8" height="23" rx="2" fill="#2b6cb5"/>
+            <rect x="50" y="14" width="8" height="16" rx="2" fill="#1f3350"/><rect x="62" y="21" width="8" height="9" rx="2" fill="#1f3350"/>
+          </svg>
+        </div>
+      </div>
+      <div class="kpi">
+        <div class="kl">Absences non excusées</div>
+        <div class="kbot">
+          <div><div class="kv">6</div><div class="kd"><span class="down">8,8 %</span> des RDV</div></div>
+          <svg width="74" height="30" viewBox="0 0 74 30">
+            <polyline points="0,20 12,22 24,17 36,19 48,14 60,16 72,11" fill="none" stroke="#f87171" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="72" cy="11" r="2.4" fill="#f87171"/>
+          </svg>
+        </div>
+      </div>
+      <div class="kpi">
+        <div class="kl">Encaissé aujourd'hui</div>
+        <div class="kbot">
+          <div><div class="kv">214 500<small>DA</small></div><div class="kd">41 actes · 18 en attente</div></div>
+          <svg width="74" height="30" viewBox="0 0 74 30">
+            <path d="M0,24 L12,20 L24,21 L36,15 L48,13 L60,9 L72,5 L72,30 L0,30 Z" fill="rgba(43,108,181,.16)"/>
+            <polyline points="0,24 12,20 24,21 36,15 48,13 60,9 72,5" fill="none" stroke="#5fa3e0" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="tools">
+      <div class="btn sq"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></div>
+      <div class="btn sq"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>
+      <div class="btn today">Aujourd'hui</div>
+      <div class="dstr">Mercredi 9 septembre 2026 <span>S37</span></div>
+      <div class="seg"><div>Jour</div><div class="on">Praticiens</div><div>Semaine</div><div>Mois</div></div>
+      <div class="chip act">Statut : confirmé, en attente, absent <span class="x">×</span></div>
+      <div class="chip">Salle : toutes</div>
+      <div class="chip">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+        2 filtres
+      </div>
+      <div style="flex:1"></div>
+      <div class="btn sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg></div>
+      <div class="prim">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>
+        Nouveau rendez-vous
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="cal">
+      <div class="chead">
+        <div class="tcell">GMT+1</div>
+        <div class="dcol"><div class="pav" style="background:#5fa3e0">AB</div><div style="min-width:0"><div class="nm">Dr. A. Belkacem</div><div class="sp">Médecine générale · Salle 1</div></div><div class="num">14</div></div>
+        <div class="dcol"><div class="pav" style="background:#3d9a6e">NC</div><div style="min-width:0"><div class="nm">Dr. N. Cherifi</div><div class="sp">Pédiatrie · Salle 3</div></div><div class="num">15</div></div>
+        <div class="dcol"><div class="pav" style="background:#c084fc">KH</div><div style="min-width:0"><div class="nm">Dr. K. Hamadi</div><div class="sp">Cardiologie · Salle 5</div></div><div class="num">14</div></div>
+        <div class="dcol"><div class="pav" style="background:#fbbf24">SB</div><div style="min-width:0"><div class="nm">Dr. S. Benali</div><div class="sp">Dermatologie · Salle 4</div></div><div class="num">13</div></div>
+        <div class="dcol"><div class="pav" style="background:#38bdf8">YM</div><div style="min-width:0"><div class="nm">Dr. Y. Meziane</div><div class="sp">ORL · Salle 6</div></div><div class="num">12</div></div>
+      </div>
+
+      <div class="cbody">
+        <!-- time gutter -->
+        <div class="tcol">
+          <div class="tlab h" style="top:12px">08:00</div>
+          <div class="tlab m" style="top:48px">08:30</div>
+          <div class="tlab h" style="top:84px">09:00</div>
+          <div class="tlab m" style="top:120px">09:30</div>
+          <div class="tlab h" style="top:156px">10:00</div>
+          <div class="tlab m" style="top:192px">10:30</div>
+          <div class="tlab h" style="top:228px">11:00</div>
+          <div class="tlab m" style="top:264px">11:30</div>
+          <div class="tlab h" style="top:300px">12:00</div>
+          <div class="tlab m" style="top:336px">12:30</div>
+          <div class="tlab h" style="top:372px">13:00</div>
+          <div class="tlab m" style="top:408px">13:30</div>
+          <div class="tlab h" style="top:444px">14:00</div>
+          <div class="tlab m" style="top:480px">14:30</div>
+          <div class="tlab h" style="top:516px">15:00</div>
+          <div class="tlab m" style="top:552px">15:30</div>
+          <div class="tlab h" style="top:588px">16:00</div>
+          <div class="tlab m" style="top:624px">16:30</div>
+          <div class="tlab h" style="top:660px">17:00</div>
+          <div class="tlab m" style="top:696px">17:30</div>
+        </div>
+
+        <div class="grid">
+          <div class="nowt">11:22</div>
+          <div class="nowl"></div>
+
+          <!-- ===== Dr. A. Belkacem ===== -->
+          <div class="col">
+            <div class="ap ok" style="--s:0;--d:30"><div class="r1"><span class="t">08:00</span><span class="pi">M. B.</span></div><div class="mo">Contrôle tension</div></div>
+            <div class="ap ok" style="--s:30;--d:30"><div class="r1"><span class="t">08:30</span><span class="pi">R. T.</span></div><div class="mo">Renouvellement ordonnance</div></div>
+            <div class="ap ok" style="--s:60;--d:45"><div class="r1"><span class="t">09:00</span><span class="pi">L. K.</span></div><div class="mo">Bilan annuel · 45 min</div><div class="mi"><span class="tag tg-ok">Confirmé</span> Salle 1 · 3 500 DA</div></div>
+            <div class="ap wait" style="--s:105;--d:30"><div class="r1"><span class="t">09:45</span><span class="pi">S. A.</span></div><div class="mo">Certificat médical</div></div>
+            <div class="ap miss" style="--s:135;--d:30"><div class="r1"><span class="t">10:15</span><span class="pi">F. Z.</span></div><div class="mo">Absent · suivi anémie</div></div>
+            <div class="ap ok" style="--s:165;--d:30"><div class="r1"><span class="t">10:45</span><span class="pi">N. D.</span></div><div class="mo">Vaccin antigrippal</div></div>
+            <div class="ap blk" style="--s:240;--d:60"><div class="lbl">Pause déjeuner<br>12:00 – 13:00</div></div>
+            <div class="ap ok" style="--s:300;--d:30"><div class="r1"><span class="t">13:00</span><span class="pi">H. M.</span></div><div class="mo">Suivi hypertension</div></div>
+            <div class="ap wait" style="--s:330;--d:30"><div class="r1"><span class="t">13:30</span><span class="pi">Y. B.</span></div><div class="mo">Douleurs lombaires</div></div>
+            <div class="ap ok" style="--s:360;--d:45"><div class="r1"><span class="t">14:00</span><span class="pi">O. S.</span></div><div class="mo">Bilan pré-opératoire</div><div class="mi"><span class="tag tg-ok">Confirmé</span> SMS envoyé 08:41</div></div>
+            <div class="ap ok" style="--s:420;--d:30"><div class="r1"><span class="t">15:00</span><span class="pi">T. A.</span></div><div class="mo">Contrôle glycémie</div></div>
+            <div class="ap blk" style="--s:480;--d:60"><div class="lbl">Urgences réservées<br>16:00 – 17:00</div></div>
+            <div class="ap ok" style="--s:540;--d:30"><div class="r1"><span class="t">17:00</span><span class="pi">K. L.</span></div><div class="mo">Résultats analyses</div></div>
+          </div>
+
+          <!-- ===== Dr. N. Cherifi ===== -->
+          <div class="col">
+            <div class="ap ok" style="--s:0;--d:30"><div class="r1"><span class="t">08:00</span><span class="pi">I. B.</span></div><div class="mo">Vaccin ROR · 12 mois</div></div>
+            <div class="ap ok" style="--s:30;--d:30"><div class="r1"><span class="t">08:30</span><span class="pi">A. Z.</span></div><div class="mo">Visite des 9 mois</div></div>
+            <div class="ap wait" style="--s:60;--d:30"><div class="r1"><span class="t">09:00</span><span class="pi">M. C.</span></div><div class="mo">Toux persistante</div></div>
+            <div class="ap ok" style="--s:90;--d:45"><div class="r1"><span class="t">09:30</span><span class="pi">R. S.</span></div><div class="mo">Suivi asthme · spirométrie</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 2 800 DA</div></div>
+            <div class="ap ok" style="--s:135;--d:30"><div class="r1"><span class="t">10:15</span><span class="pi">D. H.</span></div><div class="mo">Certificat crèche</div></div>
+            <div class="ap miss" style="--s:165;--d:30"><div class="r1"><span class="t">10:45</span><span class="pi">W. N.</span></div><div class="mo">Absent · courbe de poids</div></div>
+            <div class="ap live" style="--s:195;--d:30"><div class="r1"><span class="t">11:15</span><span class="pi">S. B.</span></div><div class="mo">Otite · contrôle — en cours</div></div>
+            <div class="ap blk" style="--s:240;--d:60"><div class="lbl">Pause déjeuner<br>12:00 – 13:00</div></div>
+            <div class="ap ok" style="--s:300;--d:30"><div class="r1"><span class="t">13:00</span><span class="pi">E. A.</span></div><div class="mo">Rappel vaccin DTP</div></div>
+            <div class="ap ok" style="--s:330;--d:30"><div class="r1"><span class="t">13:30</span><span class="pi">L. M.</span></div><div class="mo">Reflux · suivi</div></div>
+            <div class="ap wait" style="--s:360;--d:30"><div class="r1"><span class="t">14:00</span><span class="pi">N. K.</span></div><div class="mo">Retard de croissance</div></div>
+            <div class="ap ok" style="--s:420;--d:45"><div class="r1"><span class="t">15:00</span><span class="pi">T. F.</span></div><div class="mo">Bilan allergies</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 4 200 DA</div></div>
+            <div class="ap blk" style="--s:480;--d:30"><div class="lbl">Réunion staff</div></div>
+            <div class="ap ok" style="--s:510;--d:30"><div class="r1"><span class="t">16:30</span><span class="pi">B. R.</span></div><div class="mo">Suivi calendrier vaccinal</div></div>
+            <div class="ap wait" style="--s:555;--d:30"><div class="r1"><span class="t">17:15</span><span class="pi">G. A.</span></div><div class="mo">Fièvre · contrôle</div></div>
+          </div>
+
+          <!-- ===== Dr. K. Hamadi ===== -->
+          <div class="col">
+            <div class="ap ok" style="--s:15;--d:45"><div class="r1"><span class="t">08:15</span><span class="pi">A. M.</span></div><div class="mo">ECG d'effort</div><div class="mi"><span class="tag tg-ok">Confirmé</span> Salle 5 · 6 000 DA</div></div>
+            <div class="ap ok" style="--s:60;--d:30"><div class="r1"><span class="t">09:00</span><span class="pi">Z. B.</span></div><div class="mo">Suivi post-IDM</div></div>
+            <div class="ap ok" style="--s:90;--d:60"><div class="r1"><span class="t">09:30</span><span class="pi">H. T.</span></div><div class="mo">Échographie cardiaque</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 8 500 DA · préparation OK</div></div>
+            <div class="ap ok sel" style="--s:150;--d:30"><div class="r1"><span class="t">10:30</span><span class="pi">K. B.</span></div><div class="mo">Holter tensionnel · pose</div></div>
+            <div class="ap wait" style="--s:180;--d:30"><div class="r1"><span class="t">11:00</span><span class="pi">M. S.</span></div><div class="mo">Bilan lipidique</div></div>
+            <div class="ap ok" style="--s:210;--d:45"><div class="r1"><span class="t">11:30</span><span class="pi">D. L.</span></div><div class="mo">Consultation pré-op</div><div class="mi"><span class="tag tg-ok">Confirmé</span> SMS envoyé 08:02</div></div>
+            <div class="ap blk" style="--s:255;--d:45"><div class="lbl">Pause déjeuner</div></div>
+            <div class="ap miss" style="--s:315;--d:30"><div class="r1"><span class="t">13:15</span><span class="pi">R. A.</span></div><div class="mo">Absent · contrôle pacemaker</div></div>
+            <div class="ap ok" style="--s:345;--d:45"><div class="r1"><span class="t">13:45</span><span class="pi">N. F.</span></div><div class="mo">Écho-doppler des carotides</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 7 000 DA</div></div>
+            <div class="ap ok" style="--s:390;--d:30"><div class="r1"><span class="t">14:30</span><span class="pi">S. K.</span></div><div class="mo">Renouvellement traitement</div></div>
+            <div class="ap blk" style="--s:420;--d:60"><div class="lbl">Bloc · coronarographie<br>15:00 – 16:00</div></div>
+            <div class="ap wait" style="--s:480;--d:30"><div class="r1"><span class="t">16:00</span><span class="pi">O. T.</span></div><div class="mo">Lecture Holter</div></div>
+            <div class="ap ok" style="--s:510;--d:45"><div class="r1"><span class="t">16:30</span><span class="pi">I. D.</span></div><div class="mo">Suivi insuffisance cardiaque</div><div class="mi"><span class="tag tg-b">Téléconsultation</span></div></div>
+            <div class="ap ok" style="--s:570;--d:30"><div class="r1"><span class="t">17:30</span><span class="pi">A. B.</span></div><div class="mo">Contrôle tension</div></div>
+          </div>
+
+          <!-- ===== Dr. S. Benali ===== -->
+          <div class="col">
+            <div class="ap ok" style="--s:30;--d:30"><div class="r1"><span class="t">08:30</span><span class="pi">L. B.</span></div><div class="mo">Acné · contrôle 3 mois</div></div>
+            <div class="ap wait" style="--s:60;--d:30"><div class="r1"><span class="t">09:00</span><span class="pi">F. K.</span></div><div class="mo">Eczéma · suivi</div></div>
+            <div class="ap ok" style="--s:90;--d:30"><div class="r1"><span class="t">09:30</span><span class="pi">M. T.</span></div><div class="mo">Dermoscopie · naevus</div></div>
+            <div class="ap ok" style="--s:120;--d:45"><div class="r1"><span class="t">10:00</span><span class="pi">H. Z.</span></div><div class="mo">Psoriasis · bilan</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 3 800 DA</div></div>
+            <div class="ap miss" style="--s:180;--d:30"><div class="r1"><span class="t">11:00</span><span class="pi">S. R.</span></div><div class="mo">Absent · mycose</div></div>
+            <div class="ap ok" style="--s:210;--d:30"><div class="r1"><span class="t">11:30</span><span class="pi">N. A.</span></div><div class="mo">Cryothérapie verrues</div></div>
+            <div class="ap blk" style="--s:240;--d:60"><div class="lbl">Pause déjeuner<br>12:00 – 13:00</div></div>
+            <div class="ap ok" style="--s:300;--d:45"><div class="r1"><span class="t">13:00</span><span class="pi">B. K.</span></div><div class="mo">Peeling · séance 2 / 4</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 9 000 DA</div></div>
+            <div class="ap wait" style="--s:360;--d:30"><div class="r1"><span class="t">14:00</span><span class="pi">T. S.</span></div><div class="mo">Chute de cheveux</div></div>
+            <div class="ap ok" style="--s:390;--d:30"><div class="r1"><span class="t">14:30</span><span class="pi">D. M.</span></div><div class="mo">Retrait de points</div></div>
+            <div class="ap ok" style="--s:420;--d:30"><div class="r1"><span class="t">15:00</span><span class="pi">Y. H.</span></div><div class="mo">Urticaire chronique</div></div>
+            <div class="ap blk" style="--s:465;--d:75"><div class="lbl">Petite chirurgie<br>15:45 – 17:00</div></div>
+            <div class="ap ok" style="--s:540;--d:30"><div class="r1"><span class="t">17:00</span><span class="pi">R. B.</span></div><div class="mo">Résultats biopsie</div></div>
+          </div>
+
+          <!-- ===== Dr. Y. Meziane ===== -->
+          <div class="col">
+            <div class="ap ok" style="--s:0;--d:45"><div class="r1"><span class="t">08:00</span><span class="pi">K. S.</span></div><div class="mo">Audiométrie tonale</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 4 500 DA</div></div>
+            <div class="ap ok" style="--s:60;--d:30"><div class="r1"><span class="t">09:00</span><span class="pi">A. L.</span></div><div class="mo">Bouchon de cérumen</div></div>
+            <div class="ap wait" style="--s:90;--d:30"><div class="r1"><span class="t">09:30</span><span class="pi">M. R.</span></div><div class="mo">Vertiges · bilan</div></div>
+            <div class="ap miss" style="--s:120;--d:30"><div class="r1"><span class="t">10:00</span><span class="pi">T. B.</span></div><div class="mo">Absent · contrôle post-op</div></div>
+            <div class="ap ok" style="--s:150;--d:45"><div class="r1"><span class="t">10:30</span><span class="pi">N. M.</span></div><div class="mo">Rhinite chronique</div><div class="mi"><span class="tag tg-ok">Confirmé</span> Salle 6</div></div>
+            <div class="ap ok" style="--s:195;--d:30"><div class="r1"><span class="t">11:15</span><span class="pi">S. D.</span></div><div class="mo">Nasofibroscopie</div></div>
+            <div class="ap blk" style="--s:240;--d:60"><div class="lbl">Pause déjeuner<br>12:00 – 13:00</div></div>
+            <div class="ap ok" style="--s:300;--d:30"><div class="r1"><span class="t">13:00</span><span class="pi">H. A.</span></div><div class="mo">Otite séreuse · contrôle</div></div>
+            <div class="ap blk" style="--s:330;--d:60"><div class="lbl">Bloc opératoire · CHU<br>13:30 – 14:30</div></div>
+            <div class="ap ok" style="--s:390;--d:45"><div class="r1"><span class="t">14:30</span><span class="pi">F. M.</span></div><div class="mo">Réglage audioprothèse</div><div class="mi"><span class="tag tg-ok">Confirmé</span> 5 500 DA</div></div>
+            <div class="ap wait" style="--s:435;--d:30"><div class="r1"><span class="t">15:15</span><span class="pi">L. T.</span></div><div class="mo">Acouphènes</div></div>
+            <div class="ap ok" style="--s:480;--d:30"><div class="r1"><span class="t">16:00</span><span class="pi">Z. K.</span></div><div class="mo">Sinusite · contrôle</div></div>
+            <div class="ap blk" style="--s:510;--d:90"><div class="lbl">Astreinte urgences ORL<br>16:30 – 18:00</div></div>
+          </div>
+
+          <!-- ===== POPOVER (rendez-vous sélectionné) ===== -->
+          <div class="pop">
+            <div class="ph">
+              <div class="h1">
+                <span class="tm">10:30 – 11:00</span><span class="dur">· 30 min</span>
+                <span class="tag tg-ok" style="margin-left:auto">Confirmé</span>
+              </div>
+              <div class="pi2">K. B. · dossier 4172</div>
+              <div class="meta">F · 54 ans · assurance CNAS · tél. 05 •• •• 41 88</div>
+            </div>
+            <div class="pb">
+              <div class="prow2"><span class="k">Motif</span><span class="v">Holter tensionnel · pose</span></div>
+              <div class="prow2"><span class="k">Praticien</span><span class="v">Dr. K. Hamadi · Salle 5</span></div>
+              <div class="prow2"><span class="k">Tarif</span><span class="v mono">4 500 DA · non réglé</span></div>
+              <div class="prow2"><span class="k">Rappel SMS</span><span class="v">envoyé hier 18:04 · confirmé</span></div>
+              <div class="prow2"><span class="k">Créé par</span><span class="v">S. Bouzid · 02/09 à 10:47</span></div>
+              <div style="margin-top:7px;padding:6px 8px;border-radius:6px;background:rgba(251,191,36,.08);
+                          border:1px solid rgba(251,191,36,.28);font-size:10.5px;color:#d9ab48;">
+                Retrait de l'appareil à programmer sous 24 h.
+              </div>
+            </div>
+            <div class="pf">
+              <div class="b p">Ouvrir le dossier</div>
+              <div class="b">Replanifier</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cfoot">
+        <div class="lg"><i style="background:#3d9a6e"></i> Confirmé</div>
+        <div class="lg"><i style="background:#fbbf24"></i> En attente</div>
+        <div class="lg"><i style="background:#f87171"></i> Absent</div>
+        <div class="lg"><i style="background:#5fa3e0"></i> En cours</div>
+        <div class="lg"><i style="background:repeating-linear-gradient(135deg,#0c111a 0 3px,#243044 3px 6px);border:1px solid #2c3a52"></i> Créneau protégé</div>
+        <div class="rt">08:00 – 18:00 · pas de 30 min · 68 RDV affichés · 12 libres</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= RIGHT PANEL ================= -->
+  <div class="right">
+    <div class="rh">
+      <h2>File d'attente</h2>
+      <span class="cb">7</span>
+      <div class="rr"><span class="dot" style="background:#fbbf24"></span> retard moyen 6 min</div>
+    </div>
+
+    <div class="card cur">
+      <div class="l1">
+        <span class="lv"><i></i> EN CONSULTATION</span>
+        <span class="tm">11:15 → 11:45</span>
+      </div>
+      <div class="l2">
+        <div class="ini">S. B.</div>
+        <div style="min-width:0">
+          <div class="nm">S. B. · 4 ans</div>
+          <div class="sub">Otite · contrôle — Dr. N. Cherifi, Salle 3</div>
+        </div>
+      </div>
+      <div class="bar"><i style="width:24%"></i></div>
+      <div class="l3"><span>7 min écoulées</span><span>reste 23 min</span></div>
+    </div>
+
+    <div class="stitle"><b>Prochains patients</b><span class="a">Tout voir</span></div>
+
+    <div class="queue">
+      <div class="q hot">
+        <div class="qt"><b>11:30</b><s>dans 8'</s></div>
+        <div class="qi">D. L.</div>
+        <div class="qc">
+          <div class="m">Consultation pré-op</div>
+          <div class="d">Dr. K. Hamadi · Salle 5 · arrivé 11:04</div>
+          <div class="s"><span class="sm sm-ok">✓ SMS envoyé 08:02</span><span class="sm sm-b">Enregistré</span></div>
+        </div>
+        <div class="qp">5 000<br>DA</div>
+      </div>
+      <div class="q">
+        <div class="qt"><b>11:30</b><s>dans 8'</s></div>
+        <div class="qi">N. A.</div>
+        <div class="qc">
+          <div class="m">Cryothérapie verrues</div>
+          <div class="d">Dr. S. Benali · Salle 4 · arrivé 11:12</div>
+          <div class="s"><span class="sm sm-ok">✓ SMS envoyé 08:02</span></div>
+        </div>
+        <div class="qp">3 200<br>DA</div>
+      </div>
+      <div class="q">
+        <div class="qt"><b>11:15</b><s>+7' att.</s></div>
+        <div class="qi">S. D.</div>
+        <div class="qc">
+          <div class="m">Nasofibroscopie</div>
+          <div class="d">Dr. Y. Meziane · Salle 6 · arrivé 10:58</div>
+          <div class="s"><span class="sm sm-w">⏱ Rappel programmé 12:00</span></div>
+        </div>
+        <div class="qp">6 500<br>DA</div>
+      </div>
+      <div class="q">
+        <div class="qt"><b>11:00</b><s>en salle</s></div>
+        <div class="qi">M. S.</div>
+        <div class="qc">
+          <div class="m">Bilan lipidique</div>
+          <div class="d">Dr. K. Hamadi · à jeun · arrivé 10:41</div>
+          <div class="s"><span class="sm sm-r">✕ Sans réponse · 2 relances</span></div>
+        </div>
+        <div class="qp">2 400<br>DA</div>
+      </div>
+      <div class="q">
+        <div class="qt"><b>13:00</b><s>après-midi</s></div>
+        <div class="qi">H. M.</div>
+        <div class="qc">
+          <div class="m">Suivi hypertension</div>
+          <div class="d">Dr. A. Belkacem · Salle 1</div>
+          <div class="s"><span class="sm sm-ok">✓ Confirmé par SMS</span></div>
+        </div>
+        <div class="qp">2 500<br>DA</div>
+      </div>
+      <div class="q">
+        <div class="qt"><b>13:00</b><s>après-midi</s></div>
+        <div class="qi">E. A.</div>
+        <div class="qc">
+          <div class="m">Rappel vaccin DTP</div>
+          <div class="d">Dr. N. Cherifi · Salle 3</div>
+          <div class="s"><span class="sm sm-w">⏱ Rappel programmé 12:15</span></div>
+        </div>
+        <div class="qp">1 800<br>DA</div>
+      </div>
+    </div>
+
+    <div class="card rem">
+      <div style="display:flex;align-items:center;gap:7px">
+        <b style="font-size:12px;color:#fff;font-weight:600">Rappels — aujourd'hui</b>
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:#6b7686">màj 11:20</span>
+      </div>
+      <div class="rline"><span class="lb">SMS envoyés</span><span class="tr"><i style="width:100%;background:#2b6cb5"></i></span><span class="vn">84</span></div>
+      <div class="rline"><span class="lb">Confirmés</span><span class="tr"><i style="width:73%;background:#3d9a6e"></i></span><span class="vn">61</span></div>
+      <div class="rline"><span class="lb">En attente</span><span class="tr"><i style="width:21%;background:#fbbf24"></i></span><span class="vn">18</span></div>
+      <div class="rline"><span class="lb">Échecs d'envoi</span><span class="tr"><i style="width:6%;background:#f87171"></i></span><span class="vn">5</span></div>
+      <div class="rfoot">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8"><path d="M12 9v5M12 17.5v.5"/><path d="M10.3 3.9L2.6 17.4A2 2 0 004.3 20.4h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+        6 absences à relancer · file d'attente de rappel prête
+        <span style="margin-left:auto;color:#93c3ea">Relancer</span>
+      </div>
+    </div>
+
+    <div class="sync">
+      <span class="dot"></span> Synchronisé il y a 40 s · 3 postes connectés
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

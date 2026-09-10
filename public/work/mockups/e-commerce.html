@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vendora — Commandes</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    width: 1600px; height: 1000px;
+    overflow: hidden;
+    background: #030405;
+    color: #e0e4ea;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .app { display: flex; width: 1600px; height: 1000px; }
+
+  /* ---------------- SIDEBAR ---------------- */
+  .side {
+    width: 236px; height: 1000px; flex: 0 0 236px;
+    background: #070a0f;
+    border-right: 1px solid #1c2638;
+    display: flex; flex-direction: column;
+  }
+  .side-brand {
+    height: 56px; flex: 0 0 56px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 14px;
+    border-bottom: 1px solid #1c2638;
+  }
+  .logo {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: linear-gradient(145deg, #2b6cb5, #0b1d35);
+    border: 1px solid #2c3a52;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-name { font-size: 15px; font-weight: 650; color: #ffffff; letter-spacing: .2px; }
+  .brand-tag {
+    font-size: 9px; color: #6b7686; letter-spacing: 1.1px; text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .store {
+    margin: 12px 12px 8px; padding: 8px 10px;
+    background: #0b1018; border: 1px solid #1c2638; border-radius: 8px;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .store-av {
+    width: 24px; height: 24px; border-radius: 6px; flex: 0 0 24px;
+    background: #0b1d35; border: 1px solid #2c3a52;
+    color: #5fa3e0; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .store-t { font-size: 12px; color: #ffffff; font-weight: 550; line-height: 1.2; }
+  .store-s { font-size: 10px; color: #6b7686; margin-top: 2px; }
+
+  .nav-group { padding: 6px 12px 0; }
+  .nav-lab {
+    font-size: 9.5px; letter-spacing: 1.1px; text-transform: uppercase;
+    color: #6b7686; padding: 8px 8px 6px; font-weight: 600;
+  }
+  .nav-i {
+    display: flex; align-items: center; gap: 10px;
+    height: 32px; padding: 0 9px; margin-bottom: 2px;
+    border-radius: 7px; color: #8c96a6; font-size: 13px;
+    position: relative;
+  }
+  .nav-i svg { flex: 0 0 16px; opacity: .85; }
+  .nav-i.on {
+    background: #0b1d35; color: #ffffff; font-weight: 550;
+    box-shadow: inset 0 0 0 1px #2c3a52;
+  }
+  .nav-i.on svg { color: #5fa3e0; opacity: 1; }
+  .nav-i.on::before {
+    content: ""; position: absolute; left: -9px; top: 7px;
+    width: 3px; height: 18px; border-radius: 0 3px 3px 0; background: #4a8fd8;
+  }
+  .nav-b {
+    margin-left: auto; font-size: 10.5px; font-weight: 650;
+    padding: 1px 6px; border-radius: 20px;
+    background: #141e2e; color: #8c96a6; border: 1px solid #1c2638;
+  }
+  .nav-b.blue { background: rgba(43,108,181,.22); color: #5fa3e0; border-color: rgba(95,163,224,.32); }
+  .nav-b.amber { background: rgba(251,191,36,.12); color: #fbbf24; border-color: rgba(251,191,36,.28); }
+
+  .side-foot { margin-top: auto; padding: 12px; border-top: 1px solid #1c2638; }
+  .int {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: #8c96a6; padding: 5px 4px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex: 0 0 6px; }
+  .dot.g { background: #3d9a6e; box-shadow: 0 0 0 2px rgba(61,154,110,.18); }
+  .dot.a { background: #fbbf24; box-shadow: 0 0 0 2px rgba(251,191,36,.16); }
+  .int span.r { margin-left: auto; color: #6b7686; font-size: 10px; }
+
+  /* ---------------- MAIN ---------------- */
+  .main { flex: 1 1 auto; width: 1364px; height: 1000px; display: flex; flex-direction: column; }
+  .top {
+    height: 56px; flex: 0 0 56px;
+    background: #070a0f; border-bottom: 1px solid #1c2638;
+    display: flex; align-items: center; padding: 0 18px 0 20px; gap: 14px;
+  }
+  .crumb { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #6b7686; }
+  .crumb b { color: #ffffff; font-weight: 600; }
+  .crumb .sep { color: #2c3a52; }
+  .search {
+    margin-left: 14px; width: 330px; height: 32px;
+    background: #0b1018; border: 1px solid #2c3a52; border-radius: 7px;
+    display: flex; align-items: center; gap: 8px; padding: 0 10px;
+    box-shadow: 0 0 0 3px rgba(43,108,181,.13);
+  }
+  .search .val { color: #ffffff; font-size: 12.5px; }
+  .caret {
+    display: inline-block; width: 1px; height: 14px; background: #5fa3e0;
+    margin-left: 1px; vertical-align: -3px;
+  }
+  .search .hint {
+    margin-left: auto; font-size: 10px; color: #6b7686;
+    border: 1px solid #1c2638; border-radius: 4px; padding: 1px 5px; background: #141e2e;
+  }
+  .top-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .icon-btn {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid #1c2638;
+    background: #0b1018; display: flex; align-items: center; justify-content: center;
+    color: #8c96a6; position: relative;
+  }
+  .bell-dot {
+    position: absolute; top: 5px; right: 6px; width: 6px; height: 6px;
+    border-radius: 50%; background: #f87171; border: 1.5px solid #0b1018;
+  }
+  .me { display: flex; align-items: center; gap: 9px; padding-left: 12px; border-left: 1px solid #1c2638; }
+  .avatar {
+    width: 29px; height: 29px; border-radius: 8px;
+    background: linear-gradient(150deg, #2b6cb5, #0b1d35);
+    border: 1px solid #2c3a52; color: #ffffff;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .3px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .me-n { font-size: 12.5px; color: #ffffff; font-weight: 550; line-height: 1.2; }
+  .me-r { font-size: 10px; color: #6b7686; margin-top: 1px; }
+
+  .work {
+    flex: 1 1 auto; height: 944px;
+    display: flex; gap: 16px; padding: 18px 20px; overflow: hidden;
+  }
+  .col { width: 944px; flex: 0 0 944px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+
+  /* page head */
+  .phead { height: 40px; flex: 0 0 40px; display: flex; align-items: center; gap: 10px; }
+  .phead h1 { margin: 0; font-size: 21px; font-weight: 650; color: #ffffff; letter-spacing: -.2px; }
+  .phead .cnt {
+    font-size: 11.5px; color: #8c96a6; background: #0b1018;
+    border: 1px solid #1c2638; border-radius: 20px; padding: 2px 9px;
+  }
+  .live { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #6b7686; margin-left: 4px; }
+  .pulse { width: 6px; height: 6px; border-radius: 50%; background: #3d9a6e; box-shadow: 0 0 0 3px rgba(61,154,110,.15); }
+  .pbtns { margin-left: auto; display: flex; gap: 8px; }
+  .btn {
+    height: 30px; border-radius: 6px; border: 1px solid #2c3a52; background: #141e2e;
+    color: #e0e4ea; font-size: 12px; display: flex; align-items: center; gap: 7px; padding: 0 11px;
+  }
+  .btn.primary { background: #2b6cb5; border-color: #4a8fd8; color: #ffffff; font-weight: 600; }
+  .btn.ghost { background: #0b1018; color: #8c96a6; border-color: #1c2638; }
+
+  /* filter bar */
+  .fbar { height: 34px; flex: 0 0 34px; display: flex; align-items: center; gap: 8px; }
+  .seg { display: flex; background: #0b1018; border: 1px solid #1c2638; border-radius: 7px; padding: 2px; }
+  .seg span { font-size: 12px; color: #8c96a6; padding: 4px 11px; border-radius: 5px; }
+  .seg span.on { background: #141e2e; color: #ffffff; box-shadow: inset 0 0 0 1px #2c3a52; font-weight: 550; }
+  .seg span .n { color: #6b7686; font-size: 10.5px; margin-left: 5px; }
+  .seg span.on .n { color: #5fa3e0; }
+  .chip-f {
+    display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 8px 0 9px;
+    border-radius: 6px; font-size: 11.5px;
+    background: rgba(43,108,181,.16); border: 1px solid rgba(95,163,224,.34); color: #9dc4ea;
+  }
+  .chip-f b { color: #ffffff; font-weight: 600; }
+  .chip-f .x { color: #6b7686; font-size: 13px; line-height: 1; }
+  .fbar .right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 11.5px; color: #6b7686; }
+
+  /* tiles */
+  .tiles { height: 88px; flex: 0 0 88px; display: flex; gap: 12px; }
+  .tile {
+    flex: 1 1 0; background: #0b1018; border: 1px solid #1c2638; border-radius: 10px;
+    padding: 10px 12px; position: relative; overflow: hidden;
+  }
+  .tile .lab { font-size: 10.5px; color: #8c96a6; letter-spacing: .2px; }
+  .tile .val { font-size: 20px; font-weight: 650; color: #ffffff; margin-top: 5px; letter-spacing: -.4px; }
+  .tile .val small { font-size: 11px; font-weight: 500; color: #6b7686; margin-left: 2px; }
+  .tile .delta { position: absolute; right: 11px; top: 10px; font-size: 10.5px; font-weight: 600; padding: 1px 6px; border-radius: 5px; }
+  .up { color: #3d9a6e; background: rgba(61,154,110,.13); }
+  .down { color: #f87171; background: rgba(248,113,113,.11); }
+  .tile .spark { position: absolute; right: 10px; bottom: 8px; opacity: .95; }
+
+  /* chart */
+  .card { background: #0b1018; border: 1px solid #1c2638; border-radius: 11px; }
+  .chart { height: 182px; flex: 0 0 182px; padding: 11px 14px 10px; position: relative; overflow: hidden; }
+  .chead { display: flex; align-items: center; gap: 10px; height: 24px; }
+  .chead h2 { margin: 0; font-size: 13px; font-weight: 600; color: #ffffff; }
+  .chead .sub { font-size: 11px; color: #6b7686; }
+  .legend { margin-left: auto; display: flex; gap: 12px; font-size: 10.5px; color: #8c96a6; align-items: center; }
+  .lg { display: flex; align-items: center; gap: 5px; }
+  .lg i { width: 8px; height: 8px; border-radius: 2px; display: block; }
+
+  /* table */
+  .tablewrap { flex: 1 1 auto; overflow: hidden; display: flex; flex-direction: column; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  thead th {
+    height: 34px; text-align: left; font-size: 10.5px; font-weight: 600;
+    letter-spacing: .5px; text-transform: uppercase; color: #6b7686;
+    background: #090d14; border-bottom: 1px solid #1c2638; padding: 0 10px;
+    white-space: nowrap;
+  }
+  thead th.r { text-align: right; }
+  tbody td {
+    height: 40px; padding: 0 10px; border-bottom: 1px solid #131b28;
+    font-size: 12.5px; color: #e0e4ea; white-space: nowrap; overflow: hidden;
+  }
+  tbody td.r { text-align: right; }
+  tbody tr.sel td { background: #0b1d35; }
+  tbody tr.sel td:first-child { box-shadow: inset 3px 0 0 0 #4a8fd8; }
+  tbody tr.hov td { background: #0d1420; }
+  .cbx {
+    width: 14px; height: 14px; border-radius: 4px; border: 1px solid #2c3a52;
+    background: #0b1018; display: block;
+  }
+  .cbx.on { background: #2b6cb5; border-color: #4a8fd8; display: flex; align-items: center; justify-content: center; }
+  .ord { color: #ffffff; font-weight: 600; font-size: 12px; letter-spacing: .2px; }
+  .cli { color: #ffffff; font-size: 12.5px; }
+  .cli-s { color: #6b7686; font-size: 10.5px; margin-top: 1px; }
+  .tot { color: #ffffff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tot small { color: #6b7686; font-weight: 500; font-size: 10.5px; margin-left: 2px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 550; padding: 3px 9px 3px 7px; border-radius: 5px;
+    border: 1px solid transparent;
+  }
+  .chip i { width: 5px; height: 5px; border-radius: 50%; display: block; }
+  .c-pay { color: #4ec08c; background: rgba(61,154,110,.13); border-color: rgba(61,154,110,.3); }
+  .c-pay i { background: #3d9a6e; }
+  .c-prep { color: #fbbf24; background: rgba(251,191,36,.10); border-color: rgba(251,191,36,.26); }
+  .c-prep i { background: #fbbf24; }
+  .c-exp { color: #5fa3e0; background: rgba(43,108,181,.16); border-color: rgba(95,163,224,.3); }
+  .c-exp i { background: #4a8fd8; }
+  .c-remb { color: #f87171; background: rgba(248,113,113,.10); border-color: rgba(248,113,113,.24); }
+  .c-remb i { background: #f87171; }
+  .dt { color: #8c96a6; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .dt small { color: #6b7686; }
+  .kebab { color: #6b7686; font-size: 14px; letter-spacing: 1px; }
+  .tfoot {
+    height: 34px; flex: 0 0 34px; display: flex; align-items: center; gap: 10px;
+    padding: 0 12px; border-top: 1px solid #1c2638; background: #090d14;
+    font-size: 11.5px; color: #6b7686;
+  }
+  .pager { margin-left: auto; display: flex; align-items: center; gap: 5px; }
+  .pg {
+    min-width: 22px; height: 22px; border-radius: 5px; border: 1px solid #1c2638;
+    background: #0b1018; color: #8c96a6; font-size: 11px;
+    display: flex; align-items: center; justify-content: center; padding: 0 6px;
+  }
+  .pg.on { background: #141e2e; color: #ffffff; border-color: #2c3a52; font-weight: 600; }
+
+  /* ---------------- RIGHT PANEL ---------------- */
+  .aside {
+    width: 364px; flex: 0 0 364px; height: 908px;
+    background: #0b1018; border: 1px solid #1c2638; border-radius: 12px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sec { padding: 10px 14px; border-bottom: 1px solid #131b28; }
+  .sec-t {
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: #6b7686; font-weight: 650; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sec-t .r { margin-left: auto; color: #8c96a6; letter-spacing: 0; text-transform: none; font-size: 10.5px; font-weight: 500; }
+  .oh { display: flex; align-items: flex-start; gap: 10px; }
+  .oh .n { font-size: 16px; font-weight: 650; color: #ffffff; letter-spacing: .2px; }
+  .oh .m { font-size: 11px; color: #6b7686; margin-top: 3px; }
+  .oh .x { margin-left: auto; color: #6b7686; font-size: 15px; line-height: 1; }
+  .kv { display: flex; align-items: baseline; gap: 8px; font-size: 12px; margin-top: 5px; }
+  .kv .k { color: #6b7686; width: 74px; flex: 0 0 74px; font-size: 11.5px; }
+  .kv .v { color: #e0e4ea; }
+  .kv .v b { color: #ffffff; font-weight: 600; }
+  .li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px dashed #161f2e; }
+  .li:last-child { border-bottom: 0; }
+  .th {
+    width: 34px; height: 34px; flex: 0 0 34px; border-radius: 7px;
+    background: #141e2e; border: 1px solid #1c2638;
+    display: flex; align-items: center; justify-content: center; color: #5fa3e0;
+  }
+  .li-n { font-size: 12px; color: #ffffff; line-height: 1.25; }
+  .li-s { font-size: 10.5px; color: #6b7686; margin-top: 3px; }
+  .li-p { margin-left: auto; text-align: right; }
+  .li-p b { font-size: 12px; color: #ffffff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .li-p span { display: block; font-size: 10px; color: #6b7686; margin-top: 3px; }
+  .tot-r { display: flex; align-items: center; font-size: 12px; color: #8c96a6; padding: 3px 0; }
+  .tot-r b { margin-left: auto; color: #e0e4ea; font-weight: 550; font-variant-numeric: tabular-nums; }
+  .tot-r.grand { border-top: 1px solid #1c2638; margin-top: 6px; padding-top: 9px; font-size: 13px; color: #ffffff; }
+  .tot-r.grand b { color: #ffffff; font-size: 16px; font-weight: 700; }
+  .paybox {
+    background: #0d1420; border: 1px solid rgba(61,154,110,.26); border-radius: 9px; padding: 10px 11px;
+  }
+  .pay-h { display: flex; align-items: center; gap: 8px; }
+  .pay-h .t { font-size: 12.5px; color: #ffffff; font-weight: 600; }
+  .pay-h .badge {
+    margin-left: auto; font-size: 10px; color: #4ec08c; background: rgba(61,154,110,.14);
+    border: 1px solid rgba(61,154,110,.3); border-radius: 5px; padding: 2px 7px; font-weight: 600;
+  }
+  .pay-m { font-size: 11px; color: #8c96a6; margin-top: 7px; display: flex; gap: 6px; align-items: center; }
+  .tl { position: relative; padding-left: 16px; }
+  .tl::before { content: ""; position: absolute; left: 4px; top: 6px; bottom: 8px; width: 1px; background: #1c2638; }
+  .tl-i { position: relative; padding: 0 0 9px; }
+  .tl-i:last-child { padding-bottom: 0; }
+  .tl-i::before {
+    content: ""; position: absolute; left: -15px; top: 4px; width: 7px; height: 7px;
+    border-radius: 50%; background: #141e2e; border: 1.5px solid #2c3a52;
+  }
+  .tl-i.done::before { background: #3d9a6e; border-color: #3d9a6e; }
+  .tl-i.now::before { background: #fbbf24; border-color: #fbbf24; box-shadow: 0 0 0 3px rgba(251,191,36,.15); }
+  .tl-t { font-size: 12px; color: #e0e4ea; }
+  .tl-i.pend .tl-t { color: #6b7686; }
+  .tl-s { font-size: 10.5px; color: #6b7686; margin-top: 2px; }
+  .note {
+    background: #0d1420; border: 1px solid #1c2638; border-left: 2px solid #fbbf24;
+    border-radius: 7px; padding: 9px 10px;
+  }
+  .note p { margin: 0; font-size: 11.5px; color: #b9c1cd; line-height: 1.45; }
+  .note .who { font-size: 10px; color: #6b7686; margin-top: 6px; }
+  .afoot { margin-top: auto; padding: 10px 14px; border-top: 1px solid #1c2638; display: flex; gap: 8px; background: #090d14; }
+  .afoot .btn { flex: 1 1 auto; justify-content: center; height: 32px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="side">
+    <div class="side-brand">
+      <div class="logo">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18l-2 12H5L3 6z"></path><path d="M8 10v-4a4 4 0 0 1 8 0v4"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Vendora</div>
+        <div class="brand-tag">Back-office</div>
+      </div>
+    </div>
+
+    <div class="store">
+      <div class="store-av">AC</div>
+      <div>
+        <div class="store-t">Boutique Alger-Centre</div>
+        <div class="store-s">DZ · dinar algérien</div>
+      </div>
+      <svg style="margin-left:auto" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-lab">Gestion</div>
+
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="8" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="11" width="7" height="10" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+        Tableau de bord
+      </div>
+
+      <div class="nav-i on">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.3 12.1a2 2 0 0 1-2 1.9H7.3a2 2 0 0 1-2-1.9L4 7z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg>
+        Commandes
+        <span class="nav-b blue">38</span>
+      </div>
+
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.8 12V4.8A2 2 0 0 1 4.8 2.8H12a2 2 0 0 1 1.4.6l7.2 7.2a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg>
+        Catalogue
+      </div>
+
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"></path><path d="M3 12l9 4.5L21 12"></path><path d="M3 16.5L12 21l9-4.5"></path></svg>
+        Stock
+        <span class="nav-b amber">7</span>
+      </div>
+
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"></circle><path d="M2.8 20a6.6 6.6 0 0 1 12.4 0"></path><path d="M16.5 5.4a3.2 3.2 0 0 1 0 6"></path><path d="M18.6 20a5.6 5.6 0 0 0-2.3-4.2"></path></svg>
+        Clients
+      </div>
+
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M2.5 10h19"></path><path d="M6 15h4"></path></svg>
+        Paiements
+        <span class="nav-b">2</span>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-lab">Analyse</div>
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"></path><path d="M10 20V4"></path><path d="M16 20v-7"></path><path d="M21 20H3"></path></svg>
+        Rapports
+      </div>
+      <div class="nav-i">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10"></path><path d="M18 6h2"></path><circle cx="16" cy="6" r="2"></circle><path d="M4 14h2"></path><path d="M10 14h10"></path><circle cx="8" cy="14" r="2"></circle></svg>
+        Paramètres
+      </div>
+    </div>
+
+    <div class="side-foot">
+      <div class="int"><span class="dot g"></span> SATIM / CIB <span class="r">actif</span></div>
+      <div class="int"><span class="dot g"></span> Yalidine express <span class="r">connecté</span></div>
+      <div class="int"><span class="dot a"></span> Flux stock ERP <span class="r">il y a 2 min</span></div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <!-- top bar -->
+    <div class="top">
+      <div class="crumb">
+        <span>Boutique Alger-Centre</span>
+        <span class="sep">/</span>
+        <b>Commandes</b>
+      </div>
+
+      <div class="search">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.2-3.2"></path></svg>
+        <span class="val">CMD-248<span class="caret"></span></span>
+        <span class="hint">Ctrl K</span>
+      </div>
+
+      <div class="top-right">
+        <div class="icon-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0-6 6v3.5L4.5 16h15L18 12.5V9a6 6 0 0 0-6-6z"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>
+          <span class="bell-dot"></span>
+        </div>
+        <div class="icon-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.8c0 1.7-2.4 2-2.4 3.4"></path><path d="M12 17h.01"></path></svg>
+        </div>
+        <div class="me">
+          <div class="avatar">AB</div>
+          <div>
+            <div class="me-n">Amine Belhadj</div>
+            <div class="me-r">Administrateur</div>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7686" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- work surface -->
+    <div class="work">
+
+      <div class="col">
+
+        <!-- page header -->
+        <div class="phead">
+          <h1>Commandes</h1>
+          <span class="cnt">386 sur 14 jours</span>
+          <span class="live"><span class="pulse"></span> mise à jour il y a 12 s</span>
+          <div class="pbtns">
+            <div class="btn ghost">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"></path><path d="M8 10.5l4 4 4-4"></path><path d="M4 19h16"></path></svg>
+              Exporter CSV
+            </div>
+            <div class="btn ghost">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"></path><path d="M7 12h10"></path><path d="M10 18h4"></path></svg>
+              Filtres
+            </div>
+            <div class="btn primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+              Nouvelle commande
+            </div>
+          </div>
+        </div>
+
+        <!-- filter bar -->
+        <div class="fbar">
+          <div class="seg">
+            <span class="on">Toutes <span class="n">386</span></span>
+            <span>À traiter <span class="n">38</span></span>
+            <span>Expédiées <span class="n">211</span></span>
+            <span>Retours <span class="n">9</span></span>
+            <span>Brouillons <span class="n">4</span></span>
+          </div>
+          <div class="chip-f">Période : <b>14 derniers jours</b> <span class="x">×</span></div>
+          <div class="chip-f">Montant ≥ <b>2 000 DA</b> <span class="x">×</span></div>
+          <div class="right">
+            <span>Trier : <span style="color:#e0e4ea">date décroissante</span></span>
+            <span style="color:#2c3a52">|</span>
+            <span><span style="color:#5fa3e0">1</span> sélectionnée</span>
+          </div>
+        </div>
+
+        <!-- stat tiles -->
+        <div class="tiles">
+          <div class="tile">
+            <div class="lab">Chiffre d'affaires</div>
+            <div class="val">4 408 200 <small>DA</small></div>
+            <div class="delta up">+12,4 %</div>
+            <svg class="spark" width="66" height="24" viewBox="0 0 66 24" fill="none">
+              <path d="M1 17 L6 18.5 L11 14 L16 11 L21 15 L26 20 L31 19 L36 12 L41 8 L46 10 L51 14 L56 12 L61 5 L65 8" stroke="#3d9a6e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div class="tile">
+            <div class="lab">Commandes</div>
+            <div class="val">1 284</div>
+            <div class="delta up">+8,1 %</div>
+            <svg class="spark" width="66" height="24" viewBox="0 0 66 24" fill="none">
+              <path d="M1 18 L6 16 L11 17 L16 12 L21 14 L26 19 L31 17 L36 13 L41 9 L46 12 L51 13 L56 10 L61 7 L65 9" stroke="#4a8fd8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div class="tile">
+            <div class="lab">Panier moyen</div>
+            <div class="val">3 433 <small>DA</small></div>
+            <div class="delta down">−2,3 %</div>
+            <svg class="spark" width="66" height="24" viewBox="0 0 66 24" fill="none">
+              <path d="M1 8 L6 6 L11 10 L16 9 L21 13 L26 11 L31 14 L36 12 L41 15 L46 13 L51 17 L56 15 L61 18 L65 16" stroke="#f87171" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div class="tile">
+            <div class="lab">Taux de conversion</div>
+            <div class="val">3,42 <small>%</small></div>
+            <div class="delta up">+0,4 pt</div>
+            <svg class="spark" width="66" height="24" viewBox="0 0 66 24" fill="none">
+              <path d="M1 16 L6 14 L11 15 L16 11 L21 13 L26 16 L31 12 L36 10 L41 11 L46 8 L51 10 L56 7 L61 6 L65 4" stroke="#5fa3e0" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- chart -->
+        <div class="card chart">
+          <div class="chead">
+            <h2>Chiffre d'affaires — 14 derniers jours</h2>
+            <span class="sub">27 août → 9 sept. 2026 · en milliers de DA</span>
+            <div class="legend">
+              <span class="lg"><i style="background:#2b6cb5"></i> CA quotidien</span>
+              <span class="lg"><i style="background:#4a8fd8"></i> aujourd'hui</span>
+              <span class="lg"><i style="background:#2c3a52"></i> moyenne 314,9 k</span>
+            </div>
+          </div>
+
+          <svg width="912" height="128" viewBox="0 0 912 128" fill="none" style="display:block;margin-top:4px">
+            <!-- grid -->
+            <line x1="0" y1="32" x2="912" y2="32" stroke="#131b28" stroke-width="1"></line>
+            <line x1="0" y1="59" x2="912" y2="59" stroke="#131b28" stroke-width="1"></line>
+            <line x1="0" y1="86" x2="912" y2="86" stroke="#131b28" stroke-width="1"></line>
+            <line x1="0" y1="112.5" x2="912" y2="112.5" stroke="#1c2638" stroke-width="1"></line>
+
+            <!-- bars -->
+            <rect x="6"   y="63" width="56" height="49" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="71"  y="68" width="56" height="44" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="136" y="55" width="56" height="57" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="201" y="48" width="56" height="64" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="266" y="58" width="56" height="54" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="331" y="78" width="56" height="34" rx="3" fill="#2b6cb5" fill-opacity="0.42"></rect>
+            <rect x="396" y="75" width="56" height="37" rx="3" fill="#2b6cb5" fill-opacity="0.42"></rect>
+            <rect x="461" y="52" width="56" height="60" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="526" y="39" width="56" height="73" rx="3" fill="#2b6cb5" fill-opacity="0.72"></rect>
+            <rect x="591" y="44" width="56" height="68" rx="3" fill="#2b6cb5" fill-opacity="0.72"></rect>
+            <rect x="656" y="60" width="56" height="52" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="721" y="54" width="56" height="58" rx="3" fill="#2b6cb5" fill-opacity="0.62"></rect>
+            <rect x="786" y="32" width="56" height="80" rx="3" fill="#4a8fd8"></rect>
+            <rect x="851" y="42" width="56" height="70" rx="3" fill="#5fa3e0" fill-opacity="0.55"></rect>
+            <rect x="851" y="42" width="56" height="70" rx="3" fill="none" stroke="#5fa3e0" stroke-width="1" stroke-dasharray="3 2"></rect>
+
+            <!-- moyenne -->
+            <line x1="0" y1="55" x2="912" y2="55" stroke="#2c3a52" stroke-width="1" stroke-dasharray="5 4"></line>
+
+            <!-- labels -->
+            <text x="34"  y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">27/08</text>
+            <text x="99"  y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">28/08</text>
+            <text x="164" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">29/08</text>
+            <text x="229" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">30/08</text>
+            <text x="294" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">31/08</text>
+            <text x="359" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">01/09</text>
+            <text x="424" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">02/09</text>
+            <text x="489" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">03/09</text>
+            <text x="554" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">04/09</text>
+            <text x="619" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">05/09</text>
+            <text x="684" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">06/09</text>
+            <text x="749" y="124" fill="#6b7686" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">07/09</text>
+            <text x="814" y="124" fill="#8c96a6" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">08/09</text>
+            <text x="879" y="124" fill="#8c96a6" font-size="9.5" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">09/09</text>
+
+            <!-- tooltip ouvert sur le 08/09 -->
+            <line x1="814" y1="30" x2="814" y2="112" stroke="#5fa3e0" stroke-width="1" stroke-dasharray="3 3" opacity="0.55"></line>
+            <circle cx="814" cy="32" r="3.2" fill="#5fa3e0" stroke="#0b1018" stroke-width="1.5"></circle>
+            <g>
+              <rect x="632" y="0" width="176" height="46" rx="7" fill="#141e2e" stroke="#2c3a52"></rect>
+              <text x="644" y="16" fill="#ffffff" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Mardi 8 sept.</text>
+              <text x="796" y="16" fill="#4ec08c" font-size="10" text-anchor="end" font-family="system-ui, sans-serif">+18,2 %</text>
+              <text x="644" y="31" fill="#5fa3e0" font-size="12" font-weight="700" font-family="ui-monospace, Menlo, monospace">441 200 DA</text>
+              <text x="644" y="42" fill="#8c96a6" font-size="9.5" font-family="system-ui, sans-serif">128 commandes · panier 3 447 DA</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- orders table -->
+        <div class="card tablewrap">
+          <table>
+            <colgroup>
+              <col style="width:34px"><col style="width:118px"><col style="width:264px">
+              <col style="width:90px"><col style="width:118px"><col style="width:148px">
+              <col style="width:130px"><col style="width:40px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="padding-left:12px"><span class="cbx" style="border-color:#4a8fd8"></span></th>
+                <th>N° commande</th>
+                <th>Client</th>
+                <th>Articles</th>
+                <th class="r">Total</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24831</span></td>
+                <td><div class="cli">Yacine Belkacem</div><div class="cli-s">Alger Centre · 12 commandes</div></td>
+                <td><span style="color:#8c96a6">3 art.</span></td>
+                <td class="r"><span class="tot">12 400 <small>DA</small></span></td>
+                <td><span class="chip c-pay"><i></i>payée</span></td>
+                <td><span class="dt">09/09 <small>09:12</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr class="sel">
+                <td style="padding-left:12px">
+                  <span class="cbx on">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6.5"></path></svg>
+                  </span>
+                </td>
+                <td><span class="ord mono">CMD-24830</span></td>
+                <td><div class="cli">Nadia Hamdani</div><div class="cli-s">Bab Ezzouar · 4 commandes</div></td>
+                <td><span style="color:#8c96a6">4 art.</span></td>
+                <td class="r"><span class="tot">18 750 <small>DA</small></span></td>
+                <td><span class="chip c-prep"><i></i>en préparation</span></td>
+                <td><span class="dt">09/09 <small>08:41</small></span></td>
+                <td><span class="kebab" style="color:#8c96a6">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24829</span></td>
+                <td><div class="cli">Sofiane Meziani</div><div class="cli-s">Oran · 2 commandes</div></td>
+                <td><span style="color:#8c96a6">1 art.</span></td>
+                <td class="r"><span class="tot">6 900 <small>DA</small></span></td>
+                <td><span class="chip c-exp"><i></i>expédiée</span></td>
+                <td><span class="dt">09/09 <small>08:05</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24828</span></td>
+                <td><div class="cli">Amel Bouzid</div><div class="cli-s">Constantine · 7 commandes</div></td>
+                <td><span style="color:#8c96a6">2 art.</span></td>
+                <td class="r"><span class="tot">9 200 <small>DA</small></span></td>
+                <td><span class="chip c-pay"><i></i>payée</span></td>
+                <td><span class="dt">09/09 <small>07:38</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr class="hov">
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24827</span></td>
+                <td><div class="cli">Karim Aït Ouali</div><div class="cli-s">Tizi Ouzou · 3 commandes</div></td>
+                <td><span style="color:#8c96a6">5 art.</span></td>
+                <td class="r"><span class="tot">27 350 <small>DA</small></span></td>
+                <td><span class="chip c-prep"><i></i>en préparation</span></td>
+                <td><span class="dt">08/09 <small>21:14</small></span></td>
+                <td><span class="kebab" style="color:#8c96a6">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24826</span></td>
+                <td><div class="cli">Lynda Cherif</div><div class="cli-s">Blida · 1 commande</div></td>
+                <td><span style="color:#8c96a6">2 art.</span></td>
+                <td class="r"><span class="tot">4 800 <small>DA</small></span></td>
+                <td><span class="chip c-remb"><i></i>remboursée</span></td>
+                <td><span class="dt">08/09 <small>19:52</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24825</span></td>
+                <td><div class="cli">Riad Benslimane</div><div class="cli-s">Sétif · 9 commandes</div></td>
+                <td><span style="color:#8c96a6">3 art.</span></td>
+                <td class="r"><span class="tot">15 600 <small>DA</small></span></td>
+                <td><span class="chip c-exp"><i></i>expédiée</span></td>
+                <td><span class="dt">08/09 <small>18:27</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24824</span></td>
+                <td><div class="cli">Meriem Zerrouki</div><div class="cli-s">Annaba · 1 commande</div></td>
+                <td><span style="color:#8c96a6">1 art.</span></td>
+                <td class="r"><span class="tot">3 250 <small>DA</small></span></td>
+                <td><span class="chip c-pay"><i></i>payée</span></td>
+                <td><span class="dt">08/09 <small>17:03</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24823</span></td>
+                <td><div class="cli">Walid Tahar</div><div class="cli-s">Hydra, Alger · 21 commandes</div></td>
+                <td><span style="color:#8c96a6">6 art.</span></td>
+                <td class="r"><span class="tot">31 900 <small>DA</small></span></td>
+                <td><span class="chip c-pay"><i></i>payée</span></td>
+                <td><span class="dt">08/09 <small>15:46</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24822</span></td>
+                <td><div class="cli">Samira Haddad</div><div class="cli-s">Béjaïa · 5 commandes</div></td>
+                <td><span style="color:#8c96a6">2 art.</span></td>
+                <td class="r"><span class="tot">7 450 <small>DA</small></span></td>
+                <td><span class="chip c-prep"><i></i>en préparation</span></td>
+                <td><span class="dt">08/09 <small>14:19</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+
+              <tr>
+                <td style="padding-left:12px"><span class="cbx"></span></td>
+                <td><span class="ord mono">CMD-24821</span></td>
+                <td><div class="cli">Bilal Ferhat</div><div class="cli-s">Oran · 4 commandes</div></td>
+                <td><span style="color:#8c96a6">4 art.</span></td>
+                <td class="r"><span class="tot">21 300 <small>DA</small></span></td>
+                <td><span class="chip c-exp"><i></i>expédiée</span></td>
+                <td><span class="dt">08/09 <small>12:58</small></span></td>
+                <td><span class="kebab">···</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tfoot">
+            <span>11 lignes affichées sur <span style="color:#e0e4ea">386</span> · 1 sélectionnée</span>
+            <span style="color:#2c3a52">|</span>
+            <span>Total filtré <span style="color:#ffffff;font-weight:600">4 408 200 DA</span></span>
+            <div class="pager">
+              <span class="pg">‹</span>
+              <span class="pg on">1</span>
+              <span class="pg">2</span>
+              <span class="pg">3</span>
+              <span class="pg">…</span>
+              <span class="pg">36</span>
+              <span class="pg">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============ RIGHT PANEL ============ -->
+      <aside class="aside">
+
+        <div class="sec">
+          <div class="oh">
+            <div>
+              <div class="n mono">CMD-24830</div>
+              <div class="m">Créée le 09/09/2026 à 08:41 · canal Web</div>
+            </div>
+            <span class="chip c-prep" style="margin-top:2px"><i></i>en préparation</span>
+            <span class="x">✕</span>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-t">Client <span class="r">Fiche client ›</span></div>
+          <div class="kv"><span class="k">Nom</span><span class="v"><b>Nadia Hamdani</b></span></div>
+          <div class="kv"><span class="k">E-mail</span><span class="v">n.hamdani@gmail.com</span></div>
+          <div class="kv"><span class="k">Téléphone</span><span class="v mono">+213 661 42 87 30</span></div>
+          <div class="kv"><span class="k">Livraison</span><span class="v">Cité 1er Novembre, Bt C4 — Bab Ezzouar, Alger</span></div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-t">Articles <span class="r">4 unités · 3 références</span></div>
+
+          <div class="li">
+            <div class="th">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"></path><rect x="3" y="14" width="4" height="6" rx="1.6"></rect><rect x="17" y="14" width="4" height="6" rx="1.6"></rect></svg>
+            </div>
+            <div>
+              <div class="li-n">Casque Bluetooth ANC — Noir</div>
+              <div class="li-s mono">SKU CQ-8841 · stock 24</div>
+            </div>
+            <div class="li-p"><b>8 900 DA</b><span>1 × 8 900</span></div>
+          </div>
+
+          <div class="li">
+            <div class="th">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"></rect><path d="M10.5 5.5h3"></path></svg>
+            </div>
+            <div>
+              <div class="li-n">Coque silicone iPhone 13 — Bleu nuit</div>
+              <div class="li-s mono">SKU AC-2207 · stock 138</div>
+            </div>
+            <div class="li-p"><b>2 900 DA</b><span>2 × 1 450</span></div>
+          </div>
+
+          <div class="li">
+            <div class="th">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6l1-8z"></path></svg>
+            </div>
+            <div>
+              <div class="li-n">Chargeur rapide 65 W USB-C</div>
+              <div class="li-s mono">SKU CH-1190 · stock 6 <span style="color:#fbbf24">· bas</span></div>
+            </div>
+            <div class="li-p"><b>6 200 DA</b><span>1 × 6 200</span></div>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="tot-r">Sous-total <b>18 000 DA</b></div>
+          <div class="tot-r">Livraison — Yalidine domicile <b>1 250 DA</b></div>
+          <div class="tot-r">Remise — RENTREE10 <b style="color:#4ec08c">−500 DA</b></div>
+          <div class="tot-r grand">Total TTC <b>18 750 DA</b></div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-t">Paiement</div>
+          <div class="paybox">
+            <div class="pay-h">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3d9a6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.6 2.6L16 9.5"></path></svg>
+              <span class="t">Paiement capturé</span>
+              <span class="badge">18 750 DA</span>
+            </div>
+            <div class="pay-m">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c96a6" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M2.5 10h19"></path></svg>
+              Carte CIB <span class="mono" style="color:#e0e4ea">•••• 4417</span> · SATIM
+            </div>
+            <div class="pay-m">Autorisé 08:41:52 · Capturé 08:42:07 · réf. <span class="mono" style="color:#e0e4ea">STM-9F42C1</span></div>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sec-t">Historique</div>
+          <div class="tl">
+            <div class="tl-i done">
+              <div class="tl-t">Commande créée</div>
+              <div class="tl-s">09/09 08:41 · site web · panier #7712</div>
+            </div>
+            <div class="tl-i done">
+              <div class="tl-t">Paiement capturé</div>
+              <div class="tl-s">09/09 08:42 · passerelle SATIM</div>
+            </div>
+            <div class="tl-i done">
+              <div class="tl-t">Stock réservé</div>
+              <div class="tl-s">09/09 08:47 · entrepôt Alger-Centre</div>
+            </div>
+            <div class="tl-i now">
+              <div class="tl-t">Préparation en cours</div>
+              <div class="tl-s">09/09 09:03 · Yacine K. · 2 articles scannés / 4</div>
+            </div>
+            <div class="tl-i pend">
+              <div class="tl-t">En attente d'enlèvement Yalidine</div>
+              <div class="tl-s">prévu aujourd'hui, 14:00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec" style="border-bottom:0">
+          <div class="note">
+            <p>Cliente demande une facture au nom de l'entreprise — RC et NIF transmis par e-mail ce matin.</p>
+            <div class="who">Amine B. · aujourd'hui 08:55</div>
+          </div>
+        </div>
+
+        <div class="afoot">
+          <div class="btn ghost" style="flex:0 0 40px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V5.5A1.5 1.5 0 0 1 8.5 4h7A1.5 1.5 0 0 1 17 5.5V8"></path><rect x="4" y="8" width="16" height="7" rx="1.6"></rect><path d="M7 15h10v5H7z"></path></svg>
+          </div>
+          <div class="btn">Bon de livraison</div>
+          <div class="btn primary">Marquer expédiée</div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
