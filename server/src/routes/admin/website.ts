@@ -32,6 +32,12 @@ router.get("/navigation", async (_req: Request, res: Response) => {
   res.json({ data });
 });
 
+router.get("/navigation/:id", async (req: Request, res: Response) => {
+  const { data, error } = await supabase.from("navigation_items").select("*").eq("id", req.params.id).single();
+  if (error || !data) return res.status(404).json({ error: "Navigation item not found" });
+  res.json({ data });
+});
+
 router.post("/navigation", async (req: Request, res: Response) => {
   const { label, href, location, visible, order } = req.body;
   const { data, error } = await supabase
@@ -103,6 +109,85 @@ router.get("/services", async (_req: Request, res: Response) => {
   res.json({ data });
 });
 
+router.get("/services/:id", async (req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("services")
+    .select(`*, translations:service_translations!service_translations_service_id_fkey(*)`)
+    .eq("id", req.params.id)
+    .single();
+
+  if (error || !data) return res.status(404).json({ error: "Service not found" });
+  res.json({ data });
+});
+
+router.put("/services/:id", async (req: Request, res: Response) => {
+  const { name, order, translations } = req.body;
+  if (name === undefined && order === undefined && !translations) {
+    return res.status(400).json({ error: "Nothing to update" });
+  }
+
+  if (name !== undefined || order !== undefined) {
+    const { error } = await supabase
+      .from("services")
+      .update({
+        ...(name !== undefined ? { name } : {}),
+        ...(order !== undefined ? { order } : {}),
+      })
+      .eq("id", req.params.id);
+    if (error) return res.status(500).json({ error: error.message });
+  }
+
+  if (translations) {
+    await supabase.from("service_translations").delete().eq("service_id", req.params.id);
+    const inserts = Object.entries(translations).map(([locale, t]: [string, any]) => ({
+      service_id: req.params.id,
+      locale,
+      name: t.name,
+    }));
+    const { error } = await supabase.from("service_translations").insert(inserts);
+    if (error) return res.status(500).json({ error: error.message });
+  }
+
+  res.json({ message: "Service updated" });
+});
+
+router.delete("/services/:id", async (req: Request, res: Response) => {
+  const { error } = await supabase.from("services").delete().eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: "Service deleted" });
+});
+
+router.post("/pillars", async (req: Request, res: Response) => {
+  const { name, order, translations } = req.body;
+
+  const { data: pillar, error } = await supabase
+    .from("pillars")
+    .insert({ name: name || "Pillar", order: order || 0 })
+    .select()
+    .single();
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  if (translations) {
+    const inserts = Object.entries(translations).map(([locale, t]: [string, any]) => ({
+      pillar_id: pillar.id,
+      locale,
+      label: t.label,
+      tagline: t.tagline || "",
+      lede: t.lede || "",
+    }));
+    await supabase.from("pillar_translations").insert(inserts);
+  }
+
+  res.status(201).json({ data: pillar });
+});
+
+router.delete("/pillars/:id", async (req: Request, res: Response) => {
+  const { error } = await supabase.from("pillars").delete().eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: "Pillar deleted" });
+});
+
 router.put("/pillars/:id", async (req: Request, res: Response) => {
   const { translations } = req.body;
   if (!translations) return res.status(400).json({ error: "Translations required" });
@@ -143,12 +228,6 @@ router.post("/services", async (req: Request, res: Response) => {
   }
 
   res.status(201).json({ data: service });
-});
-
-router.delete("/services/:id", async (req: Request, res: Response) => {
-  const { error } = await supabase.from("services").delete().eq("id", req.params.id);
-  if (error) return res.status(500).json({ error: error.message });
-  res.json({ message: "Service deleted" });
 });
 
 export default router;

@@ -50,4 +50,10 @@ router.patch("/:id/notes", async (req: Request, res: Response) => {
   res.json({ message: "Notes updated" });
 });
 
+router.delete("/:id", async (req: Request, res: Response) => {
+  const { error } = await supabase.from("contact_requests").delete().eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: "Contact request deleted" });
+});
+
 export default router;

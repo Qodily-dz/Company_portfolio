@@ -4,19 +4,8 @@ import { projectSchema } from "../../validators/schemas.js";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const { data, error } = await supabase
-    .from("projects")
-    .select(`
-      *,
-      translations:project_translations!project_translations_project_id_fkey(*),
-      technologies:project_technologies!project_technologies_project_id_fkey(technology)
-    `)
-    .order("order", { ascending: true });
-
-  if (error) return res.status(500).json({ error: error.message });
-
-  const shaped = (data || []).map((p) => ({
+function shapeProject(p: any) {
+  return {
     id: p.id,
     slug: p.slug,
     status: p.status,
@@ -42,9 +31,39 @@ router.get("/", async (req: Request, res: Response) => {
       acc[t.locale] = { title: t.title, category: t.category, short: t.short, summary: t.summary, problem: t.problem, solution: t.solution, approach: t.approach, architecture: t.architecture || t.approach, design: t.design, product: t.product, outcome: t.outcome };
       return acc;
     }, {}),
-  }));
+  };
+}
 
-  res.json({ data: shaped });
+async function fetchProjectById(id: string) {
+  return supabase
+    .from("projects")
+    .select(`
+      *,
+      translations:project_translations!project_translations_project_id_fkey(*),
+      technologies:project_technologies!project_technologies_project_id_fkey(technology)
+    `)
+    .eq("id", id)
+    .single();
+}
+
+router.get("/", async (req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("projects")
+    .select(`
+      *,
+      translations:project_translations!project_translations_project_id_fkey(*),
+      technologies:project_technologies!project_technologies_project_id_fkey(technology)
+    `)
+    .order("order", { ascending: true });
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ data: (data || []).map(shapeProject) });
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  const { data, error } = await fetchProjectById(String(req.params.id));
+  if (error || !data) return res.status(404).json({ error: "Project not found" });
+  res.json({ data: shapeProject(data) });
 });
 
 router.post("/", async (req: Request, res: Response) => {

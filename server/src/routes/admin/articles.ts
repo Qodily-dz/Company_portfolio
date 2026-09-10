@@ -4,15 +4,8 @@ import { articleSchema } from "../../validators/schemas.js";
 
 const router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
-  const { data, error } = await supabase
-    .from("articles")
-    .select(`*, translations:article_translations!article_translations_article_id_fkey(*)`)
-    .order("date", { ascending: false });
-
-  if (error) return res.status(500).json({ error: error.message });
-
-  const shaped = (data || []).map((a) => ({
+function shapeArticle(a: any) {
+  return {
     id: a.id,
     slug: a.slug,
     category: a.category,
@@ -23,9 +16,28 @@ router.get("/", async (_req: Request, res: Response) => {
       acc[t.locale] = { title: t.title, summary: t.summary, body: t.body, keywords: t.keywords };
       return acc;
     }, {}),
-  }));
+  };
+}
 
-  res.json({ data: shaped });
+router.get("/", async (_req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("articles")
+    .select(`*, translations:article_translations!article_translations_article_id_fkey(*)`)
+    .order("date", { ascending: false });
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ data: (data || []).map(shapeArticle) });
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("articles")
+    .select(`*, translations:article_translations!article_translations_article_id_fkey(*)`)
+    .eq("id", req.params.id)
+    .single();
+
+  if (error || !data) return res.status(404).json({ error: "Article not found" });
+  res.json({ data: shapeArticle(data) });
 });
 
 router.post("/", async (req: Request, res: Response) => {

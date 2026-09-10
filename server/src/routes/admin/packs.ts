@@ -4,15 +4,8 @@ import { servicePackSchema } from "../../validators/schemas.js";
 
 const router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
-  const { data, error } = await supabase
-    .from("service_packs")
-    .select(`*, translations:service_pack_translations!service_pack_translations_pack_id_fkey(*)`)
-    .order("order", { ascending: true });
-
-  if (error) return res.status(500).json({ error: error.message });
-
-  const shaped = (data || []).map((p) => ({
+function shapePack(p: any) {
+  return {
     id: p.id,
     name: p.name,
     price: p.price,
@@ -25,9 +18,28 @@ router.get("/", async (_req: Request, res: Response) => {
       acc[t.locale] = { name: t.name, description: t.description, deliverables: t.deliverables };
       return acc;
     }, {}),
-  }));
+  };
+}
 
-  res.json({ data: shaped });
+router.get("/", async (_req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("service_packs")
+    .select(`*, translations:service_pack_translations!service_pack_translations_pack_id_fkey(*)`)
+    .order("order", { ascending: true });
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ data: (data || []).map(shapePack) });
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  const { data, error } = await supabase
+    .from("service_packs")
+    .select(`*, translations:service_pack_translations!service_pack_translations_pack_id_fkey(*)`)
+    .eq("id", req.params.id)
+    .single();
+
+  if (error || !data) return res.status(404).json({ error: "Service pack not found" });
+  res.json({ data: shapePack(data) });
 });
 
 router.post("/", async (req: Request, res: Response) => {
