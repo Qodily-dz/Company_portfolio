@@ -25,13 +25,92 @@ export type Project = {
   span: string;
   /** Optional product footage — screenshots/photos shown on the case study. */
   gallery?: { url: string; alt?: string }[];
+  /** Label shown on the card badge, e.g. "Client Production". */
+  badge?: string;
+  /** True for shipped work; false/absent marks a Qodily Lab concept. */
+  isProduction?: boolean;
 };
 
-export const WORK_LABEL = "Qodily Lab";
+export const WORK_LABEL = "Qodily Projects";
 export const WORK_NOTE =
-  "Conceptual explorations, not client commissions. No two alike — same system, different problems.";
+  "Production platforms, client systems and conceptual explorations engineered by Qodily.";
 
 export const PROJECTS: Project[] = [
+  {
+    id: "fedelo",
+    title: "Fedelo",
+    category: "SaaS · Loyalty & Queue Management",
+    short: "Digital loyalty cards, Apple Wallet passes, and live queue tracking for local businesses.",
+    summary:
+      "Digitizing customer retention and live queue management for barbershops, salons, and local retail.",
+    problem:
+      "Local commerce lost clients due to misplaced paper stamp cards, unpredictable wait times, and a lack of direct re-engagement tools.",
+    solution:
+      "A complete SaaS platform uniting digital loyalty passes (Apple Wallet compatible), live mobile queues, and self-service booking.",
+    approach:
+      "Build a zero-friction, passwordless PWA accessed via QR code for clients, backed by an owner dashboard tracking throughput and rewards.",
+    design:
+      "A sophisticated dark interface with warm gold accents (#D4AF37), built for glanceable clarity in busy venues with an interactive punch card.",
+    product:
+      "Apple Wallet passes, live queue tracking with Web Push notifications, merchant dashboard with real-time occupancy metrics and custom reward rules.",
+    technology: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "Web Push", "Apple PassKit", "Stripe"],
+    outcome:
+      "Production SaaS platform enabling venues to eliminate paper, increase customer retention, and balance peak-hour customer flow.",
+    accent: { a: "#d4af37", b: "#e5c158" },
+    span: "md:col-span-7",
+    badge: "SaaS Produit",
+    isProduction: true,
+  },
+  {
+    id: "my-voucher-booking",
+    title: "MY Voucher Booking",
+    category: "Travel Platform · B2B/B2C Booking",
+    short: "Hotel reservations, organized tours, and Omra packages with QR voucher generation and BaridiMob / CCP verification.",
+    summary:
+      "End-to-end booking platform for Algerian travel agency MY Voucher Booking (Constantine) unifying public booking, customer portal, B2B agency portal, and admin desk.",
+    problem:
+      "The agency relied on chaotic WhatsApp messages and paper vouchers. Offline CCP/BaridiMob transfers caused booking mismatches, and partner agencies had no direct access to negotiated rates.",
+    solution:
+      "An integrated booking platform managing hotels, tour packages, and Omra trips, with an enforced phone confirmation step before payment, automated QR voucher generation, and a B2B agency portal.",
+    approach:
+      "Align with the agency's real-world business model: mandatory human confirmation before money moves, integer centime financial calculations, and 5-language localization (FR, AR, EN, TR, ES).",
+    design:
+      "Inviting teal and orange visual brand, comprehensive multi-criteria search with dynamic filters, and professional printable A4 PDF vouchers.",
+    product:
+      "Night-by-night pricing engine, Reed-Solomon QR voucher issuer, BaridiMob & CCP payment verification pipeline, and multi-role administrative back-office.",
+    technology: ["PHP 8.2", "MariaDB", "JavaScript", "BaridiMob & CCP", "Moteur QR Code", "Multi-langues (5)"],
+    outcome:
+      "Live production system replacing manual booking with an automated, audited sales pipeline and streamlined B2B partner distribution.",
+    accent: { a: "#0d828a", b: "#f58220" },
+    span: "md:col-span-5",
+    badge: "Client Production",
+    isProduction: true,
+  },
+  {
+    id: "tcs-informatique",
+    title: "TCS Informatique",
+    category: "Enterprise B2B · Security & Low Current Systems",
+    short: "Institutional digital overhaul, 26-table technical catalog, and structured B2B quote engine.",
+    summary:
+      "Enterprise web platform and technical catalog for Tiger Computer Services (TCS), accredited low/high-current integrator (Type I Video Surveillance License) in Algiers since 1995.",
+    problem:
+      "An outdated, vulnerable WordPress site with no structured product inventory and generic contact forms that overwhelmed sales reps with unqualified requests.",
+    solution:
+      "A hardened Laravel 12 architecture featuring a 26-table relational technical catalog, a pricetag-free reference basket for scoped commercial quotes, and an immutable audit trail.",
+    approach:
+      "Security-first design: zero online payments, mandatory 2FA on the back-office, strict rate limits, and full WCAG 2.2 AA accessibility standards.",
+    design:
+      "Warm paper editorial design, Newsreader serif typography with subtle brand red accents, and custom Apple-style 1:1 spring animations with zero external dependencies.",
+    product:
+      "Specification-driven equipment catalog, structured quote request form pre-categorized by trade, secured career portal for CV uploads, and audit logging.",
+    technology: ["Laravel 12", "PHP 8.2+", "MariaDB", "Blade", "Vite", "Pest", "2FA & Audit Logs"],
+    outcome:
+      "High-credibility digital presence meeting banking and government contractor standards, eliminating spam and securing institutional client data.",
+    accent: { a: "#d4161c", b: "#56565a" },
+    span: "md:col-span-4",
+    badge: "Client Production",
+    isProduction: true,
+  },
   {
     id: "restaurant-management",
     title: "Restaurant Management Platform",

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/layout";
 import { WORK_LABEL } from "@/lib/work";
 import type { Project } from "@/lib/work";
@@ -65,7 +66,17 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
   const outcome = tp?.outcome ?? project.outcome;
   const gallery = project.gallery ?? [];
 
-  const idx = ["restaurant-management", "e-commerce", "business-crm", "medical-appointments", "school-management", "saas-dashboard"].indexOf(project.id);
+  const idx = [
+    "fedelo",
+    "my-voucher-booking",
+    "tcs-informatique",
+    "restaurant-management",
+    "e-commerce",
+    "business-crm",
+    "medical-appointments",
+    "school-management",
+    "saas-dashboard",
+  ].indexOf(project.id);
   const seed = Math.max(idx, 0) + 1;
   const { prev, next } = getAdjacentProjects(project.id);
 
@@ -90,7 +101,7 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
                 {WORK_LABEL}
               </span>
               <span className="rounded-full border border-border-strong px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-more">
-                {dict.work.concept}
+                {project.isProduction ? (project.badge ?? "Production") : dict.work.concept}
               </span>
               <span className="text-xs text-muted-more">{category}</span>
             </div>
@@ -103,7 +114,6 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
             <div className="mt-8">
               <Link
                 href={`/${locale}/work`}
-                data-cursor="link"
                 className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-accent-soft transition-colors hover:text-foreground"
               >
                 <span aria-hidden>←</span>
@@ -151,9 +161,15 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
               transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
               className="lg:sticky lg:top-28 lg:self-start"
             >
-              <div className="overflow-hidden rounded-xl border border-border bg-surface/40">
-                <div className="aspect-[16/10] w-full">
-                  <Preview accent={project.accent} seed={seed} />
+              <div className="overflow-hidden rounded-xl border border-border bg-surface/40 shadow-xl">
+                <div className="relative aspect-[16/10] w-full">
+                  <Image
+                    src={`/work/${project.id}.png`}
+                    alt={title}
+                    fill
+                    priority
+                    className="object-cover object-top"
+                  />
                 </div>
               </div>
 
@@ -220,7 +236,6 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
             {prev ? (
               <Link
                 href={`/${locale}/work/${prev.id}`}
-                data-cursor="link"
                 className="group flex items-center gap-4 py-10 transition-colors hover:bg-white/[0.02]"
               >
                 <span aria-hidden className="text-accent transition-transform duration-300 group-hover:-translate-x-1">
@@ -241,7 +256,6 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
             {next ? (
               <Link
                 href={`/${locale}/work/${next.id}`}
-                data-cursor="link"
                 className="group flex items-center justify-end gap-4 py-10 text-right transition-colors hover:bg-white/[0.02]"
               >
                 <span>

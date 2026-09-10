@@ -72,11 +72,14 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* When the designed CustomCursor is live (fine pointer, full motion) the
-     native OS cursor is hidden everywhere so only the custom dot/ring shows. */
-  html.hide-native-cursor,
-  html.hide-native-cursor * {
-    cursor: none !important;
+  /* Tailwind v4 ships buttons with the default arrow; restore the hand so
+     every interactive control reads as clickable. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  summary {
+    cursor: pointer;
   }
 
   @media (prefers-reduced-motion: reduce) {

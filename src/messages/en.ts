@@ -70,6 +70,8 @@ export const en: Dictionary = {
     view: "View",
     viewCase: "View Case",
     concept: "Concept",
+    imageNote:
+      "Real production platform screenshots and conceptual interface explorations.",
     backToWork: "Back to work",
     project: "The Project",
     challenge: "The Challenge",
@@ -575,6 +577,78 @@ export const en: Dictionary = {
     },
   },
   projects: {
+    "fedelo": {
+      title: "Fedelo",
+      category: "SaaS · Loyalty & Smart Booking",
+      short: "Digital loyalty cards, Apple Wallet passes, and live queue tracking for local shops.",
+      summary:
+        "Digitizing customer retention and live queue management for barbershops, salons, and neighborhood businesses.",
+      problem:
+        "Local shops lost repeat customers to misplaced paper stamp cards, unpredictable wait times, and a lack of direct re-engagement channels.",
+      solution:
+        "A unified SaaS platform offering digital loyalty passes (Apple Wallet compatible), live virtual queues on mobile, and frictionless online booking.",
+      approach:
+        "Build an ultra-lightweight, passwordless PWA accessed instantly via QR code for clients, backed by a merchant dashboard to track visits and rewards.",
+      design:
+        "Sophisticated dark interface with warm gold accents, engineered for glanceable clarity in busy shops, with responsive spring animations and an interactive punch card.",
+      product:
+        "Apple Wallet passes, live queue tracking with Web Push notifications, owner dashboard with real-time occupancy metrics and custom reward rules.",
+      capabilities: [
+        "Digital loyalty cards & Apple Wallet passes",
+        "Live queue tracking & zero-install booking",
+        "Merchant dashboard & Web Push notifications",
+      ],
+      outcome:
+        "Production SaaS platform enabling venues to eliminate paper, increase customer retention, and balance peak-hour traffic.",
+    },
+    "my-voucher-booking": {
+      title: "MY Voucher Booking",
+      category: "Travel Platform · B2B/B2C Booking",
+      short: "Hotel reservations, organized tours, and Omra packages with QR voucher generation and BaridiMob / CCP verification.",
+      summary:
+        "End-to-end booking platform for Algerian travel agency MY Voucher Booking (Constantine) unifying public booking, customer portal, B2B agency portal, and admin desk.",
+      problem:
+        "The agency relied on chaotic WhatsApp messages and paper vouchers. Offline CCP/BaridiMob transfers caused booking mismatches, and partner agencies had no direct access to negotiated rates.",
+      solution:
+        "An integrated booking platform managing hotels, tour packages, and Omra trips, with an enforced phone confirmation step before payment, automated QR voucher generation, and a B2B agency portal.",
+      approach:
+        "Align with the agency's real-world business model: mandatory human confirmation before money moves, integer centime financial calculations, and 5-language localization (FR, AR, EN, TR, ES).",
+      design:
+        "Inviting teal and orange visual brand, comprehensive multi-criteria search with dynamic filters, and professional printable A4 PDF vouchers.",
+      product:
+        "Night-by-night pricing engine, Reed-Solomon QR voucher issuer, BaridiMob & CCP payment verification pipeline, and multi-role administrative back-office.",
+      capabilities: [
+        "Hotels, package tours & Omra booking engine",
+        "BaridiMob / CCP payment flow & verifiable QR vouchers",
+        "B2B agency partner portal & 5-role back-office",
+      ],
+      outcome:
+        "Live production system replacing manual booking with an automated, audited sales pipeline and streamlined B2B partner distribution.",
+    },
+    "tcs-informatique": {
+      title: "TCS Informatique",
+      category: "Enterprise B2B · Security & Low Current Systems",
+      short: "Institutional digital overhaul, 26-table technical catalog, and structured B2B quote engine.",
+      summary:
+        "Enterprise web platform and technical catalog for Tiger Computer Services (TCS), accredited low/high-current integrator (Type I Video Surveillance License) in Algiers since 1995.",
+      problem:
+        "An outdated, vulnerable WordPress site with no structured product inventory and generic contact forms that overwhelmed sales reps with unqualified requests.",
+      solution:
+        "A hardened Laravel 12 architecture featuring a 26-table relational technical catalog, a pricetag-free reference basket for scoped commercial quotes, and an immutable audit trail.",
+      approach:
+        "Security-first design: zero online payments, mandatory 2FA on the back-office, strict rate limits, and full WCAG 2.2 AA accessibility standards.",
+      design:
+        "Warm paper editorial design, Newsreader serif typography with subtle brand red accents, and custom Apple-style 1:1 spring animations with zero external dependencies.",
+      product:
+        "Specification-driven equipment catalog, structured quote request form pre-categorized by trade, secured career portal for CV uploads, and audit logging.",
+      capabilities: [
+        "26-table B2B technical equipment catalog",
+        "Structured quote builder & regulatory accreditations",
+        "Hardened Laravel 12 core with 2FA, RBAC & audit logs",
+      ],
+      outcome:
+        "High-credibility digital presence meeting banking and government contractor standards, eliminating spam and securing institutional client data.",
+    },
     "restaurant-management": {
       title: "Restaurant Management Platform",
       category: "Operations · Software",
@@ -591,6 +665,11 @@ export const en: Dictionary = {
         "A calm, high-in-contrast interface built for speed — big touch targets for the kitchen screen, clear status colours for open/completed orders, and a floor view that shows tables as the team actually sees them.",
       product:
         "Table and floor management, order entry with modifiers, a kitchen queue, stock tracking and end-of-day reports — one login, one system.",
+      capabilities: [
+        "Table and floor management with order entry",
+        "Live kitchen queue and stock tracking",
+        "End-of-day reports from a single login",
+      ],
       outcome:
         "Concept: the design removes the shared friction of a busy service by replacing paper and phone with one ordered workflow. To be validated with a live venue before build.",
     },
@@ -610,6 +689,11 @@ export const en: Dictionary = {
         "Editorial product pages that let images and price breathe, a fast one-screen checkout, and clear order status so customers always know where their purchase is.",
       product:
         "Product catalog with search and filtering, cart and checkout, payment wiring, and an order management inbox for the team.",
+      capabilities: [
+        "Product catalog with search and filtering",
+        "Cart, checkout and payment wiring",
+        "Order management inbox for the team",
+      ],
       outcome:
         "Concept: the flow turns a manual, chat-based sales process into a self-serve store, freeing the team to focus on products rather than re-keying orders.",
     },
@@ -629,6 +713,11 @@ export const en: Dictionary = {
         "Clean list and kanban views with minimal clutter, a persistent 'next action' cue on every contact, and fast inline editing so the tool stays out of the way.",
       product:
         "Contacts, pipelines with stages, task and follow-up tracking, notes, and simple filters per owner and stage.",
+      capabilities: [
+        "Contacts and pipelines with stages",
+        "Task and follow-up tracking with notes",
+        "Simple filters by owner and stage",
+      ],
       outcome:
         "Concept: focuses a sales team on follow-up consistency — a reliably recorded next step for every relationship — rather than reporting busywork.",
     },
@@ -648,6 +737,11 @@ export const en: Dictionary = {
         "A friendly step-by-step booking flow, a clear monthly/weekly calendar for staff, and reminder handling built into the schedule rather than bolted on.",
       product:
         "Public booking, time-slot management, automated reminders, and a shared staff calendar with protected time slots.",
+      capabilities: [
+        "Public booking with time-slot management",
+        "Automated appointment reminders",
+        "Shared staff calendar with protected slots",
+      ],
       outcome:
         "Concept: aims to reduce no-shows and phone time by shifting booking and reminders to self-service — to be measured with a pilot clinic.",
     },
@@ -667,6 +761,11 @@ export const en: Dictionary = {
         "A calm grade book with fast entry, dashboards for staff and parents, and role-based views so each person sees only what matters to them.",
       product:
         "Role-based accounts, grade book, attendance, timetables and parent-facing updates in a single system.",
+      capabilities: [
+        "Role-based accounts across staff and parents",
+        "Grade book, attendance and timetables",
+        "Parent-facing updates in one system",
+      ],
       outcome:
         "Concept: replaces duplicated paper records with one structured source of truth for a school — to be piloted with staff feedback.",
     },
@@ -686,6 +785,11 @@ export const en: Dictionary = {
         "A calm visual hierarchy — a small set of primary KPIs, trend context, and drill-downs — so the first glance answers 'are we okay?' without a manual.",
       product:
         "Curated KPI overview, trend and segment views, and lightweight annotations so every number has context.",
+      capabilities: [
+        "Curated KPI overview",
+        "Trend and segment views",
+        "Lightweight annotations for context",
+      ],
       outcome:
         "Concept: reframes reporting from more data to usable clarity — the usefulness to be confirmed with the team in early sessions.",
     },

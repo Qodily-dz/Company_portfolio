@@ -56,6 +56,8 @@ export type Dictionary = {
     view: string;
     viewCase: string;
     concept: string;
+    /** Provenance disclosure for the project card screenshots. */
+    imageNote: string;
     backToWork: string;
     project: string;
     challenge: string;
@@ -295,6 +297,8 @@ export type Dictionary = {
       architecture?: string;
       design: string;
       product: string;
+      /** Three short, checkable capability lines shown on project cards. */
+      capabilities: string[];
       outcome: string;
     };
   };

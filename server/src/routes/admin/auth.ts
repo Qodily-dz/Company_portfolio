@@ -3,10 +3,14 @@ import bcrypt from "bcryptjs";
 import { supabase } from "../../lib/supabase.js";
 import { signToken } from "../../lib/jwt.js";
 import { loginSchema } from "../../validators/schemas.js";
+import { authMiddleware } from "../../middleware/auth.js";
+import { rateLimiter } from "../../middleware/rateLimit.js";
 
 const router = Router();
 
-router.post("/login", async (req: Request, res: Response) => {
+// Throttled: this router is mounted without authMiddleware, so /login is
+// reachable by anyone and was previously unlimited against bcrypt.
+router.post("/login", rateLimiter(10, 15 * 60 * 1000), async (req: Request, res: Response) => {
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: "Invalid credentials" });
 
@@ -43,7 +47,9 @@ router.post("/logout", (_req: Request, res: Response) => {
   res.json({ message: "Logged out" });
 });
 
-router.get("/me", async (req: Request, res: Response) => {
+// authMiddleware is what populates req.user. Without it this route read an
+// always-undefined value and answered 401 to every caller, valid or not.
+router.get("/me", authMiddleware, async (req: Request, res: Response) => {
   if (!req.user) return res.status(401).json({ error: "Not authenticated" });
 
   const { data: user, error } = await supabase

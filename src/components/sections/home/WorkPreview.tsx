@@ -37,7 +37,6 @@ function FeatureCard({
     <Reveal delay={index * 0.1}>
       <Link
         href={`/${locale}/work`}
-        data-cursor="project"
         className={`group relative block overflow-hidden rounded-xl border border-border bg-surface/60 ${
           index % 2 === 0 ? "" : "md:mt-24"
         }`}

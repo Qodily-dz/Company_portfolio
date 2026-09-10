@@ -53,7 +53,6 @@ export function AboutPreview() {
           <p className="text-lg leading-relaxed text-muted">{dict.about.body}</p>
           <Link
             href={`/${locale}/about`}
-            data-cursor="link"
             className="group mt-8 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.16em] text-accent-soft transition-colors hover:text-foreground"
           >
             {dict.pages.home.exploreAbout}

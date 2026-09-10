@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Header } from "./header/Header";
 import { Footer } from "./footer/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 type SiteShellProps = {
   children: ReactNode;
@@ -15,7 +14,6 @@ export function SiteShell({ children }: SiteShellProps) {
       <div className="h-20 md:h-20" aria-hidden />
       <main id="main" className="flex-1">{children}</main>
       <Footer />
-      <CustomCursor />
     </div>
   );
 }

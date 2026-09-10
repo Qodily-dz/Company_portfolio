@@ -86,7 +86,6 @@ export function EditorialList() {
       ref={listRef}
       className="relative"
       onMouseLeave={reduced ? undefined : onLeave}
-      data-cursor-area="work-lists"
     >
       <div className="flex flex-col">
         {PROJECTS.map((project, i) => {
@@ -97,8 +96,6 @@ export function EditorialList() {
             <Link
               key={project.id}
               href={`/${locale}/work/${project.id}`}
-              data-cursor="case"
-              data-cursor-label={title}
               onMouseEnter={(e) => !reduced && onEnter(project, e)}
               onMouseMove={(e) => !reduced && onMove(e)}
               className="group relative border-t border-border py-8 transition-colors last:border-b md:py-10"
@@ -145,7 +142,6 @@ export function EditorialList() {
           <motion.div
             key={previewProject.id}
             aria-hidden
-            data-cursor="case"
             className="pointer-events-none absolute z-30 hidden w-[300px] lg:block"
             style={{ x: springX, y: springY }}
             initial={{ opacity: 0, scale: 0.9, translateX: "-50%", translateY: "-50%" }}

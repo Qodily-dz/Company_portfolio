@@ -59,7 +59,6 @@ export function CodeTerminal() {
   return (
     <div
       className="group relative w-full max-w-lg overflow-hidden rounded-2xl border border-border-strong/70 bg-surface/70 shadow-[0_0_60px_rgba(43,108,181,0.18)] backdrop-blur-md transition-shadow duration-500 group-hover:shadow-[0_0_90px_rgba(43,108,181,0.3)]"
-      data-cursor="view"
       aria-hidden
     >
       {/* Window chrome */}
