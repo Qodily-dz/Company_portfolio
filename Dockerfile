@@ -2,10 +2,16 @@
 FROM node:20-alpine AS base
 
 # --- dependencies ---
+# Install the FULL dependency tree, devDependencies included. `next build`
+# resolves tailwindcss and @tailwindcss/postcss at build time and both are
+# devDependencies, so `--omit=dev` here made the build fail on
+# "Cannot find module '@tailwindcss/postcss'". Nothing from this stage reaches
+# the runtime image: the runner copies only the standalone output, which
+# already contains the pruned production node_modules Next traced.
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # --- builder ---
 FROM base AS builder
