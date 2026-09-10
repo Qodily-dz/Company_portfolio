@@ -24,6 +24,7 @@ import adminContacts from "./routes/admin/contacts.js";
 import adminWebsite from "./routes/admin/website.js";
 import adminPacks from "./routes/admin/packs.js";
 import adminMedia from "./routes/admin/media.js";
+import adminUsers from "./routes/admin/users.js";
 
 dotenv.config();
 
@@ -83,6 +84,7 @@ app.use("/api/admin/articles", authMiddleware, adminArticles);
 app.use("/api/admin/contacts", authMiddleware, adminContacts);
 app.use("/api/admin/packs", authMiddleware, adminPacks);
 app.use("/api/admin/media", authMiddleware, adminMedia);
+app.use("/api/admin/users", authMiddleware, adminOnly, adminUsers);
 app.use("/api/admin", authMiddleware, adminWebsite);
 
 app.listen(PORT, () => {

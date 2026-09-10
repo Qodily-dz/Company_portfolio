@@ -102,6 +102,15 @@ export type NavItemRecord = {
   order: number;
 };
 
+export type AdminUserRecord = {
+  id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "EDITOR";
+  created_at: string;
+  updated_at: string;
+};
+
 export type DashboardData = {
   stats: {
     totalProjects: number;
@@ -317,4 +326,9 @@ export const adminApi = {
   pillarCreate: (body: unknown) => request<{ data: Record<string, unknown> }>("/api/admin/pillars", { method: "POST", body }),
   pillarUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/pillars/${id}`, { method: "PUT", body }),
   pillarDelete: (id: string) => request<{ message: string }>(`/api/admin/pillars/${id}`, { method: "DELETE" }),
+
+  usersList: () => request<{ data: AdminUserRecord[] }>("/api/admin/users"),
+  userCreate: (body: unknown) => request<{ data: AdminUserRecord }>("/api/admin/users", { method: "POST", body }),
+  userUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/users/${id}`, { method: "PUT", body }),
+  userDelete: (id: string) => request<{ message: string }>(`/api/admin/users/${id}`, { method: "DELETE" }),
 };

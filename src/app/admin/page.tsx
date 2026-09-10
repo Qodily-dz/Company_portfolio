@@ -14,6 +14,7 @@ import Media from "@/components/admin/sections/Media";
 import Website from "@/components/admin/sections/Website";
 import Navigation from "@/components/admin/sections/Navigation";
 import Seo from "@/components/admin/sections/Seo";
+import Users from "@/components/admin/sections/Users";
 import Settings from "@/components/admin/sections/Settings";
 
 export default function AdminPage() {
@@ -60,6 +61,7 @@ export default function AdminPage() {
       {active === "website" && <Website />}
       {active === "navigation" && <Navigation />}
       {active === "seo" && <Seo />}
+      {active === "users" && user?.role === "ADMIN" && <Users />}
       {active === "settings" && <Settings onLogout={logout} />}
     </AdminShell>
   );

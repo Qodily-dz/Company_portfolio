@@ -110,3 +110,17 @@ export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
+
+export const adminUserCreateSchema = z.object({
+  name: z.string().min(1).max(120),
+  email: z.string().email().max(254),
+  password: z.string().min(8).max(200),
+  role: z.enum(["ADMIN", "EDITOR"]).default("EDITOR"),
+});
+
+export const adminUserUpdateSchema = z.object({
+  name: z.string().min(1).max(120).optional(),
+  email: z.string().email().max(254).optional(),
+  role: z.enum(["ADMIN", "EDITOR"]).optional(),
+  password: z.string().min(8).max(200).optional(),
+});

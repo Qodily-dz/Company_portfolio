@@ -9,4 +9,5 @@ export type AdminSection =
   | "website"
   | "navigation"
   | "seo"
+  | "users"
   | "settings";
