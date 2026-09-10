@@ -38,7 +38,6 @@ export function ProcessPreview() {
             </p>
             <Link
               href={`/${locale}/process`}
-              data-cursor="link"
               className="group mt-9 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.16em] text-accent-soft transition-colors hover:text-foreground"
             >
               {dict.pages.home.exploreProcess}

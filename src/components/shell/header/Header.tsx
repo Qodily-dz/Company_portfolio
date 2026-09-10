@@ -130,7 +130,6 @@ export function Header() {
             >
               <Link
                 href={`/${locale}/contact`}
-                data-cursor="button"
                 className={cn(
                   "group inline-flex items-center gap-2 rounded-full transition-all duration-300",
                   scrolled

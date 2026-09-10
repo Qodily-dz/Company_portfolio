@@ -92,7 +92,6 @@ export function ServicesPage() {
             </Button>
             <Link
               href={`/${locale}/process`}
-              data-cursor="link"
               className="text-sm font-medium uppercase tracking-[0.14em] text-accent-soft transition-colors hover:text-foreground"
             >
               {dict.pages.home.exploreProcess}

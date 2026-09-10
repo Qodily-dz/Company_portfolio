@@ -70,6 +70,8 @@ export const fr: Dictionary = {
     view: "Voir",
     viewCase: "Voir le projet",
     concept: "Concept",
+    imageNote:
+      "Captures d'écrans réelles de nos plateformes déployées en production et maquettes d'exploration conceptuelles.",
     backToWork: "Retour aux travaux",
     project: "Le projet",
     challenge: "Le défi",
@@ -575,6 +577,159 @@ export const fr: Dictionary = {
     },
   },
   projects: {
+    "geststock-simple": {
+      title:
+        "GestStock Simple",
+      category:
+        "Opérations · Logiciel",
+      short:
+        "Le même noyau stock et caisse, taillé pour un seul comptoir.",
+      summary:
+        "Une édition allégée de GestStock pour un petit magasin : la même chaîne de l'achat à la caisse, sans le poste de retours ni la configuration par magasin.",
+      problem:
+        "Un petit comptoir a besoin de la même rigueur sur le stock et la caisse, mais chaque écran inutile coûte du temps de formation et crée des occasions d'erreur.",
+      solution:
+        "Le même noyau — produits, stock, fournisseurs, ventes, paiements, comptes clients, dépenses et clôture — les modules lourds retirés plutôt que masqués.",
+      approach:
+        "Partager le domaine avec l'édition détaillée et couper à la jointure : retirer les retours et les paramètres de magasin, garder identique tout ce qui touche au stock ou à l'argent.",
+      design:
+        "Le même back-office dense avec un menu plus court, pour qu'un opérateur qui passe à l'édition détaillée retrouve ses écrans.",
+      product:
+        "Produits et stock, fournisseurs et factures d'achat, ventes détaillées, comptes clients et paiements, dépenses, et clôture de caisse.",
+      capabilities: [
+        "Stock, fournisseurs et factures d'achat",
+        "Ventes, paiements et comptes clients",
+        "Dépenses et clôture de caisse",
+      ],
+      outcome:
+        "Le premier niveau d'une gamme à deux éditions : un petit magasin utilise la version simple et passe à la détaillée sans réapprendre le système.",
+    },
+    "geststock": {
+      title:
+        "GestStock",
+      category:
+        "Opérations · Logiciel",
+      short:
+        "Stock, ventes et caisse d'un magasin médical dans un seul back-office.",
+      summary:
+        "Gérer un magasin médical de la facture d'achat à la clôture de caisse sans que le stock, la caisse et le compte fournisseur ne se contredisent.",
+      problem:
+        "Le stock, les ventes et l'argent étaient suivis séparément. Personne ne pouvait dire ce qu'il y avait réellement en magasin, ce qu'un client devait encore, ni si la caisse correspondait aux ventes du jour.",
+      solution:
+        "Un back-office où chaque mouvement est enregistré une seule fois : les achats augmentent le stock, les ventes le diminuent, paiements et retours ajustent le solde, et la journée se clôture sur un chiffre unique.",
+      approach:
+        "Modéliser d'abord le parcours de l'argent — vente, paiement, retour, clôture — puis y rattacher produits, stock et fournisseurs.",
+      design:
+        "Un back-office dense et pilotable au clavier, avec recherche produit rapide et un écran de clôture affichant l'attendu à côté du compté.",
+      product:
+        "Produits et niveaux de stock, fournisseurs et factures d'achat, ventes détaillées, comptes clients, paiements et retours, dépenses, et clôture de caisse.",
+      capabilities: [
+        "Stock, fournisseurs et factures d'achat",
+        "Ventes, paiements, retours et comptes clients",
+        "Dépenses et clôture de caisse",
+      ],
+      outcome:
+        "Un système complet de stock et de caisse pour le commerce médical, décliné en deux niveaux pour un petit comptoir comme pour un magasin plus large.",
+    },
+    "ecommerce-suite": {
+      title:
+        "Suite E-Commerce",
+      category:
+        "Commerce · Produit",
+      short:
+        "Un back-office Laravel derrière plusieurs boutiques de marque.",
+      summary:
+        "Un seul catalogue et back-office de commandes au service de plusieurs boutiques de marque : une nouvelle boutique devient un front, pas un nouveau système.",
+      problem:
+        "Chaque nouvelle boutique imposait de reconstruire le même catalogue, les mêmes fiches produit et la même gestion des commandes, avec un code différent à maintenir par marque.",
+      solution:
+        "Un backend unique portant catégories, produits, images et commandes, avec des boutiques construites comme des fronts séparés sur la même API.",
+      approach:
+        "Garder le domaine partagé au même endroit et ne laisser à chaque boutique que son apparence et son discours.",
+      design:
+        "Des boutiques orientées catalogue : navigation claire par catégorie et formulaire de commande court plutôt qu'un paiement en plusieurs étapes.",
+      product:
+        "Catalogue de catégories et produits avec images, fiches produit, formulaire de commande rapide, boîte de réception des commandes et gestion des contacts.",
+      capabilities: [
+        "Catalogue partagé : catégories, produits et images",
+        "Formulaire de commande rapide et boîte de réception",
+        "Plusieurs boutiques de marque sur un seul backend",
+      ],
+      outcome:
+        "Trois modèles de boutique sur un seul backend, ce qui réduit chaque boutique supplémentaire à du travail de front-end.",
+    },
+    "fedelo": {
+      title: "Fedelo",
+      category: "SaaS · Fidélité & Prise de Rendez-vous",
+      short: "Plateforme de fidélité digitale, pass Apple Wallet et file d'attente en direct pour commerces.",
+      summary:
+        "Digitalisation de la fidélité client et gestion de file d'attente en direct pour salons de coiffure, barbiers et commerces de proximité.",
+      problem:
+        "Les commerces de proximité perdaient des clients à cause de cartes de fidélité papier égarées, de temps d'attente imprévisibles et d'un manque d'outils modernes pour fidéliser leur clientèle.",
+      solution:
+        "Une plateforme SaaS complète réunissant des cartes de fidélité dématérialisées (compatibles Apple Wallet), une file d'attente en direct sur smartphone et la prise de rendez-vous en ligne.",
+      approach:
+        "Concevoir une PWA ultra-légère accessible par QR code sans mot de passe ni téléchargement d'application pour le client, adossée à un tableau de bord commerçant gérant les passages et les récompenses.",
+      design:
+        "Une interface sombre et élégante aux accents dorés, pensée pour une lisibilité instantanée en salon, avec des animations fluides et une carte à tamponner interactive.",
+      product:
+        "Cartes de fidélité Apple Wallet, file d'attente en temps réel avec notifications Web Push, portail commerçant avec statistiques d'affluence et paramètres personnalisés.",
+      capabilities: [
+        "Cartes de fidélité digitales et Apple Wallet",
+        "File d'attente en direct & rendez-vous sans app",
+        "Tableau de bord commerçant & notifications Web Push",
+      ],
+      outcome:
+        "Plateforme SaaS en production permettant aux commerces d'éliminer le papier, d'augmenter le taux de retour client et de lisser les heures de pointe.",
+    },
+    "my-voucher-booking": {
+      title: "MY Voucher Booking",
+      category: "Plateforme Voyage · E-commerce B2B/B2C",
+      short: "Système de réservation hôtelière, séjours organisés et Omra avec émission de vouchers QR et cycle de paiement BaridiMob / CCP.",
+      summary:
+        "Plateforme complète pour l'agence de voyage MY Voucher Booking (Constantine) reliant le site public, l'espace client, le portail agences B2B et l'administration financière.",
+      problem:
+        "L'agence dépendait d'échanges manuels sur WhatsApp et de reçus papier. Les paiements par CCP/BaridiMob n'étaient pas synchronisés avec les confirmations et les agences partenaires n'avaient pas d'accès direct aux tarifs négociés.",
+      solution:
+        "Une plateforme web intégrée gérant le catalogue d'hôtels, voyages organisés et Omra, un cycle de validation téléphonique avant tout paiement, l'émission automatique de vouchers PDF avec QR code vérifiable, et un portail B2B avec remises contractuelles.",
+      approach:
+        "Respecter le modèle opérationnel réel de l'agence : confirmation humaine avant tout débit, gestion financière en centimes entiers pour une intégrité comptable parfaite, et support de 5 langues (FR, AR, EN, TR, ES).",
+      design:
+        "Identité chaleureuse aux teintes sarcelle et orange, recherche intuitive multi-critères avec filtres dynamiques, et vouchers imprimables A4 au standard professionnel.",
+      product:
+        "Moteur de tarification jour par jour, générateur de vouchers avec QR code sécurisé Reed-Solomon, intégration de preuve de paiement BaridiMob/CCP, gestion des rôles et permissions administrateur.",
+      capabilities: [
+        "Réservation d'hôtels, circuits organisés & Omra",
+        "Cycle de paiement CCP / BaridiMob & vouchers QR",
+        "Espace B2B agences partenaires & back-office 5 rôles",
+      ],
+      outcome:
+        "Plateforme en production remplaçant les processus manuels par un cycle de vente structuré et automatisant la collaboration avec les agences partenaires.",
+    },
+    "tcs-informatique": {
+      title: "TCS Informatique",
+      category: "Entreprise B2B · Sécurité & Courants Faibles",
+      short: "Refonte de plateforme institutionnelle, catalogue technique 26 tables et moteur de qualification de devis B2B.",
+      summary:
+        "Système d'information et vitrine technique pour Tiger Computer Services (TCS), intégrateur officiel en sécurité électronique (Agrément Vidéosurveillance Type I) et réseaux à Alger depuis 1995.",
+      problem:
+        "Un ancien site WordPress vulnérable, aucun catalogue matériel structuré, et des demandes de contact génériques qui saturaient l'équipe commerciale sans qualification technique préalable.",
+      solution:
+        "Une architecture moderne ultra-sécurisée sur Laravel 12 avec un catalogue technique relationnel de 26 tables, un panier de références sans prix pour demandes de devis dimensionnées, et une traçabilité d'audit complète.",
+      approach:
+        "Réduire la surface d'attaque par conception : aucun paiement en ligne, authentification 2FA obligatoire pour le back-office, limitation de débit stricte, et politiques de sécurité WCAG 2.2 AA.",
+      design:
+        "Direction éditoriale institutionnelle sobre (fond papier chaud, typographie serif Newsreader, rouge accent du logo TCS), animée par un moteur de ressorts mathématiques 1:1 sans dépendance externe.",
+      product:
+        "Catalogue filtrable par caractéristiques techniques, devis structurés avec cases à cocher par corps d'état (CFA/CFO/CCTV), gestion des candidatures avec stockage sécurisé des CV, back-office avec journal d'audit immuable.",
+      capabilities: [
+        "Catalogue technique B2B 26 tables & fiches matériel",
+        "Panier de devis qualifié sans prix & conformité agréments",
+        "Socle Laravel 12 sécurisé avec 2FA, RBAC & journal d'audit",
+      ],
+      outcome:
+        "Infrastructure web de haute crédibilité positionnant l'entreprise auprès des banques et ministères, éliminant les spams et sécurisant les données sensibles.",
+    },
     "restaurant-management": {
       title: "Plateforme de gestion de restaurant",
       category: "Opérations · Logiciel",
@@ -591,6 +746,11 @@ export const fr: Dictionary = {
         "Une interface calme et à contraste élevé, conçue pour la rapidité — de grandes cibles tactiles pour l'écran cuisine, des couleurs de statut claires pour les commandes ouvertes/terminées, et une vue de salle qui affiche les tables comme l'équipe les voit réellement.",
       product:
         "Gestion des tables et de la salle, saisie de commandes avec modificateurs, file d'attente cuisine, suivi du stock et rapports de fin de journée — un seul identifiant, un seul système.",
+      capabilities: [
+        "Gestion des tables et de la salle",
+        "File d'attente cuisine et suivi du stock",
+        "Rapports de fin de journée, un seul système",
+      ],
       outcome:
         "Concept : la conception élimine les frictions partagées d'un service chargé en remplaçant le papier et le téléphone par un flux de travail organisé. À valider avec un établissement en direct avant le développement.",
     },
@@ -610,6 +770,11 @@ export const fr: Dictionary = {
         "Des fiches produit éditoriales qui laissent les images et le prix respirer, un paiement rapide en un seul écran, et un statut de commande clair pour que les clients sachent toujours où en est leur achat.",
       product:
         "Catalogue de produits avec recherche et filtrage, panier et paiement, intégration de paiement, et une boîte de réception de gestion des commandes pour l'équipe.",
+      capabilities: [
+        "Catalogue avec recherche et filtrage",
+        "Panier, paiement et intégration de paiement",
+        "Boîte de réception des commandes",
+      ],
       outcome:
         "Concept : le flux transforme un processus de vente manuel basé sur les conversations en une boutique en libre-service, libérant l'équipe pour se concentrer sur les produits plutôt que de ressaisir les commandes.",
     },
@@ -629,6 +794,11 @@ export const fr: Dictionary = {
         "Des vues liste et kanban épurées avec un minimum de clutter, un indice permanent de « prochaine action » sur chaque contact, et une édition en ligne rapide pour que l'outil reste hors du chemin.",
       product:
         "Contacts, pipelines avec étapes, suivi des tâches et relances, notes, et filtres simples par propriétaire et étape.",
+      capabilities: [
+        "Contacts et pipelines avec étapes",
+        "Suivi des tâches, relances et notes",
+        "Filtres par propriétaire et étape",
+      ],
       outcome:
         "Concept : concentre l'équipe commerciale sur la cohérence des relances — une prochaine étape fiablement enregistrée pour chaque relation — plutôt que sur le travail de reporting fastidieux.",
     },
@@ -648,6 +818,11 @@ export const fr: Dictionary = {
         "Un flux de réservation convivial étape par étape, un calendrier mensuel/hebdomadaire clair pour le personnel, et des rappels intégrés au calendrier plutôt que greffés.",
       product:
         "Réservation publique, gestion des créneaux, rappels automatisés, et un calendrier partagé du personnel avec des créneaux protégés.",
+      capabilities: [
+        "Réservation publique et gestion des créneaux",
+        "Rappels automatisés",
+        "Calendrier partagé avec créneaux protégés",
+      ],
       outcome:
         "Concept : vise à réduire les absences et le temps passé au téléphone en déplaçant la réservation et les rappels vers le libre-service — à mesurer avec une clinique pilote.",
     },
@@ -667,6 +842,11 @@ export const fr: Dictionary = {
         "Un cahier de notes calme avec une saisie rapide, des tableaux de bord pour le personnel et les parents, et des vues basées sur les rôles pour que chaque personne ne voie que ce qui compte pour elle.",
       product:
         "Comptes basés sur les rôles, cahier de notes, présences, emplois du temps et mises à jour pour les parents dans un seul système.",
+      capabilities: [
+        "Comptes basés sur les rôles",
+        "Cahier de notes, présences et emplois du temps",
+        "Mises à jour pour les parents",
+      ],
       outcome:
         "Concept : remplace les registres papier dupliqués par une seule source de vérité structurée pour une école — à tester avec les retours du personnel.",
     },
@@ -686,6 +866,11 @@ export const fr: Dictionary = {
         "Une hiérarchie visuelle calme — un petit ensemble de KPI principaux, un contexte de tendance et des approfondissements — pour que le premier coup d'œil réponde « ça va ? » sans manuel.",
       product:
         "Vue d'ensemble des KPI sélectionnés, vues de tendance et de segment, et annotations légères pour que chaque chiffre ait un contexte.",
+      capabilities: [
+        "Vue d'ensemble des KPI sélectionnés",
+        "Vues de tendance et de segment",
+        "Annotations légères pour le contexte",
+      ],
       outcome:
         "Concept : recadre le reporting depuis plus de données vers une clarté utilisable — l'utilité à confirmer avec l'équipe lors des premières sessions.",
     },

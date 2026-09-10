@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { locales, toLocale } from "@/lib/i18n/config";
 import { breadcrumbSchema, organizationSchema } from "@/lib/seo";
+import { fetchProjects } from "@/lib/work-api";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -50,6 +51,8 @@ export default async function WorkRoute({ params }: Props) {
   const locale = toLocale(localeValue);
   const dict = getDictionary(locale);
   const url = `${siteConfig.url}/${locale}/work`;
+  // Use cases come from the shared CMS; falls back to the bundled list.
+  const { items: projects, source } = await fetchProjects(locale);
 
   return (
     <SiteShell>
@@ -60,7 +63,7 @@ export default async function WorkRoute({ params }: Props) {
         ])}
       />
       <JsonLd data={organizationSchema(dict)} />
-      <WorkPage />
+      <WorkPage projects={projects} source={source} />
     </SiteShell>
   );
 }

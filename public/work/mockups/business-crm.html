@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Pipelia — Pipeline commercial</title>
+<style>
+  :root{
+    --bg:#030405;
+    --chrome:#070a0f;
+    --panel:#0b1018;
+    --raised:#141e2e;
+    --navy:#0b1d35;
+    --bd:#1c2638;
+    --bd2:#2c3a52;
+    --tx:#ffffff;
+    --soft:#e0e4ea;
+    --mut:#8c96a6;
+    --dim:#6b7686;
+    --acc:#2b6cb5;
+    --acc2:#4a8fd8;
+    --hi:#5fa3e0;
+    --ok:#3d9a6e;
+    --warn:#fbbf24;
+    --err:#f87171;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;width:1600px;height:1000px;overflow:hidden;background:var(--bg);}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:13px;color:var(--soft);
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{width:1600px;height:1000px;display:flex;flex-direction:column;background:var(--bg);}
+
+  /* ================= TOP BAR ================= */
+  .topbar{
+    height:52px;flex:0 0 52px;background:var(--chrome);
+    border-bottom:1px solid var(--bd);
+    display:flex;align-items:center;padding:0 16px;gap:14px;
+  }
+  .brand{display:flex;align-items:center;gap:9px;width:192px;flex:0 0 192px;}
+  .logo{
+    width:26px;height:26px;border-radius:7px;
+    background:linear-gradient(150deg,#2b6cb5,#0b1d35);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid #3a5f8f;
+  }
+  .brand .nm{font-size:15px;font-weight:650;color:#fff;letter-spacing:.2px;}
+  .brand .ver{font-size:9.5px;color:var(--dim);border:1px solid var(--bd);border-radius:4px;padding:1px 4px;font-family:var(--mono);}
+  .crumb{display:flex;align-items:center;gap:7px;color:var(--mut);font-size:12.5px;}
+  .crumb b{color:var(--soft);font-weight:600;}
+  .crumb .sep{color:#38445a;}
+  .search{
+    margin-left:auto;width:330px;height:31px;background:#0b1018;border:1px solid var(--bd2);
+    border-radius:7px;display:flex;align-items:center;gap:8px;padding:0 9px;
+  }
+  .search .txt{color:var(--soft);font-size:12.5px;}
+  .search .caret{width:1px;height:14px;background:var(--hi);display:inline-block;margin-left:-3px;}
+  .search .hint{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--bd);border-radius:4px;padding:1px 4px;}
+  .tb-btn{
+    width:31px;height:31px;border-radius:7px;border:1px solid var(--bd);background:#0b1018;
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .dot-badge{
+    position:absolute;top:-4px;right:-4px;min-width:14px;height:14px;border-radius:7px;background:var(--err);
+    color:#1a0505;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    padding:0 3px;border:1.5px solid var(--chrome);
+  }
+  .me{display:flex;align-items:center;gap:8px;padding-left:12px;margin-left:2px;border-left:1px solid var(--bd);}
+  .me .who{line-height:1.15;}
+  .me .who .n{font-size:12px;color:var(--soft);font-weight:600;}
+  .me .who .r{font-size:10.5px;color:var(--dim);}
+  .av{
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;letter-spacing:.2px;color:#fff;flex:0 0 auto;
+  }
+  .av.lg{width:30px;height:30px;font-size:11px;}
+  .av.sm{width:21px;height:21px;font-size:9.5px;}
+  .av.md{width:26px;height:26px;font-size:10px;}
+  .a-kb{background:#2b6cb5;}
+  .a-nh{background:#6b4fa8;}
+  .a-ym{background:#2f7d63;}
+  .a-ab{background:#a35a3c;}
+  .a-sl{background:#3d5a80;}
+
+  /* ================= SHELL ================= */
+  .shell{flex:1;display:flex;min-height:0;}
+
+  /* ================= LEFT NAV ================= */
+  .nav{
+    width:208px;flex:0 0 208px;background:var(--chrome);border-right:1px solid var(--bd);
+    display:flex;flex-direction:column;padding:12px 10px 10px;min-height:0;
+  }
+  .nav .newbtn{
+    height:33px;border-radius:7px;background:var(--acc);color:#fff;font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:14px;
+    border:1px solid #3d7fc8;
+  }
+  .nav .cap{font-size:9.5px;letter-spacing:1px;color:var(--dim);font-weight:700;padding:0 8px;margin:0 0 6px;}
+  .ni{
+    height:31px;border-radius:7px;display:flex;align-items:center;gap:9px;padding:0 9px;
+    color:var(--mut);font-size:12.5px;margin-bottom:2px;
+  }
+  .ni.on{background:var(--navy);color:#fff;font-weight:600;border:1px solid #17385c;}
+  .ni .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);}
+  .ni.on .cnt{color:var(--hi);}
+  .ni .pill{margin-left:auto;background:#31210a;color:var(--warn);border-radius:9px;font-size:9.5px;font-weight:700;padding:1px 6px;}
+  .nav .div{height:1px;background:var(--bd);margin:12px 4px;}
+  .tm{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;}
+  .tm .nmn{font-size:12px;color:var(--mut);}
+  .tm .st{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);}
+  .tm .on-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);}
+  .tm .aw-dot{width:6px;height:6px;border-radius:50%;background:var(--warn);}
+  .nav .foot{margin-top:auto;border-top:1px solid var(--bd);padding-top:8px;}
+  .quota{padding:7px 9px;background:var(--panel);border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;}
+  .quota .l{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut);margin-bottom:6px;}
+  .quota .l b{color:var(--soft);font-family:var(--mono);}
+  .bar{height:5px;border-radius:3px;background:#101724;overflow:hidden;}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,#2b6cb5,#5fa3e0);}
+
+  /* ================= MAIN ================= */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;padding:14px 16px;gap:12px;background:var(--bg);}
+
+  .kpis{display:flex;gap:12px;height:88px;flex:0 0 88px;}
+  .kpi{
+    flex:1;background:var(--panel);border:1px solid var(--bd);border-radius:11px;padding:10px 12px;
+    display:flex;flex-direction:column;position:relative;min-width:0;
+  }
+  .kpi .k-l{font-size:10.5px;color:var(--mut);letter-spacing:.3px;text-transform:uppercase;font-weight:600;}
+  .kpi .k-v{font-size:21px;font-weight:650;color:#fff;font-family:var(--mono);letter-spacing:-.4px;margin-top:3px;}
+  .kpi .k-v span{font-size:12px;color:var(--mut);font-weight:500;margin-left:2px;}
+  .kpi .k-s{margin-top:auto;display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--dim);white-space:nowrap;}
+  .delta{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:5px;}
+  .up{background:#0e2a1f;color:var(--ok);}
+  .down{background:#2c1414;color:var(--err);}
+  .spark{position:absolute;right:10px;bottom:8px;opacity:.95;}
+  .tip{
+    position:absolute;top:-4px;right:6px;background:var(--raised);border:1px solid var(--bd2);
+    border-radius:7px;padding:6px 8px;z-index:9;box-shadow:0 8px 22px rgba(0,0,0,.65);
+  }
+  .tip .t1{font-size:9.5px;color:var(--mut);letter-spacing:.3px;}
+  .tip .t2{font-size:11.5px;color:#fff;font-family:var(--mono);font-weight:600;margin-top:2px;}
+  .tip .t3{font-size:9.5px;color:var(--hi);margin-top:1px;}
+  .tip:after{
+    content:"";position:absolute;bottom:-5px;left:26px;width:8px;height:8px;background:var(--raised);
+    border-right:1px solid var(--bd2);border-bottom:1px solid var(--bd2);transform:rotate(45deg);
+  }
+
+  /* toolbar */
+  .toolbar{height:34px;flex:0 0 34px;display:flex;align-items:center;gap:8px;}
+  .segs{display:flex;background:var(--panel);border:1px solid var(--bd);border-radius:7px;padding:2px;height:30px;}
+  .seg{padding:0 11px;height:24px;border-radius:5px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);}
+  .seg.on{background:var(--raised);color:#fff;font-weight:600;box-shadow:0 1px 0 rgba(255,255,255,.04) inset;}
+  .chip{
+    height:26px;border-radius:6px;border:1px solid var(--bd);background:var(--panel);
+    display:flex;align-items:center;gap:6px;padding:0 8px;font-size:11.5px;color:var(--mut);
+    white-space:nowrap;flex:0 0 auto;
+  }
+  .chip.act{border-color:#2b6cb5;background:var(--navy);color:var(--soft);}
+  .chip.act b{color:#fff;font-weight:600;}
+  .chip .x{color:var(--hi);font-size:12px;line-height:1;}
+  .chip.add{border-style:dashed;color:var(--dim);}
+  .t-right{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:11px;color:var(--mut);white-space:nowrap;flex:0 0 auto;}
+  .t-right b{color:#fff;font-family:var(--mono);font-weight:650;}
+
+  /* ================= BOARD ================= */
+  .board{flex:1;min-height:0;display:flex;gap:10px;}
+  .col{
+    flex:1;min-width:0;background:var(--panel);border:1px solid var(--bd);border-radius:11px;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .col .top{height:3px;flex:0 0 3px;}
+  .c-head{padding:9px 10px 8px;border-bottom:1px solid var(--bd);}
+  .c-head .r1{display:flex;align-items:center;gap:6px;}
+  .c-head .nm{font-size:11.5px;font-weight:700;color:var(--soft);letter-spacing:.5px;text-transform:uppercase;}
+  .c-head .ct{font-family:var(--mono);font-size:10px;color:var(--mut);background:#101724;border:1px solid var(--bd);border-radius:9px;padding:0 5px;}
+  .c-head .mo{margin-left:auto;color:var(--dim);letter-spacing:1px;font-size:12px;line-height:8px;}
+  .c-head .sum{font-family:var(--mono);font-size:12px;color:#fff;font-weight:600;margin-top:5px;}
+  .c-head .sub{font-size:10px;color:var(--dim);margin-top:1px;}
+  .c-body{flex:1;min-height:0;padding:8px;display:flex;flex-direction:column;gap:8px;}
+
+  .card{
+    background:var(--raised);border:1px solid var(--bd);border-radius:9px;padding:8px 9px 7px;
+    flex:0 0 auto;position:relative;
+  }
+  .card.sel{border-color:var(--acc2);background:#152742;box-shadow:0 0 0 1px rgba(74,143,216,.45),0 6px 18px rgba(0,0,0,.55);}
+  .card.sel:before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:2px;border-radius:2px;background:var(--hi);}
+  .card .co{
+    font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    padding-right:14px;
+  }
+  .card .val{font-family:var(--mono);font-size:13px;color:var(--hi);font-weight:600;margin-top:4px;letter-spacing:-.2px;}
+  .card.won .val{color:var(--ok);}
+  .card .meta{display:flex;align-items:center;gap:6px;margin-top:7px;}
+  .card .next{
+    display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--mut);
+    background:#0d1522;border:1px solid var(--bd);border-radius:5px;padding:1px 5px 1px 4px;
+  }
+  .card .next.now{color:var(--warn);border-color:#4a3a12;background:#221a08;}
+  .card .next.late{color:var(--err);border-color:#4a1f1f;background:#241010;}
+  .card .next.won{color:#6fd3a4;border-color:#173d2c;background:#0c1d16;}
+  .card .tag{font-size:10px;color:var(--dim);border:1px solid var(--bd);border-radius:5px;padding:1px 5px;}
+  .card .av{margin-left:auto;}
+  .card .flag{position:absolute;top:8px;right:8px;color:var(--warn);font-size:10px;line-height:1;}
+  .ghost{
+    flex:0 0 auto;height:28px;border:1px dashed var(--bd2);border-radius:8px;color:var(--dim);
+    font-size:11.5px;display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .drop{
+    flex:0 0 auto;height:52px;border:1px dashed var(--acc2);border-radius:9px;background:rgba(43,108,181,.09);
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--hi);
+  }
+
+  /* ================= RIGHT RAIL ================= */
+  .rail{
+    width:308px;flex:0 0 308px;background:var(--chrome);border-left:1px solid var(--bd);
+    display:flex;flex-direction:column;min-height:0;
+  }
+  .r-head{padding:11px 14px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;}
+  .r-logo{
+    width:34px;height:34px;border-radius:9px;background:var(--navy);border:1px solid #1d3d61;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--hi);
+  }
+  .r-head .h1{font-size:14px;font-weight:650;color:#fff;line-height:1.2;}
+  .r-head .h2{font-size:10.5px;color:var(--dim);margin-top:2px;}
+  .r-head .cls{margin-left:auto;color:var(--dim);font-size:14px;}
+  .r-body{flex:1;min-height:0;padding:12px 14px;display:flex;flex-direction:column;gap:11px;overflow:hidden;}
+  .sec-t{font-size:9.5px;letter-spacing:1px;color:var(--dim);font-weight:700;text-transform:uppercase;}
+  .kv{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--soft);padding:3px 0;}
+  .kv .k{color:var(--dim);width:74px;flex:0 0 74px;font-size:11px;}
+  .kv .v{color:var(--soft);}
+  .kv .v.m{font-family:var(--mono);}
+  .dealbox{background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:10px 11px;}
+  .dealbox .row{display:flex;align-items:baseline;gap:8px;}
+  .dealbox .amt{font-family:var(--mono);font-size:19px;font-weight:650;color:#fff;letter-spacing:-.4px;}
+  .stage-chip{font-size:10px;font-weight:700;color:#1c1204;background:var(--warn);border-radius:5px;padding:2px 6px;}
+  .prob{margin-top:9px;}
+  .prob .l{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut);margin-bottom:5px;}
+  .prob .l b{color:#fff;font-family:var(--mono);}
+  .contact{background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:10px 11px;}
+  .contact .who{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+  .contact .who .n{font-size:12.5px;font-weight:650;color:#fff;}
+  .contact .who .r{font-size:10.5px;color:var(--dim);margin-top:1px;}
+  .contact .who .live{margin-left:auto;font-size:9.5px;color:var(--ok);background:#0e2a1f;border-radius:5px;padding:1px 5px;font-weight:700;}
+  .tl{display:flex;flex-direction:column;gap:0;position:relative;padding-left:2px;}
+  .ev{display:flex;gap:9px;padding-bottom:11px;position:relative;}
+  .ev:last-child{padding-bottom:0;}
+  .ev .line{position:absolute;left:8px;top:18px;bottom:0;width:1px;background:var(--bd);}
+  .ev:last-child .line{display:none;}
+  .ev .ic{
+    width:17px;height:17px;border-radius:50%;flex:0 0 17px;display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--bd2);background:var(--raised);position:relative;z-index:2;margin-top:1px;
+  }
+  .ev .ic.b{background:#12304f;border-color:#245a8c;}
+  .ev .ic.g{background:#0e2a1f;border-color:#1f5a41;}
+  .ev .ic.a{background:#2a2008;border-color:#5c4713;}
+  .ev .bd{min-width:0;flex:1;}
+  .ev .t{display:flex;align-items:baseline;gap:6px;}
+  .ev .t .ttl{font-size:11.5px;font-weight:600;color:var(--soft);}
+  .ev .t .tm{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--dim);white-space:nowrap;}
+  .ev .d{font-size:11px;color:var(--mut);line-height:1.35;margin-top:2px;}
+  .ev .by{font-size:10px;color:var(--dim);margin-top:2px;}
+  .r-foot{border-top:1px solid var(--bd);padding:10px 14px;display:flex;gap:8px;}
+  .btn{
+    flex:1;height:30px;border-radius:7px;font-size:11.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .btn.p{background:var(--acc);color:#fff;border:1px solid #3d7fc8;}
+  .btn.s{background:var(--panel);color:var(--soft);border:1px solid var(--bd2);}
+  svg{display:block;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <path d="M2 3.2h12M4 8h8M6.5 12.8h3" stroke="#cfe4fb" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="nm">Pipelia</div>
+      <div class="ver">4.2</div>
+    </div>
+    <div class="crumb">
+      <span>Espace commercial</span><span class="sep">/</span><span>Pipeline</span><span class="sep">/</span><b>Ventes B2B — T3 2026</b>
+    </div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.6" stroke="#8c96a6" stroke-width="1.5"/><path d="M10.6 10.6L14 14" stroke="#8c96a6" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="txt">tassili</span><span class="caret"></span>
+      <span class="hint">Ctrl K</span>
+    </div>
+    <div class="tb-btn">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2.2a3.6 3.6 0 0 0-3.6 3.6c0 3-1.4 4-1.4 4h10s-1.4-1-1.4-4A3.6 3.6 0 0 0 8 2.2Z" stroke="#8c96a6" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.6 12.2a1.5 1.5 0 0 0 2.8 0" stroke="#8c96a6" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="dot-badge">3</span>
+    </div>
+    <div class="tb-btn">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4.2h10M3 8h10M3 11.8h6" stroke="#8c96a6" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+    <div class="me">
+      <div class="av lg a-kb">KB</div>
+      <div class="who">
+        <div class="n">Karim Belkacem</div>
+        <div class="r">Resp. commercial · Alger</div>
+      </div>
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="#6b7686" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </header>
+
+  <div class="shell">
+
+    <!-- ============ LEFT NAV ============ -->
+    <aside class="nav">
+      <div class="newbtn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>
+        Nouvelle affaire
+      </div>
+
+      <div class="cap">PILOTAGE</div>
+      <div class="ni">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1.2" stroke="#8c96a6" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1.2" stroke="#8c96a6" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1.2" stroke="#8c96a6" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1.2" stroke="#8c96a6" stroke-width="1.3"/></svg>
+        Tableau de bord
+      </div>
+      <div class="ni">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.6" r="2.6" stroke="#8c96a6" stroke-width="1.3"/><path d="M3.2 13.2c.5-2.4 2.4-3.6 4.8-3.6s4.3 1.2 4.8 3.6" stroke="#8c96a6" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Contacts <span class="cnt">1 284</span>
+      </div>
+      <div class="ni on">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2.5" width="3.4" height="11" rx="1.1" stroke="#5fa3e0" stroke-width="1.3"/><rect x="6.3" y="2.5" width="3.4" height="8" rx="1.1" stroke="#5fa3e0" stroke-width="1.3"/><rect x="10.6" y="2.5" width="3.4" height="5.4" rx="1.1" stroke="#5fa3e0" stroke-width="1.3"/></svg>
+        Pipeline <span class="cnt">20</span>
+      </div>
+      <div class="ni">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2.2" y="2.6" width="11.6" height="10.8" rx="2" stroke="#8c96a6" stroke-width="1.3"/><path d="M5.4 8.2l1.8 1.8 3.4-3.6" stroke="#8c96a6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Tâches <span class="pill">7</span>
+      </div>
+      <div class="ni">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.4 12.6h11.2" stroke="#8c96a6" stroke-width="1.3" stroke-linecap="round"/><path d="M4.2 12.4V8.6M7.4 12.4V4.4M10.6 12.4V6.8M13 12.4V3.2" stroke="#8c96a6" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Rapports
+      </div>
+
+      <div class="div"></div>
+
+      <div class="cap">PIPELINES</div>
+      <div class="ni on" style="background:#0d1522;border-color:#1c2638;color:#e0e4ea;font-weight:500;">
+        <span style="width:7px;height:7px;border-radius:2px;background:#5fa3e0;"></span>
+        Ventes B2B <span class="cnt">20</span>
+      </div>
+      <div class="ni">
+        <span style="width:7px;height:7px;border-radius:2px;background:#3d9a6e;"></span>
+        Renouvellements <span class="cnt">11</span>
+      </div>
+      <div class="ni">
+        <span style="width:7px;height:7px;border-radius:2px;background:#a35a3c;"></span>
+        Grands comptes <span class="cnt">6</span>
+      </div>
+
+      <div class="div"></div>
+
+      <div class="cap">ÉQUIPE — 4 EN LIGNE</div>
+      <div class="tm"><div class="av sm a-nh">NH</div><span class="nmn">Nadia Hamdi</span><span class="on-dot"></span></div>
+      <div class="tm"><div class="av sm a-ym">YM</div><span class="nmn">Yacine Meziane</span><span class="on-dot"></span></div>
+      <div class="tm"><div class="av sm a-ab">AB</div><span class="nmn">Amina Brahimi</span><span class="aw-dot"></span></div>
+      <div class="tm"><div class="av sm a-sl">SL</div><span class="nmn">Samir Loucif</span><span class="st">17:12</span></div>
+
+      <div class="foot">
+        <div class="quota">
+          <div class="l"><span>Objectif du mois</span><b>68 %</b></div>
+          <div class="bar"><i style="width:68%"></i></div>
+          <div class="l" style="margin:6px 0 0;"><span>6 320 000 DA</span><span>/ 9 300 000 DA</span></div>
+        </div>
+        <div class="ni" style="margin:0;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.3" stroke="#8c96a6" stroke-width="1.3"/><path d="M8 1.8v1.6M8 12.6v1.6M14.2 8h-1.6M3.4 8H1.8M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1M12.4 12.4l-1.1-1.1M4.7 4.7 3.6 3.6" stroke="#8c96a6" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Paramètres
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+
+      <!-- KPI strip -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="tip">
+            <div class="t1">SEMAINE 36 · 02 → 08 SEPT.</div>
+            <div class="t2">4 250 000 DA</div>
+            <div class="t3">+6 affaires entrées</div>
+          </div>
+          <div class="k-l">Pipeline total</div>
+          <div class="k-v">18 450 000 <span>DA</span></div>
+          <div class="k-s"><span class="delta up">+9,4 %</span> vs. T2 2026</div>
+          <svg class="spark" width="118" height="34" viewBox="0 0 118 34">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2b6cb5" stop-opacity=".45"/>
+                <stop offset="1" stop-color="#2b6cb5" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M2 27 L12 24 L22 26 L32 19 L42 22 L52 15 L62 18 L72 11 L82 14 L92 8 L102 11 L112 5 L112 33 L2 33 Z" fill="url(#g1)"/>
+            <polyline points="2,27 12,24 22,26 32,19 42,22 52,15 62,18 72,11 82,14 92,8 102,11 112,5"
+              fill="none" stroke="#5fa3e0" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle cx="112" cy="5" r="2.8" fill="#5fa3e0" stroke="#0b1018" stroke-width="1.4"/>
+          </svg>
+        </div>
+
+        <div class="kpi">
+          <div class="k-l">Gagné ce mois</div>
+          <div class="k-v">6 320 000 <span>DA</span></div>
+          <div class="k-s"><span class="delta up">+12,4 %</span> 4 affaires signées</div>
+          <svg class="spark" width="112" height="34" viewBox="0 0 112 34">
+            <rect x="2"  y="21" width="9" height="12" rx="2" fill="#1c3149"/>
+            <rect x="15" y="24" width="9" height="9"  rx="2" fill="#1c3149"/>
+            <rect x="28" y="16" width="9" height="17" rx="2" fill="#1c3149"/>
+            <rect x="41" y="19" width="9" height="14" rx="2" fill="#1c3149"/>
+            <rect x="54" y="11" width="9" height="22" rx="2" fill="#256b4e"/>
+            <rect x="67" y="14" width="9" height="19" rx="2" fill="#256b4e"/>
+            <rect x="80" y="7"  width="9" height="26" rx="2" fill="#3d9a6e"/>
+            <rect x="93" y="4"  width="9" height="29" rx="2" fill="#3d9a6e"/>
+          </svg>
+        </div>
+
+        <div class="kpi">
+          <div class="k-l">Affaires ouvertes</div>
+          <div class="k-v">20 <span>· moy. 922 500 DA</span></div>
+          <div class="k-s"><span class="delta down">−2</span> vs. semaine dernière</div>
+          <svg class="spark" width="104" height="34" viewBox="0 0 104 34">
+            <rect x="2"  y="8" width="18" height="20" rx="3" fill="#1c2638"/>
+            <rect x="23" y="8" width="18" height="20" rx="3" fill="#1c3149"/>
+            <rect x="44" y="8" width="18" height="20" rx="3" fill="#24547f"/>
+            <rect x="65" y="8" width="18" height="20" rx="3" fill="#2b6cb5"/>
+            <rect x="86" y="8" width="16" height="20" rx="3" fill="#3d9a6e"/>
+            <text x="9"  y="21" font-size="8" fill="#8c96a6" font-family="ui-monospace,Menlo,monospace">6</text>
+            <text x="30" y="21" font-size="8" fill="#a9b6c8" font-family="ui-monospace,Menlo,monospace">5</text>
+            <text x="51" y="21" font-size="8" fill="#d6e4f5" font-family="ui-monospace,Menlo,monospace">5</text>
+            <text x="72" y="21" font-size="8" fill="#ffffff" font-family="ui-monospace,Menlo,monospace">4</text>
+            <text x="92" y="21" font-size="8" fill="#ffffff" font-family="ui-monospace,Menlo,monospace">4</text>
+          </svg>
+        </div>
+
+        <div class="kpi">
+          <div class="k-l">Taux de conversion</div>
+          <div class="k-v">31,8 <span>%</span></div>
+          <div class="k-s">Cycle moyen <b style="color:#e0e4ea;font-family:ui-monospace,Menlo,monospace;font-weight:600;">41 j</b></div>
+          <svg class="spark" width="46" height="46" viewBox="0 0 46 46" style="bottom:14px;">
+            <circle cx="23" cy="23" r="17" fill="none" stroke="#141e2e" stroke-width="6"/>
+            <circle cx="23" cy="23" r="17" fill="none" stroke="#4a8fd8" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="34 106.8" transform="rotate(-90 23 23)"/>
+            <circle cx="23" cy="23" r="17" fill="none" stroke="#3d9a6e" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="20 120.8" stroke-dashoffset="-38" transform="rotate(-90 23 23)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="segs">
+          <div class="seg on">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="1.5" width="2.6" height="9" rx="1" fill="#fff"/><rect x="4.7" y="1.5" width="2.6" height="6.4" rx="1" fill="#8fbdea"/><rect x="8.4" y="1.5" width="2.6" height="4" rx="1" fill="#4a8fd8"/></svg>
+            Kanban
+          </div>
+          <div class="seg">Liste</div>
+          <div class="seg">Prévisions</div>
+        </div>
+        <div class="chip">T3 2026 <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="#8c96a6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chip act">Propriétaire : <b>Karim B. +3</b> <span class="x">×</span></div>
+        <div class="chip act">Montant <b>&gt; 350 000 DA</b> <span class="x">×</span></div>
+        <div class="chip">Source : Toutes</div>
+        <div class="chip add">+ Filtre</div>
+        <div class="t-right">
+          <span>Trié par <b style="font-family:inherit;font-weight:600;">date de clôture</b></span>
+          <span style="color:#2c3a52;">|</span>
+          <span><b>20</b> affaires · <b>18 450 000 DA</b></span>
+          <span style="color:#2c3a52;">|</span>
+          <span>MAJ <b>17:24</b></span>
+        </div>
+      </div>
+
+      <!-- Board -->
+      <div class="board">
+
+        <!-- PROSPECT -->
+        <div class="col">
+          <div class="top" style="background:#6b7686;"></div>
+          <div class="c-head">
+            <div class="r1"><span class="nm">Prospect</span><span class="ct">6</span><span class="mo">···</span></div>
+            <div class="sum">4 120 000 DA</div>
+            <div class="sub">Probabilité 15 % · 22 % du total</div>
+          </div>
+          <div class="c-body">
+            <div class="card">
+              <div class="co">Sarl Medina Distribution</div>
+              <div class="val">680 000 DA</div>
+              <div class="meta"><span class="next">◷ 11 sept.</span><span class="tag">Agro</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Eurl Cirta Informatique</div>
+              <div class="val">1 240 000 DA</div>
+              <div class="meta"><span class="next">◷ 12 sept.</span><span class="tag">IT</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Imprimerie El Feth</div>
+              <div class="val">395 000 DA</div>
+              <div class="meta"><span class="next">◷ 14 sept.</span><span class="tag">Print</span><div class="av sm a-ym">YM</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Oasis Plastique</div>
+              <div class="val">820 000 DA</div>
+              <div class="meta"><span class="next">◷ 15 sept.</span><span class="tag">Industrie</span><div class="av sm a-ab">AB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Transit Oran Cargo</div>
+              <div class="val">560 000 DA</div>
+              <div class="meta"><span class="next">◷ 16 sept.</span><span class="tag">Logistique</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Pharmacie El Anseur</div>
+              <div class="val">425 000 DA</div>
+              <div class="meta"><span class="next">◷ 18 sept.</span><span class="tag">Santé</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="ghost">+ Ajouter une affaire</div>
+          </div>
+        </div>
+
+        <!-- QUALIFIÉ -->
+        <div class="col">
+          <div class="top" style="background:#4a8fd8;"></div>
+          <div class="c-head">
+            <div class="r1"><span class="nm">Qualifié</span><span class="ct">5</span><span class="mo">···</span></div>
+            <div class="sum">5 340 000 DA</div>
+            <div class="sub">Probabilité 35 % · 29 % du total</div>
+          </div>
+          <div class="c-body">
+            <div class="card">
+              <span class="flag">★</span>
+              <div class="co">Groupe Amrani Agro</div>
+              <div class="val">1 850 000 DA</div>
+              <div class="meta"><span class="next now">◷ auj. 16:00</span><span class="tag">Agro</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Clinique El Nour</div>
+              <div class="val">940 000 DA</div>
+              <div class="meta"><span class="next">◷ 10 sept.</span><span class="tag">Santé</span><div class="av sm a-ab">AB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Hydra Textiles</div>
+              <div class="val">1 120 000 DA</div>
+              <div class="meta"><span class="next">◷ 12 sept.</span><span class="tag">Textile</span><div class="av sm a-ym">YM</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Eurl Batis Constructions</div>
+              <div class="val">760 000 DA</div>
+              <div class="meta"><span class="next">◷ 15 sept.</span><span class="tag">BTP</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Sahel Métal</div>
+              <div class="val">670 000 DA</div>
+              <div class="meta"><span class="next">◷ 17 sept.</span><span class="tag">Industrie</span><div class="av sm a-sl">SL</div></div>
+            </div>
+            <div class="drop">Déposer ici pour qualifier</div>
+          </div>
+        </div>
+
+        <!-- PROPOSITION -->
+        <div class="col">
+          <div class="top" style="background:#5fa3e0;"></div>
+          <div class="c-head">
+            <div class="r1"><span class="nm">Proposition</span><span class="ct">5</span><span class="mo">···</span></div>
+            <div class="sum">4 690 000 DA</div>
+            <div class="sub">Probabilité 50 % · 25 % du total</div>
+          </div>
+          <div class="c-body">
+            <div class="card">
+              <div class="co">Sarl Djurdjura Boissons</div>
+              <div class="val">1 480 000 DA</div>
+              <div class="meta"><span class="next now">◷ demain 09:30</span><span class="tag">Agro</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Eurl Numidia Logistique</div>
+              <div class="val">1 050 000 DA</div>
+              <div class="meta"><span class="next">◷ 11 sept.</span><span class="tag">Logistique</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Aurès Céramique</div>
+              <div class="val">890 000 DA</div>
+              <div class="meta"><span class="next">◷ 13 sept.</span><span class="tag">Industrie</span><div class="av sm a-sl">SL</div></div>
+            </div>
+            <div class="card">
+              <span class="flag">★</span>
+              <div class="co">Hôtel Zianides Tlemcen</div>
+              <div class="val">720 000 DA</div>
+              <div class="meta"><span class="next">◷ 16 sept.</span><span class="tag">Hôtellerie</span><div class="av sm a-ab">AB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Kabylie Froid</div>
+              <div class="val">550 000 DA</div>
+              <div class="meta"><span class="next">◷ 19 sept.</span><span class="tag">Froid</span><div class="av sm a-ym">YM</div></div>
+            </div>
+            <div class="ghost">+ Ajouter une affaire</div>
+          </div>
+        </div>
+
+        <!-- NÉGOCIATION -->
+        <div class="col">
+          <div class="top" style="background:#fbbf24;"></div>
+          <div class="c-head">
+            <div class="r1"><span class="nm">Négociation</span><span class="ct">4</span><span class="mo">···</span></div>
+            <div class="sum">4 300 000 DA</div>
+            <div class="sub">Probabilité 70 % · 23 % du total</div>
+          </div>
+          <div class="c-body">
+            <div class="card sel">
+              <span class="flag">★</span>
+              <div class="co">Sarl Tassili Agro</div>
+              <div class="val">2 150 000 DA</div>
+              <div class="meta"><span class="next now">◷ auj. 14:30</span><span class="tag">Agro</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Eurl Chelif Emballage</div>
+              <div class="val">980 000 DA</div>
+              <div class="meta"><span class="next late">⚑ retard 8 sept.</span><span class="tag">Emballage</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="card">
+              <div class="co">Sarl Ghardaïa Solaire</div>
+              <div class="val">745 000 DA</div>
+              <div class="meta"><span class="next">◷ 12 sept.</span><span class="tag">Énergie</span><div class="av sm a-ym">YM</div></div>
+            </div>
+            <div class="card">
+              <div class="co">École Ibn Khaldoun</div>
+              <div class="val">425 000 DA</div>
+              <div class="meta"><span class="next">◷ 14 sept.</span><span class="tag">Éducation</span><div class="av sm a-ab">AB</div></div>
+            </div>
+            <div class="ghost">+ Ajouter une affaire</div>
+          </div>
+        </div>
+
+        <!-- GAGNÉ -->
+        <div class="col">
+          <div class="top" style="background:#3d9a6e;"></div>
+          <div class="c-head">
+            <div class="r1"><span class="nm">Gagné</span><span class="ct">4</span><span class="mo">···</span></div>
+            <div class="sum" style="color:#6fd3a4;">6 320 000 DA</div>
+            <div class="sub">Signé en septembre 2026</div>
+          </div>
+          <div class="c-body">
+            <div class="card won">
+              <div class="co">Sarl Rym Cosmétiques</div>
+              <div class="val">2 400 000 DA</div>
+              <div class="meta"><span class="next won">✓ signé 5 sept.</span><span class="tag">24 mois</span><div class="av sm a-kb">KB</div></div>
+            </div>
+            <div class="card won">
+              <div class="co">Groupe Bouzid Matériaux</div>
+              <div class="val">1 750 000 DA</div>
+              <div class="meta"><span class="next won">✓ signé 3 sept.</span><span class="tag">12 mois</span><div class="av sm a-nh">NH</div></div>
+            </div>
+            <div class="card won">
+              <div class="co">Eurl Assala Emballage</div>
+              <div class="val">1 280 000 DA</div>
+              <div class="meta"><span class="next won">✓ signé 2 sept.</span><span class="tag">12 mois</span><div class="av sm a-sl">SL</div></div>
+            </div>
+            <div class="card won">
+              <div class="co">Sarl Ziban Dattes</div>
+              <div class="val">890 000 DA</div>
+              <div class="meta"><span class="next won">✓ signé 1 sept.</span><span class="tag">6 mois</span><div class="av sm a-ym">YM</div></div>
+            </div>
+            <div class="ghost" style="border-color:#173d2c;color:#3d9a6e;">Objectif mensuel : 68 %</div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ RIGHT RAIL ============ -->
+    <aside class="rail">
+      <div class="r-head">
+        <div class="r-logo">TA</div>
+        <div>
+          <div class="h1">Sarl Tassili Agro</div>
+          <div class="h2">Blida · 45 salariés · Client depuis 2024</div>
+        </div>
+        <div class="cls">×</div>
+      </div>
+
+      <div class="r-body">
+
+        <div class="dealbox">
+          <div class="row">
+            <div class="amt">2 150 000 DA</div>
+            <div class="stage-chip">NÉGOCIATION</div>
+          </div>
+          <div class="kv" style="margin-top:7px;"><span class="k">Clôture prév.</span><span class="v m">22 sept. 2026</span></div>
+          <div class="kv"><span class="k">Propriétaire</span><span class="v">Karim Belkacem</span></div>
+          <div class="kv"><span class="k">Source</span><span class="v">Salon Agro-Expo Alger</span></div>
+          <div class="prob">
+            <div class="l"><span>Probabilité de signature</span><b>65 %</b></div>
+            <div class="bar"><i style="width:65%"></i></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-t" style="margin-bottom:7px;">Contact principal</div>
+          <div class="contact">
+            <div class="who">
+              <div class="av md a-sl">NB</div>
+              <div>
+                <div class="n">Nadir Belhadj</div>
+                <div class="r">Directeur des achats</div>
+              </div>
+              <div class="live">ACTIF</div>
+            </div>
+            <div class="kv"><span class="k">Téléphone</span><span class="v m">+213 661 24 87 03</span></div>
+            <div class="kv"><span class="k">E-mail</span><span class="v">n.belhadj@tassili-agro.dz</span></div>
+            <div class="kv"><span class="k">Adresse</span><span class="v">Zone ind. Ben Boulaïd, Blida</span></div>
+            <div class="kv"><span class="k">Dern. contact</span><span class="v" style="color:#5fa3e0;">Appel sortant · il y a 2 h</span></div>
+          </div>
+        </div>
+
+        <div style="min-height:0;">
+          <div class="sec-t" style="margin-bottom:9px;">Activité récente <span style="color:#6b7686;font-weight:600;letter-spacing:0;">— 18 entrées</span></div>
+          <div class="tl">
+            <div class="ev">
+              <span class="line"></span>
+              <div class="ic b"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2.4 2.2h2l.9 2.2-1.2.9a6.5 6.5 0 0 0 2.6 2.6l.9-1.2 2.2.9v2c0 .5-.4.9-.9.8A8.6 8.6 0 0 1 1.6 3.1c0-.5.3-.9.8-.9Z" stroke="#8fbdea" stroke-width="1.1" stroke-linejoin="round"/></svg></div>
+              <div class="bd">
+                <div class="t"><span class="ttl">Appel sortant · 12 min</span><span class="tm">auj. 09:12</span></div>
+                <div class="d">Validation du volume annuel : 4 200 palettes, livraison bimensuelle.</div>
+                <div class="by">Karim Belkacem</div>
+              </div>
+            </div>
+            <div class="ev">
+              <span class="line"></span>
+              <div class="ic b"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><rect x="1.3" y="2.6" width="9.4" height="6.8" rx="1.2" stroke="#8fbdea" stroke-width="1.1"/><path d="m1.7 3.4 4.3 3 4.3-3" stroke="#8fbdea" stroke-width="1.1" stroke-linejoin="round"/></svg></div>
+              <div class="bd">
+                <div class="t"><span class="ttl">E-mail envoyé</span><span class="tm">hier 17:40</span></div>
+                <div class="d">« Proposition v3 — remise 6 % sur engagement 12 mois » · ouvert 3 fois</div>
+                <div class="by">Karim Belkacem</div>
+              </div>
+            </div>
+            <div class="ev">
+              <span class="line"></span>
+              <div class="ic a"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.4" stroke="#fbbf24" stroke-width="1.1"/><path d="M6 3.6V6l1.7 1.1" stroke="#fbbf24" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+              <div class="bd">
+                <div class="t"><span class="ttl">Relance planifiée</span><span class="tm">auj. 14:30</span></div>
+                <div class="d">Confirmer la remise avec la direction financière avant signature.</div>
+                <div class="by">Assignée à Karim Belkacem</div>
+              </div>
+            </div>
+            <div class="ev">
+              <span class="line"></span>
+              <div class="ic g"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2.6 6.2 4.9 8.5l4.5-5" stroke="#6fd3a4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="bd">
+                <div class="t"><span class="ttl">Réunion sur site</span><span class="tm">4 sept. 11:00</span></div>
+                <div class="d">Visite de l'entrepôt de Blida avec le responsable qualité.</div>
+                <div class="by">Karim Belkacem, Nadia Hamdi</div>
+              </div>
+            </div>
+            <div class="ev">
+              <div class="ic"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M3 2.6h6M3 6h6M3 9.4h3.6" stroke="#8c96a6" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+              <div class="bd">
+                <div class="t"><span class="ttl">Note interne</span><span class="tm">2 sept. 15:05</span></div>
+                <div class="d">Fournisseur en place depuis 2023 — contrat échu fin octobre.</div>
+                <div class="by">Nadia Hamdi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="r-foot">
+        <div class="btn p">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>
+          Journaliser
+        </div>
+        <div class="btn s">Créer une tâche</div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+</body>
+</html>

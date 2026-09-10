@@ -37,10 +37,16 @@ const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000")
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".up.railway.app")) {
+    // Previously any "*.up.railway.app" origin was trusted. Combined with
+    // credentials:true that let any site deployed on Railway call the admin
+    // API with the operator's cookies. Only the configured origins pass.
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      // Reject by withholding the CORS headers rather than throwing: throwing
+      // surfaced as a 500 from the error handler, which reads like a server
+      // fault and leaks noise into logs for what is a routine denial.
+      callback(null, false);
     }
   },
   credentials: true,
