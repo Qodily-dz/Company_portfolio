@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { adminApi, ApiError, type ContactRecord } from "../api";
-import { Button, PageHeader, StatusBadge, SectionCard, Field, Drawer, Loading, EmptyState, TableShell, fieldCls } from "../ui";
+import { Button, Icon, PageHeader, StatusBadge, SectionCard, Field, Drawer, Loading, EmptyState, TableShell, fieldCls } from "../ui";
 
 const statuses: ContactRecord["status"][] = ["NEW", "CONTACTED", "IN_DISCUSSION", "CLOSED"];
 const statusTone: Record<ContactRecord["status"], "amber" | "gray" | "blue" | "green"> = {
@@ -67,6 +67,17 @@ export default function Messages() {
     }
   }
 
+  async function remove(c: ContactRecord) {
+    if (!window.confirm(`Delete request from “${c.name}”? This cannot be undone.`)) return;
+    try {
+      await adminApi.contactDelete(c.id);
+      if (selected?.id === c.id) setSelected(null);
+      await load();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to delete request.");
+    }
+  }
+
   if (!rows && !error) return <Loading label="Loading requests…" />;
 
   return (
@@ -85,7 +96,7 @@ export default function Messages() {
         ) : rows.length === 0 ? (
           <EmptyState icon="mail" title="No contact requests" body="Submitted leads will appear here." />
         ) : (
-          <TableShell headers={["From", "Build", "Objective", "Status", "Received"]}>
+          <TableShell headers={["From", "Build", "Objective", "Status", "Received", ""]}>
             {rows.map((c) => (
               <tr key={c.id} className="border-b border-border/60 last:border-0 hover:bg-white/[.02]">
                 <td className="px-[19px] py-3">
@@ -101,6 +112,11 @@ export default function Messages() {
                 </td>
                 <td className="px-[19px] py-3 text-[12px] text-muted-more">
                   {new Date(c.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                </td>
+                <td className="px-[19px] py-3">
+                  <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => remove(c)} aria-label="Delete">
+                    <Icon name="close" className="h-3.5 w-3.5" />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -148,8 +164,9 @@ export default function Messages() {
             <Field label="Private notes">
               <textarea rows={5} className={fieldCls} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Internal follow-up notes…" />
             </Field>
-            <div>
+            <div className="flex items-center justify-between">
               <Button variant="secondary" className="h-[34px]" onClick={saveNotes}>Save notes</Button>
+              <Button variant="ghost" className="h-[34px] text-error hover:bg-error/10" onClick={() => remove(selected)}>Delete request</Button>
             </div>
           </>
         )}

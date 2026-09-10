@@ -207,6 +207,50 @@ export default function Services() {
     }
   }
 
+  async function renameService(serviceId: string, current: string) {
+    const next = window.prompt("Service name (applies to all locales):", current);
+    if (!next || !next.trim() || next.trim() === current) return;
+    try {
+      await adminApi.serviceUpdate(serviceId, {
+        name: next.trim(),
+        translations: { en: { name: next.trim() }, fr: { name: next.trim() }, ar: { name: next.trim() } },
+      });
+      await loadPillars();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to rename service.");
+    }
+  }
+
+  async function createPillar() {
+    const label = window.prompt("New pillar label (English):", "");
+    if (!label || !label.trim()) return;
+    const name = label.trim();
+    try {
+      await adminApi.pillarCreate({
+        name,
+        order: pillars?.length ?? 0,
+        translations: { en: { label: name }, fr: { label: name }, ar: { label: name } },
+      });
+      await loadPillars();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to create pillar.");
+    }
+  }
+
+  async function removePillar(p: Pillar) {
+    if (!window.confirm(`Delete pillar “${p.translations?.en?.label || p.name}” and all its services?`)) return;
+    try {
+      await adminApi.pillarDelete(p.id!);
+      await loadPillars();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to delete pillar.");
+    }
+  }
+
+  function previewPack() {
+    window.open(`${window.location.origin}/en/services`, "_blank", "noopener");
+  }
+
   return (
     <div className="flex flex-col gap-7">
       <PageHeader
@@ -267,6 +311,14 @@ export default function Services() {
                         {p.translations?.en?.description || "Untitled"}
                       </div>
                     </div>
+                    <button
+                      className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                      onClick={() => previewPack()}
+                      aria-label="Preview"
+                      title="Open the services page"
+                    >
+                      <Icon name="eye" className="h-4 w-4" />
+                    </button>
                     <button
                       className="border-0 bg-transparent p-1 text-muted hover:text-white"
                       onClick={() => {
@@ -366,7 +418,13 @@ export default function Services() {
               <EmptyState icon="layers" title="No pillars yet" body="Pillars are the top-level service streams." />
             </SectionCard>
           ) : (
-            pillars.map((p) => {
+            <>
+              <div className="flex justify-end">
+                <Button className="h-[34px]" onClick={createPillar}>
+                  <Icon name="plus" className="h-3.5 w-3.5" /> New pillar
+                </Button>
+              </div>
+              {pillars.map((p) => {
               const label = p.translations?.en?.label || p.name || "Pillar";
               const services = (p.services || []).map((s: PillarService) => {
                 const tr = (s.translations || []).reduce<Record<string, { name: string }>>((acc, t) => {
@@ -376,16 +434,32 @@ export default function Services() {
                 return { ...s, translations: tr };
               });
 
-  return (
-                <SectionCard key={p.id} title={label} action={<span className="text-[10px] text-muted-more">{services.length} services</span>}>
+              return (
+                <SectionCard
+                  key={p.id}
+                  title={label}
+                  action={
+                    <span className="flex items-center gap-2">
+                      <span className="text-[10px] text-muted-more">{services.length} services</span>
+                      <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removePillar(p)} aria-label="Delete pillar">
+                        <Icon name="close" className="h-3.5 w-3.5" />
+                      </button>
+                    </span>
+                  }
+                >
                   <div className="flex flex-col">
                     {services.length === 0 && <p className="px-[19px] py-4 text-[11px] text-muted-more">No services in this pillar yet.</p>}
                     {services.map((s) => (
                       <div key={s.id} className="flex items-center justify-between border-b border-border/60 px-[19px] py-3 last:border-0">
                         <span className="text-[12px] text-foreground">{s.translations?.en?.name || s.name}</span>
-                        <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removeService(s.id)} aria-label="Remove">
-                          <Icon name="close" className="h-3.5 w-3.5" />
-                        </button>
+                        <div className="flex gap-1">
+                          <button className="border-0 bg-transparent p-1 text-muted hover:text-white" onClick={() => renameService(s.id, s.translations?.en?.name || s.name)} aria-label="Rename">
+                            <Icon name="settings" className="h-3.5 w-3.5" />
+                          </button>
+                          <button className="border-0 bg-transparent p-1 text-muted hover:text-error" onClick={() => removeService(s.id)} aria-label="Remove">
+                            <Icon name="close" className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                     {addServiceFor === p.id ? (
@@ -411,7 +485,8 @@ export default function Services() {
                   </div>
                 </SectionCard>
               );
-            })
+              })}
+            </>
           )}
         </div>
       )}

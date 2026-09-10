@@ -25,6 +25,7 @@ const paths: Record<string, string> = {
   file: "M6 3h8l4 4v14H6zM14 3v4h4",
   link: "M10 14a4 4 0 0 0 5.7.5l3-3a4 4 0 1 0-5.7-5.7l-1.4 1.4M14 10a4 4 0 0 0-5.7-.5l-3 3a4 4 0 1 0 5.7 5.7l1.4-1.4",
   settings: "M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm0-12v2m0 13v2m9-8h-2M5 12H3m15.4-6.4-1.4 1.4M7 17l-1.4 1.4m12.8 0L17 17M7 7 5.6 5.6",
+  eye: "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Zm10 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z",
 };
 
 export function Icon({ name, className }: { name: string; className?: string }) {

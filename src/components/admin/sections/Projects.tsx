@@ -198,6 +198,10 @@ export default function Projects({ mode }: { mode: "projects" | "case-studies" }
     }
   }
 
+  function preview(p: ProjectRecord) {
+    window.open(`${window.location.origin}/en/work/${p.slug}`, "_blank", "noopener");
+  }
+
   async function toggleFeatured(p: ProjectRecord, next: boolean) {
     try {
       await adminApi.projectSetFeatured(p.id, next);
@@ -279,6 +283,14 @@ export default function Projects({ mode }: { mode: "projects" | "case-studies" }
                   <td className="px-[19px] py-3 text-[12px] text-muted-more">—</td>
                   <td className="px-[19px] py-3">
                     <div className="flex gap-1">
+                      <button
+                        className="border-0 bg-transparent p-1 text-muted hover:text-white"
+                        onClick={() => preview(p)}
+                        aria-label="Preview"
+                        title="Open on the public site"
+                      >
+                        <Icon name="eye" className="h-3.5 w-3.5" />
+                      </button>
                       <button
                         className="border-0 bg-transparent p-1 text-muted hover:text-white"
                         onClick={() => openEdit(p)}
