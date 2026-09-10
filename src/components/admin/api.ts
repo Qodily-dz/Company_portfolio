@@ -140,6 +140,7 @@ export function storeSession(token: string | null, user: AdminUser | null) {
   if (user) window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   else window.localStorage.removeItem(USER_KEY);
   window.dispatchEvent(new Event("qodily:auth-change"));
+  evictAll();
 }
 
 function subscribeAuth(onStoreChange: () => void) {
@@ -173,12 +174,28 @@ export function useAdminUser(): AdminUser | null {
 
 export class ApiError extends Error {}
 
-async function request<T>(
-  path: string,
-  options: { method?: string; body?: unknown } = {}
-): Promise<T> {
+// ── Request cache & dedupe ──────────────────────────────
+// Identical GETs share one in-flight promise and reuse the result
+// for a short TTL, so switching sections / StrictMode double-effects
+// don't hammer the API. Mutations evict their collection's cache.
+const GET_TTL = 15_000;
+const cache = new Map<string, { ts: number; promise: Promise<unknown> }>();
+
+function evictAll() {
+  cache.clear();
+}
+
+function evictPrefix(path: string) {
+  // `/api/admin/projects/abc/featured` → `/api/admin/projects`
+  const prefix = path.split("?")[0].split("/").slice(0, 4).join("/");
+  for (const key of cache.keys()) {
+    if (key.includes(prefix)) cache.delete(key);
+  }
+}
+
+function doFetch<T>(path: string, options: { method?: string; body?: unknown }): Promise<T> {
   const token = getStoredToken();
-  const res = await fetch(`${API_URL}${path}`, {
+  return fetch(`${API_URL}${path}`, {
     method: options.method || "GET",
     headers: {
       "Content-Type": "application/json",
@@ -186,20 +203,46 @@ async function request<T>(
     },
     body: options.body ? JSON.stringify(options.body) : undefined,
     cache: "no-store",
+  }).then(async (res) => {
+    const payload = await res.json().catch(() => null);
+    if (!res.ok) {
+      const msg =
+        typeof payload?.error === "string"
+          ? payload.error
+          : payload?.error
+          ? JSON.stringify(payload.error)
+          : `Request failed (${res.status})`;
+      if (res.status === 401) {
+        storeSession(null, null);
+        evictAll();
+      }
+      throw new ApiError(msg);
+    }
+    return payload as T;
   });
+}
 
-  const payload = await res.json().catch(() => null);
-  if (!res.ok) {
-    const msg =
-      typeof payload?.error === "string"
-        ? payload.error
-        : payload?.error
-        ? JSON.stringify(payload.error)
-        : `Request failed (${res.status})`;
-    if (res.status === 401) storeSession(null, null);
-    throw new ApiError(msg);
+async function request<T>(
+  path: string,
+  options: { method?: string; body?: unknown } = {}
+): Promise<T> {
+  const method = options.method || "GET";
+
+  if (method === "GET") {
+    const key = `GET:${path}`;
+    const hit = cache.get(key);
+    if (hit && hit.ts + GET_TTL > Date.now()) {
+      return hit.promise as Promise<T>;
+    }
+    const pending = doFetch<T>(path, options);
+    cache.set(key, { ts: Date.now(), promise: pending });
+    pending.catch(() => cache.delete(key));
+    return pending;
   }
-  return payload as T;
+
+  const result = await doFetch<T>(path, options);
+  evictPrefix(path);
+  return result;
 }
 
 export const adminApi = {
@@ -220,6 +263,7 @@ export const adminApi = {
   dashboard: () => request<{ data: DashboardData }>("/api/admin/dashboard"),
 
   projectsList: () => request<{ data: ProjectRecord[] }>("/api/admin/projects"),
+  projectGet: (id: string) => request<{ data: ProjectRecord }>(`/api/admin/projects/${id}`),
   projectCreate: (body: unknown) => request<{ data: ProjectRecord }>("/api/admin/projects", { method: "POST", body }),
   projectUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/projects/${id}`, { method: "PUT", body }),
   projectDelete: (id: string) => request<{ message: string }>(`/api/admin/projects/${id}`, { method: "DELETE" }),
@@ -227,29 +271,36 @@ export const adminApi = {
     request<{ message: string }>(`/api/admin/projects/${id}/featured`, { method: "PATCH", body: { featured } }),
 
   articlesList: () => request<{ data: ArticleRecord[] }>("/api/admin/articles"),
+  articleGet: (id: string) => request<{ data: ArticleRecord }>(`/api/admin/articles/${id}`),
   articleCreate: (body: unknown) => request<{ data: ArticleRecord }>("/api/admin/articles", { method: "POST", body }),
   articleUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/articles/${id}`, { method: "PUT", body }),
   articleDelete: (id: string) => request<{ message: string }>(`/api/admin/articles/${id}`, { method: "DELETE" }),
 
   contactsList: () => request<{ data: ContactRecord[] }>("/api/admin/contacts"),
+  contactGet: (id: string) => request<{ data: ContactRecord }>(`/api/admin/contacts/${id}`),
+  contactDelete: (id: string) => request<{ message: string }>(`/api/admin/contacts/${id}`, { method: "DELETE" }),
   contactSetStatus: (id: string, status: ContactRecord["status"]) =>
     request<{ message: string }>(`/api/admin/contacts/${id}/status`, { method: "PATCH", body: { status } }),
   contactSetNotes: (id: string, notes: string) =>
     request<{ message: string }>(`/api/admin/contacts/${id}/notes`, { method: "PATCH", body: { notes } }),
 
   packsList: () => request<{ data: PackRecord[] }>("/api/admin/packs"),
+  packGet: (id: string) => request<{ data: PackRecord }>(`/api/admin/packs/${id}`),
   packCreate: (body: unknown) => request<{ data: PackRecord }>("/api/admin/packs", { method: "POST", body }),
   packUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/packs/${id}`, { method: "PUT", body }),
   packDelete: (id: string) => request<{ message: string }>(`/api/admin/packs/${id}`, { method: "DELETE" }),
 
   mediaList: () => request<{ data: MediaRecord[] }>("/api/admin/media"),
+  mediaGet: (id: string) => request<{ data: MediaRecord }>(`/api/admin/media/${id}`),
   mediaCreate: (body: unknown) => request<{ data: MediaRecord }>("/api/admin/media", { method: "POST", body }),
+  mediaUpdate: (id: string, body: unknown) => request<{ data: MediaRecord }>(`/api/admin/media/${id}`, { method: "PUT", body }),
   mediaDelete: (id: string) => request<{ message: string }>(`/api/admin/media/${id}`, { method: "DELETE" }),
 
   configGet: () => request<{ data: Record<string, unknown> }>("/api/admin/config"),
   configUpdate: (body: unknown) => request<{ message: string }>("/api/admin/config", { method: "PUT", body }),
 
   navigationList: () => request<{ data: NavItemRecord[] }>("/api/admin/navigation"),
+  navigationGet: (id: string) => request<{ data: NavItemRecord }>(`/api/admin/navigation/${id}`),
   navigationCreate: (body: unknown) => request<{ data: NavItemRecord }>("/api/admin/navigation", { method: "POST", body }),
   navigationUpdate: (id: string, body: unknown) =>
     request<{ message: string }>(`/api/admin/navigation/${id}`, { method: "PUT", body }),
@@ -259,7 +310,11 @@ export const adminApi = {
   seoUpdate: (settings: unknown) => request<{ message: string }>("/api/admin/seo", { method: "PUT", body: { settings } }),
 
   servicesGet: () => request<{ data: Record<string, unknown>[] }>("/api/admin/services"),
+  serviceGet: (id: string) => request<{ data: Record<string, unknown> }>(`/api/admin/services/${id}`),
   serviceCreate: (body: unknown) => request<{ data: Record<string, unknown> }>("/api/admin/services", { method: "POST", body }),
+  serviceUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/services/${id}`, { method: "PUT", body }),
   serviceDelete: (id: string) => request<{ message: string }>(`/api/admin/services/${id}`, { method: "DELETE" }),
+  pillarCreate: (body: unknown) => request<{ data: Record<string, unknown> }>("/api/admin/pillars", { method: "POST", body }),
   pillarUpdate: (id: string, body: unknown) => request<{ message: string }>(`/api/admin/pillars/${id}`, { method: "PUT", body }),
+  pillarDelete: (id: string) => request<{ message: string }>(`/api/admin/pillars/${id}`, { method: "DELETE" }),
 };
