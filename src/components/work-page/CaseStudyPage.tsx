@@ -4,11 +4,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { WORK_LABEL } from "@/lib/work";
 import type { Project } from "@/lib/work";
 import { useLocale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/i18n";
-import { Preview } from "@/components/sections/work/Preview";
 import { getAdjacentProjects } from "@/lib/work";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -66,18 +64,6 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
   const outcome = tp?.outcome ?? project.outcome;
   const gallery = project.gallery ?? [];
 
-  const idx = [
-    "fedelo",
-    "my-voucher-booking",
-    "tcs-informatique",
-    "restaurant-management",
-    "e-commerce",
-    "business-crm",
-    "medical-appointments",
-    "school-management",
-    "saas-dashboard",
-  ].indexOf(project.id);
-  const seed = Math.max(idx, 0) + 1;
   const { prev, next } = getAdjacentProjects(project.id);
 
   return (
@@ -98,10 +84,14 @@ export function CaseStudyPage({ project, dict }: CaseStudyPageProps) {
           >
             <div className="flex flex-wrap items-center gap-3">
               <span className="rounded-full border border-accent/40 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent">
-                {WORK_LABEL}
+                {dict.work.label}
               </span>
               <span className="rounded-full border border-border-strong px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-more">
-                {project.isProduction ? (project.badge ?? "Production") : dict.work.concept}
+                {project.isProduction
+                  ? (project.badge
+                      ? dict.work.productionBadges[project.badge] ?? dict.work.production
+                      : dict.work.production)
+                  : dict.work.concept}
               </span>
               <span className="text-xs text-muted-more">{category}</span>
             </div>

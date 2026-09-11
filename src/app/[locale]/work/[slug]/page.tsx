@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SiteShell } from "@/components/shell/SiteShell";
 import { CaseStudyPage } from "@/components/work-page/CaseStudyPage";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { PROJECTS, WORK_LABEL, getProjectBySlug } from "@/lib/work";
+import { PROJECTS, getProjectBySlug } from "@/lib/work";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { locales, toLocale } from "@/lib/i18n/config";
@@ -84,7 +84,7 @@ export default async function CaseStudyRoute({ params }: Props) {
     <SiteShell>
       <JsonLd
         data={breadcrumbSchema(url, [
-          { name: "Home", path: `/${locale}` },
+          { name: dict.common.home, path: `/${locale}` },
           { name: dict.pages.work.title, path: `/${locale}/work` },
           { name: title, path: `/${locale}/work/${slug}` },
         ])}
@@ -92,7 +92,7 @@ export default async function CaseStudyRoute({ params }: Props) {
       <JsonLd data={organizationSchema(dict)} />
       <div
         className="sr-only"
-        aria-label={`${WORK_LABEL} — ${dict.work.concept}`}
+        aria-label={`${dict.work.label} — ${dict.work.concept}`}
       />
       <CaseStudyPage project={project} dict={dict} />
     </SiteShell>

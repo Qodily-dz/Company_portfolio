@@ -42,21 +42,21 @@ export function WorkPage({
         </Container>
       </section>
 
-      <section className="relative pb-28 md:pb-36" aria-label="Project gallery">
+      <section className="relative pb-28 md:pb-36" aria-label={dict.work.label}>
         <Container>
           {/* Production Projects */}
           <div className="mb-24">
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-6">
               <div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                  01 / SYSTÈMES EN PRODUCTION
+                  {dict.work.sections.productionBadge}
                 </span>
                 <h2 className="mt-2 text-2xl md:text-3xl font-medium tracking-tight text-foreground">
-                  Projets Réalisés & SaaS
+                  {dict.work.sections.productionTitle}
                 </h2>
               </div>
               <p className="max-w-md text-sm text-muted">
-                Plateformes déployées en production, systèmes transactionnels et infrastructures pour clients et produits internes.
+                {dict.work.sections.productionBody}
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,14 +77,14 @@ export function WorkPage({
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-6">
               <div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-more">
-                  02 / QODILY LAB
+                  {dict.work.sections.conceptBadge}
                 </span>
                 <h2 className="mt-2 text-2xl md:text-3xl font-medium tracking-tight text-foreground">
-                  Explorations & Concepts
+                  {dict.work.sections.conceptTitle}
                 </h2>
               </div>
               <p className="max-w-md text-sm text-muted">
-                Systèmes conceptuels et explorations architecturales résolvant des défis sectoriels ciblés.
+                {dict.work.sections.conceptBody}
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -74,7 +74,11 @@ export function ProjectCard({
               : "border-border-strong bg-background/80 text-muted"
           }`}
         >
-          {project.isProduction ? (project.badge ?? "Production") : dict.work.concept}
+          {project.isProduction
+            ? (project.badge
+                ? dict.work.productionBadges[project.badge] ?? dict.work.production
+                : dict.work.production)
+            : dict.work.concept}
         </span>
       </div>
 

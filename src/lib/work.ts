@@ -31,10 +31,6 @@ export type Project = {
   isProduction?: boolean;
 };
 
-export const WORK_LABEL = "Qodily Projects";
-export const WORK_NOTE =
-  "Production platforms, client systems and conceptual explorations engineered by Qodily.";
-
 export const PROJECTS: Project[] = [
   {
     id: "geststock-simple",
