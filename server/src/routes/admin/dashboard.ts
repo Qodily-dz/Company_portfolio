@@ -9,7 +9,7 @@ router.get("/", async (_req: Request, res: Response) => {
     supabase.from("articles").select("id", { count: "exact", head: true }),
     supabase.from("contact_requests").select("id", { count: "exact", head: true }),
     supabase.from("contact_requests").select("*").order("created_at", { ascending: false }).limit(5),
-    supabase.from("projects").select("*, translations:project_translations!project_translations_project_id_fkey(title, locale)").order("updated_at", { ascending: false }).limit(5),
+    supabase.from("projects").select("*, translations:project_translations!project_translations_project_id_fkey(title, locale)").order("updated_at", { ascending: false }),
   ]);
 
   const newContacts = await supabase

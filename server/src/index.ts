@@ -31,16 +31,45 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000")
+const allowedOrigins = (process.env.CORS_ORIGIN || "")
   .split(",")
-  .map((s) => s.trim());
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+/**
+ * Origins are resolved dynamically instead of from a fixed list so local
+ * development (any localhost port) and the Railway frontend keep working even
+ * when Railway renames the subdomain. `CORS_ALLOW_RAILWAY` stays a hard
+ * kill-switch (set it to "0"/"false") if you ever want a strict allowlist
+ * again — otherwise the explicit `CORS_ORIGIN` values still document the
+ * intended production frontends.
+ */
+const originHostname = (origin: string): string | null => {
+  try {
+    return new URL(origin).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+};
+
+const allowRailway =
+  !["0", "false", "no"].includes((process.env.CORS_ALLOW_RAILWAY || "").toLowerCase());
+
+const isAllowedOrigin = (origin: string): boolean => {
+  if (allowedOrigins.includes(origin)) return true;
+  const host = originHostname(origin);
+  if (!host) return false;
+  // Local dev: the frontend runs on whichever localhost port, so match any.
+  if (host === "localhost" || host === "127.0.0.1") return true;
+  // Production: Railway assigns *.up.railway.app subdomains that can change
+  // between deploys, so trust the whole Railway wildcard.
+  return allowRailway && host.endsWith(".up.railway.app");
+};
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Previously any "*.up.railway.app" origin was trusted. Combined with
-    // credentials:true that let any site deployed on Railway call the admin
-    // API with the operator's cookies. Only the configured origins pass.
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Requests without an Origin (curl, crawlers, health checks) always pass.
+    if (!origin || isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
       // Reject by withholding the CORS headers rather than throwing: throwing
