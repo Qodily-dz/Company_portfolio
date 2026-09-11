@@ -212,6 +212,7 @@ export function ContactRequests() {
                     placeholder={dict.contact.objectivePlaceholder}
                     minHint={dict.contact.objectiveMinHint}
                     goodHint={dict.contact.objectiveGoodHint}
+                    ariaLabel={dict.contact.stepTitles[1]}
                   />
                 )}
 
@@ -293,7 +294,6 @@ export function ContactRequests() {
               variant="ghost"
               onClick={handleBack}
               disabled={step === 0 || isSubmitting}
-              aria-label="Go back"
             >
               {dict.contact.back}
             </Button>
@@ -325,7 +325,7 @@ export function ContactRequests() {
           {/* Honeypot — visually hidden from users, attractive to bots.
               Kept out of tab order and off screen-reader announcements. */}
           <div className="sr-only" aria-hidden="true">
-            <label htmlFor="contact-website">Website</label>
+            <label htmlFor="contact-website">{dict.contact.website}</label>
             <input
               id="contact-website"
               tabIndex={-1}
@@ -388,12 +388,14 @@ function ObjectiveStep({
   placeholder,
   minHint,
   goodHint,
+  ariaLabel,
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
   minHint: string;
   goodHint: string;
+  ariaLabel: string;
 }) {
   return (
     <div>
@@ -403,7 +405,7 @@ function ObjectiveStep({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        aria-label="What is your objective?"
+        aria-label={ariaLabel}
       />
       <div className="mt-2 flex items-center justify-between text-xs text-muted-more">
         <span>
@@ -527,7 +529,6 @@ function ContactStep({
             value={value.message}
             onChange={(e) => onChange({ message: e.target.value })}
             placeholder={labels.messagePlaceholder}
-            aria-label="Message"
           />
           {error && (
             <p className="mt-1 text-sm text-error" role="alert">

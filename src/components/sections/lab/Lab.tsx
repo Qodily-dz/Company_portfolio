@@ -183,7 +183,7 @@ export function Lab() {
     <section
       id="lab"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Qodily Lab — experimental projects"
+      aria-label={dict.lab.label}
     >
       <div className="absolute inset-0">
         <div className="h-full w-full bg-[radial-gradient(120%_100%_at_50%_40%,#0b1018_0%,#030405_60%)]" />
@@ -230,7 +230,7 @@ export function Lab() {
         </motion.div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-more">
-          <span>Every experiment is carried out and owned by Qodily.</span>
+          <span>{dict.lab.footnote}</span>
           <span className="uppercase tracking-[0.16em]">{dict.lab.notClientWork}</span>
         </div>
       </Container>

@@ -220,7 +220,7 @@ export function Transformation() {
     <section
       id="transformation"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Digital transformation — from manual to digital"
+      aria-label={dict.transformation.label}
     >
       <Container>
         <div className="flex items-center gap-2">

@@ -30,7 +30,7 @@ export function Footer() {
           </div>
 
           {/* Pillars */}
-          <nav aria-label="Capabilities" className="flex flex-col gap-3">
+          <nav aria-label={dict.footer.capabilities} className="flex flex-col gap-3">
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-more">
               {dict.footer.capabilities}
             </p>
@@ -46,7 +46,7 @@ export function Footer() {
           </nav>
 
           {/* Main nav */}
-          <nav aria-label="Footer navigation" className="flex flex-col gap-3">
+          <nav aria-label={dict.common.footerNav} className="flex flex-col gap-3">
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-more">
               {dict.footer.company}
             </p>

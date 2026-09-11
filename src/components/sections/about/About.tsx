@@ -19,7 +19,7 @@ export function About() {
     <section
       id="about"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="About Qodily-dz"
+      aria-label={dict.about.label}
     >
       <Container>
         <div className="flex items-center gap-2">

@@ -15,7 +15,7 @@ export function Contact() {
     <section
       id="contact"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Start a project with Qodily"
+      aria-label={dict.contact.label}
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_100%_at_50%_0%,#0b1018_0%,#030405_60%)]" />
 

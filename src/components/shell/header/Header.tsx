@@ -101,7 +101,7 @@ export function Header() {
           {/* CENTER — nav links */}
           <nav
             className="hidden items-center lg:flex"
-            aria-label="Main navigation"
+            aria-label={dict.common.mainNav}
           >
             {navItems.map((item) => (
               <UnderlineFollow

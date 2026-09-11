@@ -41,7 +41,7 @@ export function Hero() {
     <section
       className="relative flex min-h-svh flex-col overflow-hidden bg-background"
       id="top"
-      aria-label="Qodily-dz — digital solutions"
+      aria-label={dict.meta.title}
     >
       {/* Animated data field — full-bleed background */}
       <div className="absolute inset-0">
@@ -93,7 +93,7 @@ export function Hero() {
             {...rise(0.27)}
           >
             <span className="h-px w-10 bg-accent/70" aria-hidden />
-            <span>Strategy → design → engineering</span>
+            <span>{dict.hero.eyebrow}</span>
           </motion.div>
 
           <motion.div

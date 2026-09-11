@@ -28,7 +28,7 @@ export function Insights() {
     <section
       id="insights"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Insights — articles from the Qodily team"
+      aria-label={dict.insights.label}
     >
       <Container>
         <div className="max-w-4xl">

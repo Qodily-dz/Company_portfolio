@@ -113,7 +113,7 @@ export function MobileMenu() {
         onClick={toggle}
         aria-expanded={open}
         aria-controls="site-mobile-menu"
-        aria-label={open ? dict.common.close : "Open menu"}
+        aria-label={open ? dict.common.close : dict.common.openMenu}
         className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-white/[.06] lg:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
@@ -132,7 +132,7 @@ export function MobileMenu() {
             style={{ backgroundColor: "rgba(3,4,5,0.98)" }}
             role="dialog"
             aria-modal="true"
-            aria-label="Main menu"
+            aria-label={dict.common.mainMenu}
           >
             {/* Ambient radial accent top-center */}
             <div
@@ -144,7 +144,7 @@ export function MobileMenu() {
               {/* Primary links — large editorial typography */}
               <nav
                 className="flex flex-1 flex-col justify-center gap-1"
-                aria-label="Main menu"
+                aria-label={dict.common.mainMenu}
               >
                 {navItems.map((item, i) => (
                   <motion.div

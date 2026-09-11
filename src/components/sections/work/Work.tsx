@@ -3,7 +3,6 @@
 import { Container } from "@/components/layout";
 import { SectionLabel } from "@/components/ui";
 import { EditorialList } from "./EditorialList";
-import { WORK_NOTE } from "@/lib/work";
 import { useTranslations } from "@/lib/i18n";
 
 /**
@@ -18,7 +17,7 @@ export function Work() {
     <section
       id="work"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Work — Qodily Lab"
+      aria-label={dict.work.label}
     >
       {/* Lightweight floating-plane background */}
       <div className="absolute inset-0">
@@ -36,7 +35,7 @@ export function Work() {
             </h2>
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-muted-more">
-            {WORK_NOTE}
+            {dict.work.imageNote}
           </p>
         </div>
 

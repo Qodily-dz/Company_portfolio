@@ -68,7 +68,7 @@ export function Engineering() {
     <section
       id="engineering"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Engineering — technology constellation"
+      aria-label={dict.engineering.label}
     >
       <Container>
         {/* Header */}

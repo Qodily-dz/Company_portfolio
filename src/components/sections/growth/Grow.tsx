@@ -103,7 +103,7 @@ function Funnel({
       viewBox="0 0 400 460"
       className="max-h-[440px]"
       role="group"
-      aria-label="Growth funnel: reach, engagement, leads, customers, growth"
+      aria-label={Object.values(labels).join(", ")}
     >
       <defs>
         <linearGradient id="funnelFlow" x1="0" y1="0" x2="0" y2="1">
@@ -218,7 +218,7 @@ export function Grow() {
     <section
       id="growth"
       className="relative overflow-hidden py-28 md:py-36"
-      aria-label="Growth — grow what you build"
+      aria-label={dict.growth.label}
     >
       <Container>
         <div className="flex items-center gap-2">

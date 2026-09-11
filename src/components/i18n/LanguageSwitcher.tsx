@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { locales, localeNames, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
-import { useLocale } from "@/lib/i18n";
+import { useLocale, useTranslations } from "@/lib/i18n";
 
 /**
  * LanguageSwitcher — a single dropdown.
@@ -16,6 +16,7 @@ import { useLocale } from "@/lib/i18n";
  */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const currentLocale = useLocale();
+  const dict = useTranslations();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
@@ -59,6 +60,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
+        aria-label={dict.common.language}
         className={cn(
           "inline-flex h-9 items-center gap-1.5 rounded-full border border-transparent px-3 text-xs font-semibold uppercase tracking-wider transition-colors",
           "text-muted hover:border-border-strong hover:text-foreground"
@@ -88,7 +90,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         {open && (
           <motion.div
             role="menu"
-            aria-label="Language"
+            aria-label={dict.common.language}
             initial={{ opacity: 0, y: 6, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.97 }}

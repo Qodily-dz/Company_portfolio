@@ -138,7 +138,7 @@ export function Story() {
       id="story"
       style={{ height: `${N * 100}vh` }}
       className="relative"
-      aria-label="What we do"
+      aria-label={dict.story.label}
     >
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         {/* Atmosphere backdrop */}
