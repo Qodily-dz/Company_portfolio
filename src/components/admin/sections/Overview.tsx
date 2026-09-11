@@ -80,7 +80,7 @@ export default function Overview() {
         )}
       </SectionCard>
 
-      <SectionCard title="Recent projects">
+      <SectionCard title={`All projects (${data.recentProjects.length})`}>
         {data.recentProjects.length === 0 ? (
           <EmptyState icon="folder" title="No projects yet" body="Create your first project in the Projects area." />
         ) : (
