@@ -71,7 +71,7 @@ export default async function InsightsPage({ params }: Props) {
     <SiteShell>
       <JsonLd
         data={breadcrumbSchema(url, [
-          { name: "Home", path: `/${locale}` },
+          { name: dict.common.home, path: `/${locale}` },
           { name: dict.insights.label, path: `/${locale}/insights` },
         ])}
       />
@@ -96,7 +96,7 @@ export default async function InsightsPage({ params }: Props) {
                   key={cat}
                   className="rounded-full border border-border bg-surface/40 px-3.5 py-1.5 text-xs text-muted"
                 >
-                  {cat}
+                  {dict.insights.categories[cat] ?? cat}
                 </span>
               ))}
             </div>
@@ -119,7 +119,7 @@ export default async function InsightsPage({ params }: Props) {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="shrink-0 rounded-full border border-accent/40 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent">
-                      {article.category}
+                      {dict.insights.categories[article.category] ?? article.category}
                     </span>
                     <span className="flex-1">
                       <span className="block text-[clamp(1.3rem,3vw,2rem)] font-medium leading-tight tracking-[-0.02em] text-foreground transition-colors group-hover:text-accent">
@@ -131,7 +131,9 @@ export default async function InsightsPage({ params }: Props) {
                     </span>
                     <span className="hidden shrink-0 flex-col items-end text-xs text-muted-more sm:flex">
                       <span>{formatDate(article.date, locale)}</span>
-                      <span>{article.readTime}</span>
+                      <span>
+                        {article.readTime.replace(/(\d+).*/, "$1")} {dict.insights.readTime}
+                      </span>
                     </span>
                   </Link>
                 </div>

@@ -111,7 +111,7 @@ export default async function ArticlePage({ params }: Props) {
     <SiteShell>
       <JsonLd
         data={breadcrumbSchema(`${siteConfig.url}/${locale}/insights/${slug}`, [
-          { name: "Home", path: `/${locale}` },
+          { name: dict.common.home, path: `/${locale}` },
           { name: dict.insights.label, path: `/${locale}/insights` },
           { name: title, path: `/${locale}/insights/${slug}` },
         ])}
@@ -123,14 +123,14 @@ export default async function ArticlePage({ params }: Props) {
       <article className="py-28 md:py-36">
         <Container>
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-10">
+          <nav aria-label={dict.common.breadcrumb} className="mb-10">
             <ol className="flex items-center gap-2 text-xs text-muted-more">
               <li>
                 <Link
                   href={`/${locale}`}
                   className="transition-colors hover:text-accent"
                 >
-                  Home
+                  {dict.common.home}
                 </Link>
               </li>
               <li aria-hidden>/</li>
@@ -153,7 +153,7 @@ export default async function ArticlePage({ params }: Props) {
           <header className="max-w-3xl">
             <div className="flex items-center gap-3">
               <span className="rounded-full border border-accent/40 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-accent">
-                {article.category}
+                {dict.insights.categories[article.category] ?? article.category}
               </span>
               <time
                 dateTime={article.date}
@@ -162,7 +162,7 @@ export default async function ArticlePage({ params }: Props) {
                 {formatDate(article.date, locale)}
               </time>
               <span className="text-xs text-muted-more">
-                {article.readTime}
+                {article.readTime.replace(/(\d+).*/, "$1")} {dict.insights.readTime}
               </span>
             </div>
 
@@ -199,7 +199,7 @@ export default async function ArticlePage({ params }: Props) {
 
           {/* Prev / Next navigation */}
           <nav
-            aria-label="Article navigation"
+            aria-label={dict.common.articleNav}
             className="mt-16 max-w-3xl border-t border-border pt-8"
           >
             <div className="grid gap-8 sm:grid-cols-2">
@@ -224,7 +224,7 @@ export default async function ArticlePage({ params }: Props) {
                   className="group text-right"
                 >
                   <span className="text-xs uppercase tracking-[0.16em] text-muted-more">
-                    Next
+                    {dict.common.next}
                   </span>
                   <span className="mt-2 block text-sm font-medium text-foreground transition-colors group-hover:text-accent">
                     {nextTranslated?.title ?? next.title}
@@ -242,7 +242,7 @@ export default async function ArticlePage({ params }: Props) {
               href={`/${locale}/insights`}
               className="text-xs uppercase tracking-[0.16em] text-accent hover:text-accent-soft"
             >
-              Back to all insights
+              {dict.insights.backToAll}
             </Link>
           </div>
         </Container>
