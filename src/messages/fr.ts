@@ -10,7 +10,7 @@ export const fr: Dictionary = {
   nav: {
     work: "Travaux",
     services: "Services",
-    process: "Process",
+    process: "Processus",
     about: "À propos",
     insights: "Perspectives",
     contact: "Contact",
@@ -31,6 +31,7 @@ export const fr: Dictionary = {
     headlineAccent: "MOUVEMENT.",
     supporting:
       "Votre entreprise a une prochaine étape. Nous la transformons en logiciel, système et expérience numérique concrète.",
+    eyebrow: "Stratégie → design → ingénierie",
     cta1: "DÉMARRER UN PROJET",
     cta2: "DÉCOUVRIR NOS TRAVAUX",
     brand: "Qodily-dz",
@@ -84,6 +85,23 @@ export const fr: Dictionary = {
     nextProject: "Projet suivant",
     prevProject: "Projet précédent",
     openCase: "Ouvrir l'étude de cas",
+    production: "Production",
+    productionBadges: {
+      Produit: "Produit",
+      "SaaS Produit": "SaaS Produit",
+      "Client Production": "Production Client",
+      Production: "Production",
+    },
+    sections: {
+      productionBadge: "01 / SYSTÈMES EN PRODUCTION",
+      productionTitle: "Projets Réalisés & SaaS",
+      productionBody:
+        "Plateformes déployées en production, systèmes transactionnels et infrastructures pour des clients et des produits internes.",
+      conceptBadge: "02 / QODILY LAB",
+      conceptTitle: "Explorations & Concepts",
+      conceptBody:
+        "Systèmes conceptuels et explorations architecturales qui répondent à des défis sectoriels ciblés.",
+    },
   },
   engineering: {
     label: "Ingénierie",
@@ -100,7 +118,7 @@ export const fr: Dictionary = {
     architecture: "Architecture",
   },
   process: {
-    label: "Process",
+    label: "Processus",
     heading1: "Comment nous",
     heading2: "transformons les idées en impact.",
     whatWeDo: "Ce que nous faisons",
@@ -210,6 +228,16 @@ export const fr: Dictionary = {
     allArticles: "Tous les articles écrits par l'équipe Qodily.",
     viewAll: "Voir toutes les perspectives",
     writtenBy: "Tous les articles écrits par l'équipe Qodily. Aucune statistique fabriquée ni source externe.",
+    backToAll: "Retour à toutes les perspectives",
+    readTime: "min de lecture",
+    categories: {
+      Technology: "Technologie",
+      Software: "Logiciel",
+      Business: "Business",
+      Design: "Design",
+      Marketing: "Marketing",
+      "Digital Transformation": "Transformation numérique",
+    },
   },
   lab: {
     label: "Expérimental",
@@ -229,6 +257,7 @@ export const fr: Dictionary = {
       "Outils internes",
       "Recherche",
     ],
+    footnote: "Chaque expérience est menée et détenue par Qodily.",
   },
   about: {
     label: "À propos",
@@ -365,6 +394,7 @@ export const fr: Dictionary = {
       email: "Veuillez saisir une adresse e-mail valide.",
     },
     budgetHint: "Fourchettes descriptives — nous définissons la devise avec vous.",
+    website: "Site web",
   },
   pages: {
     home: {
@@ -439,6 +469,15 @@ export const fr: Dictionary = {
     close: "Fermer",
     back: "Retour",
     skipToContent: "Aller au contenu principal",
+    home: "Accueil",
+    next: "Suivant",
+    mainNav: "Navigation principale",
+    mainMenu: "Menu principal",
+    footerNav: "Navigation du pied de page",
+    openMenu: "Ouvrir le menu",
+    language: "Langue",
+    breadcrumb: "Fil d'Ariane",
+    articleNav: "Navigation de l'article",
   },
   seo: {
     keywords: [

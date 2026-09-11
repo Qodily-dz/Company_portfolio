@@ -29,6 +29,7 @@ export type Dictionary = {
     headline2: string;
     headlineAccent: string;
     supporting: string;
+    eyebrow: string;
     cta1: string;
     cta2: string;
     brand: string;
@@ -70,6 +71,19 @@ export type Dictionary = {
     nextProject: string;
     prevProject: string;
     openCase: string;
+    /** Default badge for production work ("Production"). */
+    production: string;
+    /** Localized labels for the raw badge values coming from project data. */
+    productionBadges: Record<string, string>;
+    /** Section headers of the /work gallery (production vs Qodily Lab). */
+    sections: {
+      productionBadge: string;
+      productionTitle: string;
+      productionBody: string;
+      conceptBadge: string;
+      conceptTitle: string;
+      conceptBody: string;
+    };
   };
   engineering: {
     label: string;
@@ -143,6 +157,11 @@ export type Dictionary = {
     allArticles: string;
     viewAll: string;
     writtenBy: string;
+    backToAll: string;
+    /** Localized "min read" unit used to format article reading times. */
+    readTime: string;
+    /** Localized article category names, keyed by the English token. */
+    categories: Record<string, string>;
   };
   lab: {
     label: string;
@@ -154,6 +173,7 @@ export type Dictionary = {
     labBadge: string;
     conceptBadge: string;
     purposeTags: string[];
+    footnote: string;
   };
   about: {
     label: string;
@@ -200,6 +220,8 @@ export type Dictionary = {
     whatsappPrefill: string;
     submitError: string;
     budgetHint: string;
+    /** Label of the honeypot field (never seen by real users). */
+    website: string;
     errors: {
       build: string;
       objective: string;
@@ -269,6 +291,15 @@ export type Dictionary = {
     close: string;
     back: string;
     skipToContent: string;
+    home: string;
+    next: string;
+    mainNav: string;
+    mainMenu: string;
+    footerNav: string;
+    openMenu: string;
+    language: string;
+    breadcrumb: string;
+    articleNav: string;
   };
   seo: {
     keywords: string[];

@@ -31,6 +31,7 @@ export const en: Dictionary = {
     headlineAccent: "MOVE.",
     supporting:
       "Your business has a next move. We turn it into software, systems and digital experiences that make it real.",
+    eyebrow: "Strategy → design → engineering",
     cta1: "START A PROJECT",
     cta2: "EXPLORE OUR WORK",
     brand: "Qodily-dz",
@@ -84,6 +85,23 @@ export const en: Dictionary = {
     nextProject: "Next project",
     prevProject: "Previous project",
     openCase: "Open case study",
+    production: "Production",
+    productionBadges: {
+      Produit: "Product",
+      "SaaS Produit": "SaaS Product",
+      "Client Production": "Client Production",
+      Production: "Production",
+    },
+    sections: {
+      productionBadge: "01 / SYSTEMS IN PRODUCTION",
+      productionTitle: "Realized Projects & SaaS",
+      productionBody:
+        "Platforms deployed in production, transactional systems and infrastructure for clients and internal products.",
+      conceptBadge: "02 / QODILY LAB",
+      conceptTitle: "Explorations & Concepts",
+      conceptBody:
+        "Conceptual systems and architectural explorations solving targeted sector challenges.",
+    },
   },
   engineering: {
     label: "Engineering",
@@ -210,6 +228,16 @@ export const en: Dictionary = {
     allArticles: "All articles written by the Qodily team.",
     viewAll: "View all insights",
     writtenBy: "All articles written by the Qodily team. No fabricated statistics or external sources.",
+    backToAll: "Back to all insights",
+    readTime: "min read",
+    categories: {
+      Technology: "Technology",
+      Software: "Software",
+      Business: "Business",
+      Design: "Design",
+      Marketing: "Marketing",
+      "Digital Transformation": "Digital Transformation",
+    },
   },
   lab: {
     label: "Experimental",
@@ -229,6 +257,7 @@ export const en: Dictionary = {
       "Internal tools",
       "Research",
     ],
+    footnote: "Every experiment is carried out and owned by Qodily.",
   },
   about: {
     label: "About",
@@ -365,6 +394,7 @@ export const en: Dictionary = {
       email: "Please enter a valid email address.",
     },
     budgetHint: "Descriptive ranges — we work out the currency with you.",
+    website: "Website",
   },
   pages: {
     home: {
@@ -439,6 +469,15 @@ export const en: Dictionary = {
     close: "Close",
     back: "Back",
     skipToContent: "Skip to content",
+    home: "Home",
+    next: "Next",
+    mainNav: "Main navigation",
+    mainMenu: "Main menu",
+    footerNav: "Footer navigation",
+    openMenu: "Open menu",
+    language: "Language",
+    breadcrumb: "Breadcrumb",
+    articleNav: "Article navigation",
   },
   seo: {
     keywords: [

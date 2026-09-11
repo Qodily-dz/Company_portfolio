@@ -31,6 +31,7 @@ export const ar: Dictionary = {
     headlineAccent: "القادمة.",
     supporting:
       "لعملك خطوة قادمة. نحوّلها إلى برمجيات وأنظمة وتجارب رقمية تجعلها واقعاً.",
+    eyebrow: "الاستراتيجية ← التصميم ← الهندسة",
     cta1: "ابدأ مشروعك",
     cta2: "استكشف أعمالنا",
     brand: "Qodily-dz",
@@ -84,6 +85,23 @@ export const ar: Dictionary = {
     nextProject: "المشروع التالي",
     prevProject: "المشروع السابق",
     openCase: "فتح دراسة الحالة",
+    production: "إنتاج",
+    productionBadges: {
+      Produit: "منتج",
+      "SaaS Produit": "منتج SaaS",
+      "Client Production": "إنتاج عميل",
+      Production: "إنتاج",
+    },
+    sections: {
+      productionBadge: "01 / أنظمة في الإنتاج",
+      productionTitle: "مشاريع منجزة و SaaS",
+      productionBody:
+        "منصات تعمل في الإنتاج وأنظمة معاملات وبنى تحتية للعملاء والمنتجات الداخلية.",
+      conceptBadge: "02 / مختبر QODILY",
+      conceptTitle: "استكشافات ومفاهيم",
+      conceptBody:
+        "أنظمة مفاهيمية واستكشافات معمارية تعالج تحديات قطاعية محددة.",
+    },
   },
   engineering: {
     label: "الهندسة",
@@ -210,6 +228,16 @@ export const ar: Dictionary = {
     allArticles: "جميع المقالات كتبها فريق Qodily.",
     viewAll: "عرض جميع الرؤى",
     writtenBy: "جميع المقالات كتبها فريق Qodily. لا إحصاءات مفبركة أو مصادر خارجية.",
+    backToAll: "العودة إلى جميع الرؤى",
+    readTime: "دقائق قراءة",
+    categories: {
+      Technology: "التقنية",
+      Software: "البرمجيات",
+      Business: "الأعمال",
+      Design: "التصميم",
+      Marketing: "التسويق",
+      "Digital Transformation": "التحول الرقمي",
+    },
   },
   lab: {
     label: "تجريبي",
@@ -229,6 +257,7 @@ export const ar: Dictionary = {
       "أدوات داخلية",
       "بحث",
     ],
+    footnote: "كل تجربة تُنفَّذ وتُدار وتملكها Qodily.",
   },
   about: {
     label: "من نحن",
@@ -365,6 +394,7 @@ export const ar: Dictionary = {
       email: "يرجى إدخال عنوان بريد إلكتروني صالح.",
     },
     budgetHint: "نطاقات وصفية — نحدد العملة معك.",
+    website: "الموقع الإلكتروني",
   },
   pages: {
     home: {
@@ -439,6 +469,15 @@ export const ar: Dictionary = {
     close: "إغلاق",
     back: "رجوع",
     skipToContent: "تخطى إلى المحتوى",
+    home: "الرئيسية",
+    next: "التالي",
+    mainNav: "التنقل الرئيسي",
+    mainMenu: "القائمة الرئيسية",
+    footerNav: "تنقل التذييل",
+    openMenu: "فتح القائمة",
+    language: "اللغة",
+    breadcrumb: "مسار التنقل",
+    articleNav: "تنقل المقال",
   },
   seo: {
     keywords: [
