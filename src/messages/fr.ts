@@ -206,7 +206,7 @@ export const fr: Dictionary = {
   },
   services: {
     heading1: "Un système",
-    heading2Accent: "Concevoir·Designer·Croître",
+    heading2Accent: "Concevoir · Designer · Croître",
     heading2Rest: "",
     chooseCapability: "Choisissez une compétence",
     footnote:
@@ -421,7 +421,7 @@ export const fr: Dictionary = {
     },
     services: {
       title: "Services",
-      description: "Faire construire et faire croître — trois capacités conçues comme un tout.",
+      description: "Construire, concevoir et faire croître — trois capacités pensées comme un tout.",
       intro:
         "Une équipe, trois capacités. Tout ce dont votre produit a besoin pour passer de l'idée à l'impact.",
     },

@@ -206,7 +206,7 @@ export const en: Dictionary = {
   },
   services: {
     heading1: "One system",
-    heading2Accent: "Build·Design·Grow",
+    heading2Accent: "Build · Design · Grow",
     heading2Rest: "",
     chooseCapability: "Choose a capability",
     footnote:

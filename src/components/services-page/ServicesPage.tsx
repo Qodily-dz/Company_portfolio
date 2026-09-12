@@ -46,9 +46,9 @@ export function ServicesPage() {
         <div className="absolute inset-0 bg-[radial-gradient(100%_80%_at_50%_0%,#0b1018_0%,#030405_65%)]" />
         <Container className="relative z-10">
           <SectionLabel>{dict.pages.services.title}</SectionLabel>
-          <h1 className="mt-6 max-w-4xl text-[clamp(2.6rem,9vw,7rem)] font-medium uppercase leading-[0.92] tracking-[-0.03em] text-foreground">
-            {dict.services.heading1}{" "}
-            <span className="text-accent">{dict.services.heading2Accent}</span>
+          <h1 className="mt-6 max-w-6xl text-[clamp(2.2rem,5.6vw,5rem)] font-medium uppercase leading-[0.96] tracking-[-0.03em] text-foreground">
+            <span className="block">{dict.services.heading1}</span>
+            <span className="block text-accent">{dict.services.heading2Accent}</span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted">
             {dict.pages.services.intro}
@@ -88,7 +88,7 @@ export function ServicesPage() {
           <div className="pointer-events-auto mt-14 flex items-center gap-4">
             <Button href={`/${locale}/contact`} size="md">
               {dict.pages.home.startProject}
-              <span aria-hidden>→</span>
+              <span aria-hidden className="inline-block rtl:rotate-180">→</span>
             </Button>
             <Link
               href={`/${locale}/process`}

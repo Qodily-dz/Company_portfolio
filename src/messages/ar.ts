@@ -206,7 +206,7 @@ export const ar: Dictionary = {
   },
   services: {
     heading1: "نظام واحد",
-    heading2Accent: "بناء·تصميم·نمو",
+    heading2Accent: "بناء · تصميم · نمو",
     heading2Rest: "",
     chooseCapability: "اختر القدرة",
     footnote:

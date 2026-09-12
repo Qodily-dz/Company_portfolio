@@ -83,8 +83,8 @@ export function Services() {
           {dict.footer.capabilities}
         </div>
         <Heading as={2} size="3xl" className="mt-5 text-foreground">
-          {dict.services.heading1}&nbsp;
-          <span className="text-accent">{dict.services.heading2Accent}</span>
+          <span className="block">{dict.services.heading1}</span>
+          <span className="block text-accent">{dict.services.heading2Accent}</span>
         </Heading>
 
         <div className="pointer-events-auto mt-12 w-full">
