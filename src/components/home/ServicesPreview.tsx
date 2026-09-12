@@ -96,11 +96,9 @@ export function ServicesPreview() {
         </div>
 
         <div className="mt-14">
-          {PILLARS.map((p) => {
+          {PILLARS.map((p, i) => {
             const on = active === p.id;
-            const tPillar = translatedPillars.find(
-              (tp: { label: string }) => tp.label.toLowerCase() === p.label.toLowerCase()
-            );
+            const tPillar = translatedPillars[i] ?? p;
             return (
               <button
                 key={p.id}

@@ -13,8 +13,8 @@ type ServicesEnvironmentProps = {
 };
 
 function getPillar(dict: Dictionary, id: PillarId) {
-  const pillar = PILLARS.find((item) => item.id === id) ?? PILLARS[0];
-  return dict.servicesData.pillars.find((item) => item.label.toLowerCase() === pillar.label.toLowerCase()) ?? dict.servicesData.pillars[0];
+  const index = PILLARS.findIndex((item) => item.id === id);
+  return dict.servicesData.pillars[index >= 0 ? index : 0] ?? dict.servicesData.pillars[0];
 }
 
 /**
