@@ -349,7 +349,7 @@ async function seed() {
     period: string;
     featured: boolean;
     order: number;
-    translations: { en: { name: string; description: string; deliverables: string[] } };
+    translations: Record<string, { name: string; description: string; deliverables: string[] }>;
   };
 
   const packs: PackSeed[] = [
@@ -367,6 +367,16 @@ async function seed() {
           description: "A single high-conversion page to launch a product, campaign or announcement.",
           deliverables: ["Strategy & copywriting", "Custom design in your brand", "Mobile-first, fast build", "Basic SEO & analytics", "Deploy + 30 days support"],
         },
+        fr: {
+          name: "Landing Page",
+          description: "Une page unique à haute conversion pour lancer un produit, une campagne ou une annonce.",
+          deliverables: ["Stratégie & rédaction percutante", "Design sur mesure aligné à votre marque", "Développement rapide et mobile-first", "SEO technique de base & analyses", "Déploiement + 30 jours de support"],
+        },
+        ar: {
+          name: "صفحة هبوط",
+          description: "صفحة واحدة عالية التحويل لإطلاق منتج أو حملة إعلانية أو إعلان رسمي.",
+          deliverables: ["الاستراتيجية وصياغة النصوص التسويقية", "تصميم مخصص يعكس هويتك التجارية", "تطوير سريع وموجّه للموبايل أولاً", "تهيئة محركات البحث الأساسية والتحليلات", "النشر والإطلاق + 30 يوماً من الدعم"],
+        },
       },
     },
     {
@@ -382,6 +392,16 @@ async function seed() {
           name: "Business Website",
           description: "A complete multi-section website with a content system you can manage yourself.",
           deliverables: ["Up to 8 sections / 3 languages", "Editable content (CMS)", "Contact & lead forms", "SEO-ready structure", "Analytics setup", "1 month support"],
+        },
+        fr: {
+          name: "Site Web Entreprise",
+          description: "Un site complet multi-sections avec un système de gestion de contenu en totale autonomie.",
+          deliverables: ["Jusqu'à 8 sections / 3 langues", "Gestion de contenu autonome (CMS)", "Formulaires de contact & capture de leads", "Structure optimisée pour le référencement", "Configuration complète des outils d'analyse", "1 mois d'assistance et maintenance"],
+        },
+        ar: {
+          name: "موقع ويب للشركات",
+          description: "موقع إلكتروني متكامل متعدد الأقسام مع نظام إدارة محتوى يمكنك التحكم به بنفسك.",
+          deliverables: ["حتى 8 أقسام / دعم 3 لغات", "إدارة مرنة للمحتوى (CMS)", "نماذج تواصل والتقاط بيانات العملاء", "بنية مهيأة لمحركات البحث (SEO)", "إعداد لوحات التحليلات والمتابعة", "شهر كامل من الدعم الفني"],
         },
       },
     },
@@ -399,6 +419,16 @@ async function seed() {
           description: "A working product — the smallest version that proves the core idea with real users.",
           deliverables: ["Product framing & roadmap", "UI/UX design", "Frontend + backend build", "Database & auth", "Admin panel", "Deploy + 1 month support"],
         },
+        fr: {
+          name: "MVP Application Web",
+          description: "Un produit opérationnel — la version essentielle pour valider votre concept auprès de vrais utilisateurs.",
+          deliverables: ["Cadrage du produit & feuille de route", "Conception UI/UX sur mesure", "Développement frontend et backend", "Base de données & authentification sécurisée", "Panneau d'administration dédié", "Déploiement en production + 1 mois de support"],
+        },
+        ar: {
+          name: "تطبيق ويب تجريبي (MVP)",
+          description: "منتج فعال ومتكامل — النسخة الأساسية لإثبات فكرتك واختبارها مع مستخدمين فعليين.",
+          deliverables: ["تحديد نطاق المنتج وخارطة الطريق", "تصميم واجهة وتجربة المستخدم (UI/UX)", "تطوير الواجهة الأمامية والخلفية", "قاعدة بيانات ونظام مصادقة آمن", "لوحة تحكم إدارية كاملة", "النشر على السحابة + دعم لمدة شهر"],
+        },
       },
     },
     {
@@ -414,6 +444,16 @@ async function seed() {
           name: "Mobile App MVP",
           description: "An iOS/Android product built once, designed for phones first.",
           deliverables: ["Product framing & roadmap", "Mobile UI/UX design", "Cross-platform build", "Backend + push notifications", "Store submission", "1 month support"],
+        },
+        fr: {
+          name: "MVP Application Mobile",
+          description: "Une application iOS & Android bâtie sur une base de code unifiée, pensée pour smartphone.",
+          deliverables: ["Cadrage fonctionnel & feuille de route", "Design UI/UX optimisé mobile", "Développement multiplateforme réactif", "Backend & notifications push", "Accompagnement à la publication sur les stores", "1 mois d'assistance technique"],
+        },
+        ar: {
+          name: "تطبيق موبايل تجريبي (MVP)",
+          description: "تطبيق متوافق مع iOS وأندرويد مبني بقاعدة برمجية موحدة ومصمم للهواتف الذكية أولاً.",
+          deliverables: ["تأطير المنتج وخارطة العمل", "تصميم واجهات وتجربة مستخدم للهواتف", "تطوير شامل متعدد المنصات", "خادم خلفي ونظام إشعارات فورية", "تقديم التطبيق ونشره في المتاجر", "دعم فني وتحديثات لمدة شهر"],
         },
       },
     },
@@ -431,6 +471,16 @@ async function seed() {
           description: "Tailored systems for your business — internal tools, automation, integrations and more.",
           deliverables: ["Discovery & architecture", "Design + development", "Integrations & automation", "Testing & deployment", "Training & documentation"],
         },
+        fr: {
+          name: "Logiciel Sur Mesure",
+          description: "Des systèmes conçus pour vos opérations — outils internes, automatisations, intégrations et API.",
+          deliverables: ["Immersion, découverte & architecture", "Conception et développement dédié", "Intégrations de services & automatisation", "Tests approfondis & mise en production", "Formation de l'équipe & documentation"],
+        },
+        ar: {
+          name: "برمجيات مخصصة",
+          description: "أنظمة برمجية مصممة خصيصاً لأعمالك — أدوات داخلية، أتمتة مسارات العمل وتكاملات متطورة.",
+          deliverables: ["دراسة الاحتياجات وهندسة النظام", "تصميم وتطوير برمجي خاص", "ربط الأنظمة وتكاملات الأتمتة", "اختبارات الأداء والنشر الفعلي", "تدريب الفريق وتوثيق تقني شامل"],
+        },
       },
     },
     {
@@ -446,6 +496,16 @@ async function seed() {
           name: "Growth Retainer",
           description: "Ongoing marketing, content and analytics so growth keeps compounding after launch.",
           deliverables: ["Monthly strategy & reporting", "Content & campaigns", "SEO / ads management", "Analytics dashboard", "Priority response"],
+        },
+        fr: {
+          name: "Forfait Croissance",
+          description: "Marketing continu, production de contenu et analyses pour accélérer votre développement après le lancement.",
+          deliverables: ["Stratégie mensuelle & bilans de performance", "Création de contenu & gestion de campagnes", "Optimisation SEO & gestion des publicités", "Tableau de bord de suivi analytique", "Support et réactivité prioritaires"],
+        },
+        ar: {
+          name: "باقة النمو المستمر",
+          description: "تسويق استراتيجي متواصل، صناعة محتوى وتحليلات لتعزيز وتوسيع نموك بعد الإطلاق.",
+          deliverables: ["استراتيجية شهرية وتقارير أداء دورية", "صناعة المحتوى وإدارة الحملات", "إدارة الحملات الإعلانية ومحركات البحث", "لوحة متابعة وتحليلات تفصيلية", "أولوية في الاستجابة والدعم المستمر"],
         },
       },
     },
@@ -471,13 +531,16 @@ async function seed() {
     }
 
     if (created) {
-      const rows = ["en", "fr", "ar"].map((locale) => ({
-        pack_id: created.id,
-        locale,
-        name: translations.en.name,
-        description: translations.en.description,
-        deliverables: translations.en.deliverables,
-      }));
+      const rows = ["en", "fr", "ar"].map((locale) => {
+        const t = (translations as any)[locale] || translations.en;
+        return {
+          pack_id: created.id,
+          locale,
+          name: t.name,
+          description: t.description,
+          deliverables: t.deliverables,
+        };
+      });
       const { error: transErr } = await supabase.from("service_pack_translations").insert(rows);
       if (transErr) {
         console.error("Failed to insert service pack translation:", transErr);

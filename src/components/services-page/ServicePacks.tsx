@@ -19,6 +19,26 @@ type PublicPack = {
 
 const API = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
 
+function localizePeriod(period: string, locale: string): string {
+  const norm = period.trim().toLowerCase();
+  if (norm === "one-off" || norm === "unique" || norm === "one time") {
+    if (locale === "fr") return "paiement unique";
+    if (locale === "ar") return "دفعة واحدة";
+    return "one-off";
+  }
+  if (norm === "per month" || norm === "month" || norm === "/ month" || norm === "/ mois") {
+    if (locale === "fr") return "par mois";
+    if (locale === "ar") return "شهرياً";
+    return "per month";
+  }
+  if (norm === "project" || norm === "per project") {
+    if (locale === "fr") return "par projet";
+    if (locale === "ar") return "لكل مشروع";
+    return "project";
+  }
+  return period;
+}
+
 /**
  * Fixed-price service packs, loaded live from the backend so the catalogue
  * can be managed without touching the codebase. Rendered only when the
@@ -70,7 +90,7 @@ export function ServicePacks() {
                   }`}
                 >
                   {p.featured && (
-                    <span className="absolute right-0 top-0 z-10 rounded-bl-xl border-b border-l border-accent/40 bg-accent/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-accent">
+                    <span className="absolute right-0 top-0 z-10 rounded-bl-xl border-b border-l border-accent/40 bg-accent/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-accent rtl:right-auto rtl:left-0 rtl:rounded-bl-none rtl:rounded-br-xl rtl:border-l-0 rtl:border-r">
                       ★
                     </span>
                   )}
@@ -86,7 +106,9 @@ export function ServicePacks() {
                     <div className="flex items-baseline gap-2">
                       {p.price === null ? (
                         <span className="text-2xl font-semibold tracking-[-0.02em] text-foreground">
-                          {p.priceLabel || dict.services.customLabel}
+                          {(!p.priceLabel || p.priceLabel.toLowerCase() === "custom")
+                            ? dict.services.customLabel
+                            : p.priceLabel}
                         </span>
                       ) : (
                         <span className="text-2xl font-semibold tracking-[-0.02em] text-foreground">
@@ -95,7 +117,7 @@ export function ServicePacks() {
                         </span>
                       )}
                       {p.period && p.price !== null && (
-                        <span className="text-xs text-muted-more">{p.period}</span>
+                        <span className="text-xs text-muted-more">{localizePeriod(p.period, locale)}</span>
                       )}
                     </div>
 
@@ -117,7 +139,7 @@ export function ServicePacks() {
                       className="w-full"
                     >
                       {dict.services.choosePack}
-                      <span aria-hidden>→</span>
+                      <span aria-hidden className="inline-block rtl:rotate-180">→</span>
                     </Button>
                   </div>
                 </article>
